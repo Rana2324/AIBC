@@ -1,0 +1,1065 @@
+/* Modern Color Palette */
+:root {
+  --primary: #4361ee;
+  --primary-light: #4895ef;
+  --secondary: #3f37c9;
+  --success: #4cc9f0;
+  --warning: #f72585;
+  --info: #4895ef;
+  --light: #f8f9fa;
+  --dark: #2b2d42;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+  --tab-shadow: 0 4px 6px rgba(67, 97, 238, 0.15);
+  --tab-active-shadow: 0 8px 16px rgba(67, 97, 238, 0.2);
+  
+  /* History table theme colors */
+  --alert-color: #ff9800;
+  --alert-light: rgba(255, 152, 0, 0.08);
+  --settings-color: #03a9f4;
+  --settings-light: rgba(3, 169, 244, 0.08);
+  --personality-color: #9c27b0;
+  --personality-light: rgba(156, 39, 176, 0.08);
+  --recovery-color: rgba(76, 175, 80, 0.08);
+}
+
+/* Base Styles */
+body {
+  font-family: 'Segoe UI', 'Meiryo', 'Hiragino Sans', sans-serif;
+  line-height: 1.6;
+  background-color: #f5f5f5;
+  color: var(--gray-800);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+}
+.container h1{
+  margin-left: 147px;
+}
+
+.navbar {
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 105%;
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 80px;
+}
+
+
+/* Sensor Panels Grid Layout - Fixed for exactly 3 equal columns side by side with smaller gap */
+.sensor-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always show 3 equal columns */
+  gap: 50px; /* Reduced gap between sensor panels */
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+ 
+}
+
+/* Make each sensor section a self-contained unit with its own scrolling */
+.sensor-panels > .sensor-data-section,
+.sensor-panels > .sensor-placeholder {
+  height: auto;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  border: 1px solid var(--gray-300);
+  border-radius: 12px;
+  width: 100%; /* Ensure full width within its grid cell */
+  padding: 20px;
+  margin: 0; 
+  box-shadow: var(--shadow-md);
+  background-color: white;
+  
+  
+}
+
+/* Hover effect for all sensor panels */
+.sensor-panels > .sensor-data-section:hover,
+.sensor-panels > .sensor-placeholder:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+}
+
+/* Ensure consistent spacing inside the sensor panel */
+.sensor-panels > .sensor-data-section > .sensor-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--gray-200);
+  padding-bottom: 15px;
+}
+
+/* Adjust the inner data section to not conflict with parent */
+.sensor-panels > .sensor-data-section .sensor-data-section {
+  box-shadow: none;
+  margin-bottom: 16px;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+}
+
+/* Add custom scrollbar for sensor panels */
+.sensor-panels > .sensor-data-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sensor-panels > .sensor-data-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 4px;
+}
+
+.sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb:hover {
+  background: #9e9e9e;
+}
+
+/* Connection Status */
+.connection-status {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1000;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.connected {
+  background-color: rgba(76, 201, 240, 0.2);
+  color: var(--success);
+}
+
+.disconnected {
+  background-color: rgba(247, 37, 133, 0.2);
+  color: var(--warning);
+}
+
+/* Tab Container and Navigation */
+.tab-container {
+  /* margin: 20px 0; */
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  width: 90%;
+  max-width: 1600px;
+  margin: 20px auto;
+}
+
+.tab-nav {
+  display: flex;
+  background: linear-gradient(to right, var(--gray-100), var(--gray-50));
+  padding: 12px;
+  gap: 8px;
+  border-bottom: 1px solid var(--gray-200);
+  position: relative;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-600);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  outline: none;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 160px;
+}
+
+.tab-button:hover {
+  color: var(--primary);
+  background-color: white;
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: var(--tab-shadow);
+}
+
+.tab-button.active {
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-color: transparent;
+  box-shadow: var(--tab-active-shadow);
+  transform: translateY(-2px);
+}
+
+.tab-button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+}
+
+.tab-icon {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.tab-button:hover .tab-icon {
+  transform: scale(1.1);
+}
+
+.tab-button.active .tab-icon {
+  transform: scale(1.2);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.tab-button span:not(.tab-icon) {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Add a subtle animation for tab switch */
+.tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.tab-button:hover::after {
+  width: 80%;
+}
+
+.tab-button.active::after {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  padding: 24px;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Sensor Data Section */
+.sensor-data-section {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.sensor-data-section:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Sensor header styling */
+.sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.sensor-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--dark);
+}
+
+.sensor-icon {
+  margin-right: 10px;
+  font-size: 1.8rem;
+}
+
+/* Sensor status indicator */
+.sensor-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.sensor-status::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+}
+
+.sensor-status.active {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.sensor-status.active::before {
+  background-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.sensor-status.inactive {
+  background-color: rgba(158, 158, 158, 0.2);
+  color: #9E9E9E;
+  border: 1px solid rgba(158, 158, 158, 0.3);
+}
+
+.sensor-status.inactive::before {
+  background-color: #9E9E9E;
+}
+
+/* Animation for status changes */
+@keyframes statusChangePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+  100% { transform: scale(1); }
+}
+
+.sensor-status.status-changed {
+  animation: statusChangePulse 0.8s ease;
+}
+
+/* === HISTORY TABLE STYLES === */
+/* Section Headers for History Tables */
+.history-section-header {
+  background-color: #fafafa;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 15px;
+  margin: 20px 0 0 0;
+  border: 1px solid #e0e0e0;
+  border-bottom: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-section-header h3 {
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.data-count {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+/* Expand/collapse button styling */
+.expand-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.expand-btn:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.expand-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.expand-btn .toggle-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.expand-btn[aria-expanded="true"] .toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Table Wrappers for History Tables */
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto; /* Ensure horizontal scrolling for wide tables */
+  margin-bottom: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  background: white;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-400) var(--gray-100);
+}
+
+/* Special styles for history tables */
+.table-wrapper.alert-table,
+.table-wrapper.settings-table,
+.table-wrapper.personality-table {
+  max-height: 150px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  transition: max-height 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+/* In side-by-side layout, make data tables more compact */
+.sensor-panels > .sensor-data-section .data-table th,
+.sensor-panels > .sensor-data-section .data-table td {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+}
+
+/* Ensure horizontal scrolling for sensor data tables */
+.sensor-panels > .sensor-data-section .table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Add a fading indicator to show there's more content to scroll */
+.table-wrapper:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 40px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(255,255,255,0.7), rgba(255,255,255,0));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.table-wrapper.has-overflow:after {
+  opacity: 1;
+}
+
+/* Ensure the pulse animation doesn't push layout in side-by-side mode */
+.sensor-panels > .sensor-data-section .realtime-dot.active-pulse {
+  position: relative;
+}
+
+/* Table-specific color coding */
+.table-wrapper.alert-table {
+  border-left: 3px solid var(--alert-color);
+}
+
+.table-wrapper.settings-table {
+  border-left: 3px solid var(--settings-color);
+}
+
+.table-wrapper.personality-table {
+  border-left: 3px solid var(--personality-color);
+}
+
+/* Expanded state for history tables */
+.table-wrapper.alert-table.expanded,
+.table-wrapper.settings-table.expanded,
+.table-wrapper.personality-table.expanded {
+  max-height: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Data Tables Styles */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 12px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+}
+
+.data-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Column sizing for history tables */
+.alert-table .data-table th,
+.settings-table .data-table th,
+.personality-table .data-table th,
+.alert-table .data-table td,
+.settings-table .data-table td,
+.personality-table .data-table td {
+  width: auto;
+}
+
+/* Ensure first and second columns are fixed width */
+.alert-table .data-table th:nth-child(1),
+.settings-table .data-table th:nth-child(1),
+.personality-table .data-table th:nth-child(1),
+.alert-table .data-table td:nth-child(1),
+.settings-table .data-table td:nth-child(1),
+.personality-table .data-table td:nth-child(1),
+.alert-table .data-table th:nth-child(2),
+.settings-table .data-table th:nth-child(2),
+.personality-table .data-table th:nth-child(2),
+.alert-table .data-table td:nth-child(2),
+.settings-table .data-table td:nth-child(2),
+.personality-table .data-table td:nth-child(2) {
+  width: 25%;
+}
+
+/* Last column (content) gets more space */
+.alert-table .data-table th:nth-child(3),
+.settings-table .data-table th:nth-child(3),
+.personality-table .data-table th:nth-child(3),
+.alert-table .data-table td:nth-child(3),
+.settings-table .data-table td:nth-child(3),
+.personality-table .data-table td:nth-child(3) {
+  width: 50%;
+  text-align: left;
+}
+
+/* Header styles for history tables */
+.alert-table th {
+  background-color: var(--alert-color);
+}
+
+.settings-table th {
+  background-color: var(--settings-color);
+}
+
+.personality-table th {
+  background-color: var(--personality-color);
+}
+
+/* Row styles */
+.data-table tr.abnormal {
+  background-color: #ffecec;
+}
+
+.alert-row {
+  background-color: var(--alert-light) !important;
+}
+
+.alert-recovery {
+  background-color: var(--recovery-color) !important;
+}
+
+.table-danger {
+  background-color: #ffebee !important;
+  color: red !important;
+ 
+}
+
+.table-danger:hover {
+  background-color: #ffe5e8 !important;
+}
+
+/* Empty state styling */
+.empty-table-row td {
+  text-align: center;
+  color: #9e9e9e;
+  font-style: italic;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Scrollbar styling */
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #9e9e9e;
+}
+
+/* Scrollbar indicator for tables with more content */
+.table-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.table-wrapper.has-more-content::after {
+  opacity: 1;
+}
+
+/* Server Stats Cards */
+.server-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border: 1px solid var(--gray-200);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Stylish header for stat cards */
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.stat-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.stat-icon {
+  margin-right: 10px;
+  font-size: 1.3rem;
+}
+
+/* Specific theming for each stat card */
+.system-status .stat-title {
+  color: var(--primary);
+}
+
+.system-status .stat-header {
+  border-bottom-color: var(--primary-light);
+}
+
+.performance-stats .stat-title {
+  color: #4CAF50;
+}
+
+.performance-stats .stat-header {
+  border-bottom-color: rgba(76, 175, 80, 0.5);
+}
+
+.data-stats .stat-title {
+  color: #FF9800;
+}
+
+.data-stats .stat-header {
+  border-bottom-color: rgba(255, 152, 0, 0.5);
+}
+
+/* New card-specific theming for the additional server sections */
+.personality-comparison .stat-title {
+  color: #9C27B0;
+}
+
+.personality-comparison .stat-header {
+  border-bottom-color: rgba(156, 39, 176, 0.5);
+}
+
+.model-update .stat-title {
+  color: #3F51B5;
+}
+
+.model-update .stat-header {
+  border-bottom-color: rgba(63, 81, 181, 0.5);
+}
+
+.blockchain-ipfs .stat-title {
+  color: #009688;
+}
+
+.blockchain-ipfs .stat-header {
+  border-bottom-color: rgba(0, 150, 136, 0.5);
+}
+
+/* Description text for server sections */
+.description-text {
+  margin-bottom: 12px;
+  color: var(--gray-600);
+  font-style: italic;
+}
+
+/* Improved status table */
+.status-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.status-table th {
+  width: 40%;
+  text-align: left;
+  background-color: var(--gray-100);
+  color: var(--dark);
+}
+
+.status-table td {
+  width: 60%;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* Adjust width for server info tables with more columns */
+.server-stats .status-table th,
+.server-stats .status-table td {
+  width: auto;
+  text-align: center;
+}
+
+.server-stats .status-table th {
+  background-color: #34495e;
+  color: white;
+}
+
+/* Blockchain/IPFS special styling */
+.ipfs-cid a, 
+.blockchain-tx a {
+  color: #3F51B5;
+  text-decoration: none;
+  font-family: monospace;
+  transition: color 0.2s ease;
+}
+
+.ipfs-cid a:hover, 
+.blockchain-tx a:hover {
+  color: #1A237E;
+  text-decoration: underline;
+}
+
+.status-completed {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.status-pending {
+  color: #FF9800;
+  font-weight: 600;
+}
+
+/* Connection status indicators */
+.status-connected {
+  color: #4CAF50;
+}
+
+.status-disconnected {
+  color: #F44336;
+}
+
+/* Table Styles */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Abnormal data highlighting */
+.table-danger {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.table-danger td {
+  color: #dc3545;
+}
+
+/* Status indicators */
+.sensor-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.sensor-status.active {
+  background-color: #28a745;
+  color: white;
+}
+
+.sensor-status.inactive {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Real-time indicator */
+.realtime-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.realtime-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+/* Tab Navigation */
+.tab-container {
+  margin-top: 1rem;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  border: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+  font-weight: 500;
+  border-radius: 0.25rem;
+}
+
+.tab-button:hover {
+  background-color: #f8f9fa;
+}
+
+.tab-button.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Sensor Cards */
+.sensor-data-section {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.refresh-icon {
+  font-size: 1.25rem;
+}
+
+/* Table wrapper with horizontal scroll */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+/* Empty state */
+.empty-table-row td {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+/* Placeholder styles */
+.sensor-placeholder {
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.placeholder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.placeholder-status {
+  padding: 0.25rem 0.5rem;
+  background-color: #6c757d;
+  color: white;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.placeholder-content {
+  color: #6c757d;
+}
+
+.placeholder-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Connection status */
+.connection-status {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 1000;
+}
+
+.connection-status.connected {
+  background-color: #28a745;
+  color: white;
+}
+
+.connection-status.disconnected {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Last updated text */
+.last-updated {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
