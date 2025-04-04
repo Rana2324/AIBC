@@ -1,170 +1,373 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
-    <script src="/socket.io/socket.io.js"></script>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="navbar-brand">温度センサー監視システム</div>
-    </nav>
-
-    <!-- Tab Container -->
-    <div class="tab-container">
-        <div class="tab-nav">
-            <button id="sensorTabBtn" class="tab-button" onclick="switchTab('sensorTab', this)">
-                <span class="tab-icon">🌡️</span>
-                <span>センサーデータ</span>
-            </button>
-            <button id="serverTabBtn" class="tab-button" onclick="switchTab('serverTab', this)">
-                <span class="tab-icon">🖥️</span>
-                <span>サーバー情報</span>
-            </button>
-        </div>
-
-        <!-- Sensor Data Tab -->
-        <div id="sensorTab" class="tab-content">
-            <div class="sensor-panels">
-                <div class="data-container">
-                    <div class="section">
-                        <h2>センサーデータ</h2>
-                        <div id="sensor-data">
-                            <% if (locals.latestReadings && latestReadings.data) { %>
-                                <% latestReadings.data.forEach(reading => { %>
-                                    <div class="data-item">
-                                        <p>センサーID: <%= reading.sensorId %></p>
-                                        <p>温度: <%= reading.temperature %>°C</p>
-                                        <p>タイムスタンプ: <%= new Date(reading.timestamp).toLocaleString() %></p>
-                                    </div>
-                                <% }); %>
-                            <% } else { %>
-                                <p>データを読み込み中...</p>
-                            <% } %>
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h2>アラート</h2>
-                        <div id="alerts">
-                            <% if (locals.latestReadings && latestReadings.alerts) { %>
-                                <% latestReadings.alerts.forEach(alert => { %>
-                                    <div class="alert-item <%= alert.severity %>">
-                                        <p>センサーID: <%= alert.sensorId %></p>
-                                        <p>メッセージ: <%= alert.message %></p>
-                                        <p>重要度: <%= alert.severity %></p>
-                                        <p>タイムスタンプ: <%= new Date(alert.timestamp).toLocaleString() %></p>
-                                    </div>
-                                <% }); %>
-                            <% } else { %>
-                                <p>アラートを読み込み中...</p>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Server Tab -->
-        <div id="serverTab" class="tab-content">
-            <div class="server-stats">
-                <!-- Personality Comparison -->
-                <div class="stat-card personality-comparison">
-                    <div class="stat-header">
-                        <h3 class="stat-title">
-                            <span class="stat-icon">👥</span>
-                            個性比較履歴
-                        </h3>
-                    </div>
-                    <p class="description-text">センサー間の個性(バイアス)比較データ</p>
-                    <div class="table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>日時</th>
-                                    <th>センサーID</th>
-                                    <th>バイアス差</th>
-                                </tr>
-                            </thead>
-                            <tbody id="personality-comparison">
-                                <tr>
-                                    <td colspan="3" class="text-center">データなし</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Model Update History -->
-                <div class="stat-card model-update">
-                    <div class="stat-header">
-                        <h3 class="stat-title">
-                            <span class="stat-icon">🔄</span>
-                            標準モデル更新履歴
-                        </h3>
-                    </div>
-                    <p class="description-text">温度予測モデルの更新記録</p>
-                    <div class="table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>日時</th>
-                                    <th>モデルバージョン</th>
-                                    <th>更新内容</th>
-                                </tr>
-                            </thead>
-                            <tbody id="model-updates">
-                                <tr>
-                                    <td colspan="3" class="text-center">データなし</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Blockchain/IPFS Records -->
-                <div class="stat-card blockchain-ipfs">
-                    <div class="stat-header">
-                        <h3 class="stat-title">
-                            <span class="stat-icon">🔗</span>
-                            ブロックチェーン/IPFS履歴
-                        </h3>
-                    </div>
-                    <p class="description-text">分散台帳への記録履歴</p>
-                    <div class="table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>日時</th>
-                                    <th>タイプ</th>
-                                    <th>ハッシュ/CID</th>
-                                </tr>
-                            </thead>
-                            <tbody id="blockchain-records">
-                                <tr>
-                                    <td colspan="3" class="text-center">データなし</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+  <h1>温度センサー監視システム</h1>
+  
+  <!-- Tab Navigation -->
+  <div class="tab-container">
+    <div class="tab-nav">
+      <button class="tab-button" id="sensorTabBtn" onclick="switchTab('sensorTab', this)">
+        <span class="tab-icon">📊</span>
+        <span>センサー状態</span>
+      </button>
+      <button class="tab-button" id="serverTabBtn" onclick="switchTab('serverTab', this)">
+        <span class="tab-icon">🖥️</span>
+        <span>サーバー情報</span>
+      </button>
     </div>
 
-    <!-- Connection Status -->
-    <div id="connectionStatus" class="connection-status connected">
-        サーバーに接続中
+    <!-- Sensor Tab Content -->
+    <div id="sensorTab" class="tab-content">
+      <div class="sensor-panels">
+        <% if (locals.latestReadings && latestReadings.data) { %>
+          <% 
+            // Group readings by sensor_id
+            const sensorGroups = {};
+            latestReadings.data.forEach(reading => {
+              if (!sensorGroups[reading.sensorId]) {
+                sensorGroups[reading.sensorId] = [];
+              }
+              sensorGroups[reading.sensorId].push(reading);
+            });
+
+            // Process each sensor group
+            Object.keys(sensorGroups).forEach(sensorId => {
+              const readings = sensorGroups[sensorId];
+              const latestReading = readings[0]; // Assuming sorted by time
+              const isActive = true; // We have data, so it's active
+              const statusClass = latestReading.status.includes('正常') ? 'active' : 'alert';
+              const statusText = latestReading.status.includes('正常') ? '稼働中' : '異常検出';
+          %>
+          <!-- Sensor <%= sensorId %> -->
+          <div class="sensor-data-section" id="sensor-<%= sensorId %>">
+            <div class="sensor-header">
+              <h2 class="sensor-title">
+                <span class="sensor-icon">🌡️</span>
+                <%= sensorId %> センサー情報
+              </h2>
+              <div class="sensor-status <%= statusClass %>">
+                <%= statusText %>
+              </div>
+            </div>
+            
+            <!-- Raw Data History -->
+            <div class="sensor-data-section">
+              <div class="section-controls">
+                <h3>取得データ履歴 <span class="data-count">(最新<%= readings.length %>件)</span></h3>
+                <div class="controls-right">
+                  <span class="last-updated" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
+                  <span id="realtime-indicator-<%= sensorId %>" class="realtime-indicator">
+                    <span class="realtime-dot"></span>
+                    <span class="realtime-text">リアルタイム</span>
+                  </span>
+                  <button class="refresh-btn" onclick="refreshData('<%= sensorId %>')">
+                    <span class="refresh-icon">🔄</span>
+                  </button>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>年月日</th>
+                      <th>時刻</th>
+                      <th>1</th>
+                      <th>2</th>
+                      <th>3</th>
+                      <th>4</th>
+                      <th>5</th>
+                      <th>6</th>
+                      <th>7</th>
+                      <th>8</th>
+                      <th>9</th>
+                      <th>10</th>
+                      <th>11</th>
+                      <th>12</th>
+                      <th>13</th>
+                      <th>14</th>
+                      <th>15</th>
+                      <th>16</th>
+                      <th>平均温度</th>
+                      <th>状態</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-<%= sensorId %>">
+                    <% readings.forEach(reading => { 
+                      const rowClass = reading.status.includes('正常') ? '' : 'table-danger';
+                    %>
+                    <tr class="<%= rowClass %>">
+                      <td><%= reading.date %></td>
+                      <td><%= reading.time %></td>
+                      <% if (reading.temperatureData && reading.temperatureData.length > 0) { %>
+                        <% reading.temperatureData.forEach(temp => { %>
+                          <td><%= temp.toFixed(1) %></td>
+                        <% }); %>
+                        <% // Fill in missing cells if less than 16 data points
+                        for (let i = reading.temperatureData.length; i < 16; i++) { %>
+                          <td>--</td>
+                        <% } %>
+                      <% } else { 
+                        // If no temperature data, show 16 empty cells
+                        for (let i = 0; i < 16; i++) { %>
+                          <td>--</td>
+                        <% } 
+                      } %>
+                      <td><%= reading.temperature.toFixed(1) %> °C</td>
+                      <td><%= reading.status.replace('0 ：', '').replace('１：', '') %></td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Alert History -->
+            <% 
+              // Get alerts for this sensor
+              const sensorAlerts = locals.latestReadings.alerts ? 
+                latestReadings.alerts.filter(alert => alert.sensorId === sensorId) : [];
+            %>
+            <div class="section-header history-section-header">
+              <h3>アラート履歴 <span class="data-count">(最新<%= sensorAlerts.length %>件)</span></h3>
+              <div class="controls-right">
+                <span class="last-updated" id="alert-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <span id="alert-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
+                  <span class="realtime-dot"></span>
+                  <span class="realtime-text">リアルタイム</span>
+                </span>
+                <button class="refresh-btn" onclick="refreshAlertData('<%= sensorId %>')">
+                  <span class="refresh-icon">🔄</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-wrapper alert-table">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>取得日</th>
+                    <th>取得時刻</th>
+                    <th>アラート発生理由</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (sensorAlerts.length > 0) { %>
+                    <% sensorAlerts.forEach(alert => { %>
+                      <tr class="alert-row">
+                        <td><%= new Date(alert.timestamp).toLocaleDateString() %></td>
+                        <td><%= new Date(alert.timestamp).toLocaleTimeString() %></td>
+                        <td><%= alert.message %></td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="3" class="text-center">アラートはありません</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <% }); %>
+
+          <% 
+            // Add placeholders for sensors without data
+            const knownSensors = ['sensor_1', 'sensor_2', 'sensor_3'];
+            const activeSensors = Object.keys(sensorGroups);
+            const inactiveSensors = knownSensors.filter(s => !activeSensors.includes(s));
+            
+            inactiveSensors.forEach(sensorId => {
+          %>
+          <!-- <%= sensorId %> Placeholder -->
+          <div class="sensor-placeholder" id="sensor-<%= sensorId %>">
+            <div class="placeholder-header">
+              <h3 class="sensor-title">
+                <span class="placeholder-icon">🌡️</span>
+                <%= sensorId %> センサー情報
+              </h3>
+              <div class="placeholder-status">
+                未接続
+              </div>
+            </div>
+            <div class="placeholder-content">
+              <span class="placeholder-icon">📡</span>
+              <p>このセンサーからデータが受信されていません。</p>
+              <small>センサーが接続されると、データがここに表示されます。</small>
+            </div>
+          </div>
+          <% }); %>
+        <% } else { %>
+          <!-- No Data Available -->
+          <div class="no-data-message">
+            <span class="no-data-icon">📡</span>
+            <h3>データがありません</h3>
+            <p>センサーからのデータを受信していません。接続を確認してください。</p>
+          </div>
+        <% } %>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/layout-scripts.js"></script>
-    <script src="/js/sensor-data.js"></script>
+    <!-- Server Tab Content -->
+    <div id="serverTab" class="tab-content">
+      <h2 class="server-title">サーバー情報</h2>
+      
+      <div class="server-stats">
+        <!-- System Status Card -->
+        <div class="stat-card system-status">
+          <div class="stat-header">
+            <h3 class="stat-title">
+              <span class="stat-icon">⚡</span>
+              システム状態
+            </h3>
+            <div class="controls-right">
+              <span class="last-updated">最終更新: <%= new Date().toLocaleString() %></span>
+              <span class="realtime-indicator">
+                <span class="realtime-dot"></span>
+                <span class="realtime-text">リアルタイム</span>
+              </span>
+              <button class="refresh-btn">
+                <span class="refresh-icon">🔄</span>
+              </button>
+            </div>
+          </div>
+          <div class="stat-content">
+            <table class="data-table status-table">
+              <tr>
+                <th>MongoDB接続状態</th>
+                <td class="status-connected">接続中</td>
+              </tr>
+              <tr>
+                <th>センサー数</th>
+                <td>3</td>
+              </tr>
+              <tr>
+                <th>アクティブセンサー</th>
+                <td><%= locals.latestReadings && locals.latestReadings.data ? 
+                  [...new Set(locals.latestReadings.data.map(r => r.sensorId))].length : 0 %></td>
+              </tr>
+              <tr>
+                <th>最終データ受信</th>
+                <td><%= locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0 ? 
+                  new Date(locals.latestReadings.data[0].timestamp).toLocaleString() : '未受信' %></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Personality Comparison History Card -->
+        <div class="stat-card personality-comparison">
+          <div class="stat-header">
+            <h3 class="stat-title">
+              <span class="stat-icon">🧠</span>
+              個性比較履歴
+            </h3>
+            <div class="controls-right">
+              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <span class="realtime-indicator">
+                <span class="realtime-dot"></span>
+                <span class="realtime-text">リアルタイム</span>
+              </span>
+              <button class="refresh-btn">
+                <span class="refresh-icon">🔄</span>
+              </button>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="description-text">
+              <small>個性: １０秒間(４０点データ)で判断される標準モデルとの差異</small>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table status-table">
+                <thead>
+                  <tr>
+                    <th>日付</th>
+                    <th>時刻</th>
+                    <th>センサーID</th>
+                    <th>差異値</th>
+                    <th>AIの出力</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
+                    <% const reading = locals.latestReadings.data[0]; %>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= reading.time %></td>
+                      <td><%= reading.sensorId %></td>
+                      <td><%= (Math.random() * 2).toFixed(2) %></td>
+                      <td>通常範囲内の個性</td>
+                    </tr>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="5" class="text-center">データなし</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blockchain/IPFS Storage History Card -->
+        <div class="stat-card blockchain-ipfs">
+          <div class="stat-header">
+            <h3 class="stat-title">
+              <span class="stat-icon">🔗</span>
+              ブロックチェーン/IPFS格納履歴
+            </h3>
+            <div class="controls-right">
+              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <span class="realtime-indicator">
+                <span class="realtime-dot"></span>
+                <span class="realtime-text">リアルタイム</span>
+              </span>
+              <button class="refresh-btn">
+                <span class="refresh-icon">🔄</span>
+              </button>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="table-wrapper">
+              <table class="data-table status-table">
+                <thead>
+                  <tr>
+                    <th>日付</th>
+                    <th>時刻</th>
+                    <th>モデルID</th>
+                    <th>IPFS CID</th>
+                    <th>ブロックチェーンTX</th>
+                    <th>ステータス</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
+                    <% const reading = locals.latestReadings.data[0]; %>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= reading.time %></td>
+                      <td>model_001</td>
+                      <td class="ipfs-cid"><a href="#" target="_blank">QmXyZ1234...</a></td>
+                      <td class="blockchain-tx"><a href="#" target="_blank">0xAbc123...</a></td>
+                      <td class="status-completed">完了</td>
+                    </tr>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center">データなし</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Connection Status -->
+<div id="connectionStatus" class="connection-status connected">
+  サーバーに接続中
+</div>
+
+    <!-- Scripts are included in the layout template -->
     <script>
         const socket = io();
         
@@ -207,5 +410,3 @@
             `).join('');
         }
     </script>
-</body>
-</html>

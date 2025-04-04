@@ -1,0 +1,129 @@
+/* Additional styles for the index page */
+
+/* Container adjustments */
+.container h1 {
+  margin-left: 147px;
+  margin-bottom: 20px;
+}
+
+/* Sensor Panels Grid Layout - Fixed for exactly 3 equal columns */
+.sensor-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always show 3 equal columns */
+  gap: 50px; /* Reduced gap between sensor panels */
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* Make each sensor section a self-contained unit with its own scrolling */
+.sensor-panels > .sensor-data-section,
+.sensor-panels > .sensor-placeholder {
+  height: auto;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  border: 1px solid var(--gray-300);
+  border-radius: 12px;
+  width: 100%; /* Ensure full width within its grid cell */
+  padding: 20px;
+  margin: 0; 
+  box-shadow: var(--shadow-md);
+  background-color: white;
+}
+
+/* Table danger styling */
+.table-danger {
+  background-color: #ffebee !important;
+  color: red !important;
+}
+
+.table-danger:hover {
+  background-color: #ffe5e8 !important;
+}
+
+/* Ensure the tab content is properly displayed */
+.tab-content {
+  display: none;
+  padding: 24px;
+  background-color: white;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Fix for sensor header styles */
+.sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 0;
+}
+
+/* Ensure the data tables are properly styled */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.data-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Ensure the new data is highlighted */
+tr.new-data {
+  animation: highlight 1s ease;
+}
+
+@keyframes highlight {
+  0% { background-color: rgba(67, 97, 238, 0.2); }
+  100% { background-color: white; }
+}
+
+/* Fix for the server tab */
+#serverTab .server-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1200px) {
+  .sensor-panels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sensor-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  .container h1 {
+    margin-left: 0;
+    text-align: center;
+  }
+}
