@@ -584,46 +584,5 @@
   サーバーに接続中
 </div>
 
-    <!-- Scripts are included in the layout template -->
-    <script>
-        const socket = io();
-        
-        // Handle initial data
-        socket.on('initialData', (data) => {
-            updateSensorData(data.data);
-            updateAlerts(data.alerts);
-        });
-
-        // Handle real-time updates
-        socket.on('dataUpdate', (data) => {
-            updateSensorData(data.sensorData);
-            updateAlerts(data.alerts);
-        });
-
-        function updateSensorData(data) {
-            if (!Array.isArray(data)) return;
-            
-            const container = document.getElementById('sensor-data');
-            container.innerHTML = data.map(reading => `
-                <div class="data-item">
-                    <p>センサーID: ${reading.sensorId}</p>
-                    <p>温度: ${reading.temperature}°C</p>
-                    <p>タイムスタンプ: ${new Date(reading.timestamp).toLocaleString()}</p>
-                </div>
-            `).join('');
-        }
-
-        function updateAlerts(alerts) {
-            if (!Array.isArray(alerts)) return;
-            
-            const container = document.getElementById('alerts');
-            container.innerHTML = alerts.map(alert => `
-                <div class="alert-item ${alert.severity}">
-                    <p>センサーID: ${alert.sensorId}</p>
-                    <p>メッセージ: ${alert.message}</p>
-                    <p>重要度: ${alert.severity}</p>
-                    <p>タイムスタンプ: ${new Date(alert.timestamp).toLocaleString()}</p>
-                </div>
-            `).join('');
-        }
-    </script>
+<!-- JavaScript -->
+<script src="/js/index.js"></script>

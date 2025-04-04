@@ -1,22 +1,32 @@
 /**
- * Temperature Sensor Data Server
- * Receives sensor data and stores it in MongoDB
+ * Temperature Sensor Monitoring System
+ * Main server file that initializes the application
  */
+
+// Import required modules
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import ejs from 'ejs';
 import expressLayouts from 'express-ejs-layouts';
+import http from 'http';
 import { Server as SocketServer } from 'socket.io';
+
+// Import routes
+import apiRoutes from './routes/apiRoutes.js';
+import viewRoutes from './routes/viewRoutes.js';
+
+// Import services
+import { initSocketService } from './services/socketService.js';
 
 // Load environment variables
 dotenv.config();
 
 // Create Express app
 const app = express();
+const server = http.createServer(app);
+const io = new SocketServer(server);
 const PORT = process.env.PORT || 3000;
 
 // Get current file directory (ESM compatible)
@@ -24,16 +34,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(express.json({
-  verify: (req, res, buf, encoding) => {
-    try {
-      JSON.parse(buf);
-    } catch (e) {
-      res.status(400).json({ message: 'Invalid JSON' });
-      throw new Error('Invalid JSON');
-    }
-  }
-}));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Set up EJS view engine
@@ -41,82 +42,45 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layout');
-app.set('layout extractScripts', true);
-app.set('layout extractStyles', true);
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/temperatureSensors')
+  .then(() => {
+    console.log('MongoDB connected successfully');
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
 
-// Define Temperature Sensor Schema
-const temperatureSensorSchema = new mongoose.Schema({
-  sensor_id: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: String,
-    required: true
-  },
-  time: {
-    type: String,
-    required: true
-  },
-  temperature_data: {
-    type: [Number],
-    required: true
-  },
-  average_temp: {
-    type: Number,
-    required: true
-  },
-  status: {
-    type: String,
-    required: true
-  },
-  created_at: {
-    type: Date,
-    default: Date.now
-  }
+// Initialize Socket.io service
+initSocketService(io);
+
+// Set up routes
+app.use('/api', apiRoutes(io));
+app.use('/', viewRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('error', {
+    title: 'エラーが発生しました',
+    message: 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err : {}
+  });
 });
 
-// Define Alert Schema
-const alertSchema = new mongoose.Schema({
-  sensor_id: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: String,
-    required: true
-  },
-  time: {
-    type: String,
-    required: true
-  },
-  alert_reason: {
-    type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    required: true
-  },
-  created_at: {
-    type: Date,
-    default: Date.now
-  }
+// Start the server
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
-// Create Temperature Sensor Model
-const TemperatureSensor = mongoose.model('TemperatureSensor', temperatureSensorSchema);
-
-// Create Alert Model
-const Alert = mongoose.model('Alert', alertSchema);
+// Import models
+import TemperatureSensor from './models/temperatureSensor.js';
+import Alert from './models/alert.js';
 
 // API Routes
 // データを受け取るエンドポイント
@@ -257,92 +221,4 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Start server with Socket.io
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-// Set up Socket.io for real-time updates
-const io = new SocketServer(server);
-
-// Socket.io connection handler
-io.on('connection', (socket) => {
-  console.log('A client connected');
-  
-  // Send initial data to the client
-  sendInitialData(socket);
-  
-  socket.on('disconnect', () => {
-    console.log('A client disconnected');
-  });
-});
-
-// Function to send initial data to a connected client
-async function sendInitialData(socket) {
-  try {
-    const latestReadings = await TemperatureSensor.find()
-      .sort({ created_at: -1 })
-      .limit(10);
-      
-    const formattedData = latestReadings.map(reading => ({
-      sensorId: reading.sensor_id,
-      date: reading.date,
-      time: reading.time,
-      temperature: reading.average_temp,
-      temperatureData: reading.temperature_data,
-      status: reading.status,
-      timestamp: reading.created_at
-    }));
-    
-    const alerts = latestReadings
-      .filter(reading => reading.status !== '0 ：正常')
-      .map(reading => ({
-        sensorId: reading.sensor_id,
-        message: `Abnormal temperature reading: ${reading.average_temp}°C`,
-        severity: 'high',
-        timestamp: reading.created_at
-      }));
-      
-    socket.emit('initialData', {
-      data: formattedData,
-      alerts: alerts
-    });
-    
-    // Set up event to emit data updates when new data is received
-    socket.on('requestUpdate', async () => {
-      try {
-        const updatedReadings = await TemperatureSensor.find()
-          .sort({ created_at: -1 })
-          .limit(10);
-          
-        const updatedData = updatedReadings.map(reading => ({
-          sensorId: reading.sensor_id,
-          date: reading.date,
-          time: reading.time,
-          temperature: reading.average_temp,
-          temperatureData: reading.temperature_data,
-          status: reading.status,
-          timestamp: reading.created_at
-        }));
-        
-        const updatedAlerts = updatedReadings
-          .filter(reading => reading.status !== '0 ：正常')
-          .map(reading => ({
-            sensorId: reading.sensor_id,
-            message: `Abnormal temperature reading: ${reading.average_temp}°C`,
-            severity: 'high',
-            timestamp: reading.created_at
-          }));
-          
-        socket.emit('dataUpdate', {
-          data: updatedData,
-          alerts: updatedAlerts
-        });
-      } catch (error) {
-        console.error('Error sending data update:', error);
-      }
-    });
-  } catch (error) {
-    console.error('Error sending initial data:', error);
-  }
-}
+// Socket.io connection handler is now managed by socketService.js
