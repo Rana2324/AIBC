@@ -218,8 +218,10 @@ function updateAlertData(data) {
   // Get the sensor ID
   const sensorId = data.sensorId;
   
+  console.log(`Updating alert data for sensor ${sensorId}:`, data);
+  
   // Find the alert table for this sensor
-  const alertTable = document.querySelector(`#sensor-${sensorId} .alert-table table tbody`);
+  const alertTable = document.getElementById(`alert-tbody-${sensorId}`);
   
   if (alertTable) {
     // Create a new row for the alert
@@ -228,8 +230,8 @@ function updateAlertData(data) {
     
     // Add the alert data
     row.innerHTML = `
-      <td>${new Date(data.timestamp).toLocaleDateString()}</td>
-      <td>${new Date(data.timestamp).toLocaleTimeString()}</td>
+      <td>${data.date || new Date(data.timestamp).toLocaleDateString()}</td>
+      <td>${data.time || new Date(data.timestamp).toLocaleTimeString()}</td>
       <td>${data.message}</td>
     `;
     
@@ -251,6 +253,17 @@ function updateAlertData(data) {
     if (lastUpdated) {
       lastUpdated.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
     }
+    
+    // Highlight the sensor section to indicate a new alert
+    const sensorSection = document.getElementById(`sensor-${sensorId}`);
+    if (sensorSection) {
+      sensorSection.classList.add('has-new-alert');
+      setTimeout(() => {
+        sensorSection.classList.remove('has-new-alert');
+      }, 3000);
+    }
+  } else {
+    console.log(`Alert table for sensor ${sensorId} not found`);
   }
 }
 
@@ -284,8 +297,46 @@ function refreshData(sensorId) {
 
 // Refresh alert data for a specific sensor
 function refreshAlertData(sensorId) {
-  // Similar to refreshData, this would request fresh alert data
+  console.log(`Refreshing alert data for sensor ${sensorId}`);
+  
+  // Update the UI to show we're refreshing
   const lastUpdated = document.getElementById(`alert-last-updated-${sensorId}`);
+  if (lastUpdated) {
+    lastUpdated.textContent = '読み込み中...';
+  }
+  
+  // In a real implementation, we would fetch fresh data from the server
+  // For now, we'll just simulate a server request with a timeout
+  setTimeout(() => {
+    // Update the timestamp
+    if (lastUpdated) {
+      lastUpdated.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+    }
+  }, 1000);
+}
+
+// Refresh settings data for a specific sensor
+function refreshSettingsData(sensorId) {
+  console.log(`Refreshing settings data for sensor ${sensorId}`);
+  
+  // Update the UI to show we're refreshing
+  const lastUpdated = document.getElementById(`settings-last-updated-${sensorId}`);
+  if (lastUpdated) {
+    lastUpdated.textContent = '読み込み中...';
+    
+    // Simulate a delay and then restore the text
+    setTimeout(() => {
+      lastUpdated.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+    }, 1000);
+  }
+}
+
+// Refresh personality data for a specific sensor
+function refreshPersonalityData(sensorId) {
+  console.log(`Refreshing personality data for sensor ${sensorId}`);
+  
+  // Update the UI to show we're refreshing
+  const lastUpdated = document.getElementById(`personality-last-updated-${sensorId}`);
   if (lastUpdated) {
     lastUpdated.textContent = '読み込み中...';
     

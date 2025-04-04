@@ -14,6 +14,20 @@
   width: 100%;
   padding: 5px;
   box-sizing: border-box;
+  grid-template-areas: "sensor1 sensor2 sensor3";
+}
+
+/* Ensure sensors are displayed in the correct order */
+.sensor-panels > div:nth-child(1) {
+  grid-area: sensor1;
+}
+
+.sensor-panels > div:nth-child(2) {
+  grid-area: sensor2;
+}
+
+.sensor-panels > div:nth-child(3) {
+  grid-area: sensor3;
 }
 
 /* Make each sensor section a self-contained unit with its own scrolling */
@@ -39,6 +53,40 @@
 
 .table-danger:hover {
   background-color: #ffe5e8 !important;
+}
+
+/* Empty row styling */
+.empty-row td {
+  padding: 20px !important;
+  text-align: center;
+  color: var(--gray-600);
+  font-style: italic;
+}
+
+/* Inactive sensor status */
+.sensor-status.inactive {
+  background-color: var(--gray-500);
+  color: white;
+}
+
+/* Alert styling */
+.alert-row {
+  background-color: rgba(255, 152, 0, 0.08) !important;
+}
+
+.alert-row:hover {
+  background-color: rgba(255, 152, 0, 0.15) !important;
+}
+
+/* Highlight sensor section with new alert */
+.has-new-alert {
+  animation: alertHighlight 2s ease;
+}
+
+@keyframes alertHighlight {
+  0% { box-shadow: 0 0 0 2px rgba(247, 37, 133, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(247, 37, 133, 0.4); }
+  100% { box-shadow: var(--shadow-md); }
 }
 
 /* Ensure the tab content is properly displayed */
@@ -108,6 +156,27 @@ tr.new-data {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
+}
+
+/* Settings and Personality table styles */
+.settings-table, .personality-table {
+  margin-top: 0;
+}
+
+.settings-table th {
+  background-color: #03a9f4;
+}
+
+.personality-table th {
+  background-color: #9c27b0;
+}
+
+.empty-table-row td {
+  text-align: center;
+  color: #9e9e9e;
+  font-style: italic;
+  padding: 15px;
+  background-color: #f9f9f9;
 }
 
 /* Responsive adjustments for smaller screens */

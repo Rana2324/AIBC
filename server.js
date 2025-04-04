@@ -84,8 +84,39 @@ const temperatureSensorSchema = new mongoose.Schema({
   }
 });
 
+// Define Alert Schema
+const alertSchema = new mongoose.Schema({
+  sensor_id: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
+  },
+  alert_reason: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    required: true
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
 // Create Temperature Sensor Model
 const TemperatureSensor = mongoose.model('TemperatureSensor', temperatureSensorSchema);
+
+// Create Alert Model
+const Alert = mongoose.model('Alert', alertSchema);
 
 // API Routes
 // データを受け取るエンドポイント
@@ -119,13 +150,27 @@ app.post('/api/data', async (req, res) => {
       created_at: sensorData.created_at
     });
     
-    // If there's an alert, emit it separately
+    // If there's an alert, save it to the database and emit it separately
     if (sensorData.status !== '0 ：正常') {
+      // Create and save alert
+      const alertData = new Alert({
+        sensor_id: sensorData.sensor_id,
+        date: sensorData.date,
+        time: sensorData.time,
+        alert_reason: `温度が ${sensorData.average_temp}°C超えました`,
+        status: 'alert'
+      });
+      
+      await alertData.save();
+      
+      // Emit the alert to connected clients
       io.emit('newAlert', {
         sensorId: sensorData.sensor_id,
-        message: `異常な温度読み取り: ${sensorData.average_temp}°C`,
+        date: alertData.date,
+        time: alertData.time,
+        message: alertData.alert_reason,
         severity: 'high',
-        timestamp: sensorData.created_at
+        timestamp: alertData.created_at
       });
     }
     
@@ -164,10 +209,10 @@ app.get('/api/data/:sensorId', async (req, res) => {
 // Web routes
 app.get('/', async (req, res) => {
   try {
-    // Fetch the latest sensor readings from MongoDB
+    // Fetch the latest sensor readings from MongoDB (100 records as requested)
     const latestReadings = await TemperatureSensor.find()
       .sort({ created_at: -1 })
-      .limit(20);
+      .limit(100);
 
     // Format data for the view
     const formattedData = latestReadings.map(reading => ({
@@ -180,22 +225,27 @@ app.get('/', async (req, res) => {
       timestamp: reading.created_at
     }));
 
-    // Check for any alerts (status not normal)
-    const alerts = latestReadings
-      .filter(reading => reading.status !== '0 ：正常')
-      .map(reading => ({
-        sensorId: reading.sensor_id,
-        message: `Abnormal temperature reading: ${reading.average_temp}°C`,
-        severity: 'high',
-        timestamp: reading.created_at
-      }));
+    // Fetch the latest 10 alerts from MongoDB
+    const latestAlerts = await Alert.find()
+      .sort({ created_at: -1 })
+      .limit(10);
+      
+    // Format alerts for the view
+    const formattedAlerts = latestAlerts.map(alert => ({
+      sensorId: alert.sensor_id,
+      date: alert.date,
+      time: alert.time,
+      message: alert.alert_reason,
+      severity: 'high',
+      timestamp: alert.created_at
+    }));
 
     // Render the view with data
     res.render('index', {
       title: '温度センサー監視システム',
       latestReadings: {
         data: formattedData,
-        alerts: alerts
+        alerts: formattedAlerts
       }
     });
   } catch (error) {
