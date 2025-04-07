@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
+import logger from './utils/logger.js';
 
 // Import routes
 import apiRoutes from './routes/apiRoutes.js';
@@ -49,10 +50,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/temperatureSensors')
   .then(() => {
-    console.log('MongoDB connected successfully');
+    logger.info('MongoDB connected successfully');
   })
   .catch(err => {
-    console.error('MongoDB connection error:', err);
+    logger.error('MongoDB connection error:', err);
     process.exit(1);
   });
 
@@ -65,7 +66,7 @@ app.use('/', viewRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  logger.error(err.stack);
   res.status(500).render('error', {
     title: 'エラーが発生しました',
     message: 'Something went wrong!',
@@ -75,7 +76,7 @@ app.use((err, req, res, next) => {
 
 // Start the server
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });
 
 // Import models
@@ -86,7 +87,7 @@ import Alert from './models/alert.js';
 // データを受け取るエンドポイント
 app.post('/api/data', async (req, res) => {
   try {
-    console.log(`Received data: ${JSON.stringify(req.body)}`);
+    logger.info(`Received data: ${JSON.stringify(req.body)}`);
     
     // Validate that the required fields exist
     const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
@@ -141,7 +142,7 @@ app.post('/api/data', async (req, res) => {
     // 成功レスポンスを返す
     res.status(200).json({ message: 'Data received and saved successfully' });
   } catch (error) {
-    console.error('Error saving data:', error);
+    logger.error('Error saving data:', error);
     res.status(500).json({ message: 'Error saving data', error: error.message });
   }
 });
@@ -152,7 +153,7 @@ app.get('/api/data', async (req, res) => {
     const sensorData = await TemperatureSensor.find().sort({ created_at: -1 }).limit(100);
     res.status(200).json(sensorData);
   } catch (error) {
-    console.error('Error retrieving data:', error);
+    logger.error('Error retrieving data:', error);
     res.status(500).json({ message: 'Error retrieving data', error: error.message });
   }
 });
@@ -165,7 +166,7 @@ app.get('/api/data/:sensorId', async (req, res) => {
       .limit(100);
     res.status(200).json(sensorData);
   } catch (error) {
-    console.error('Error retrieving sensor data:', error);
+    logger.error('Error retrieving sensor data:', error);
     res.status(500).json({ message: 'Error retrieving sensor data', error: error.message });
   }
 });
@@ -213,7 +214,7 @@ app.get('/', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching data for view:', error);
+    logger.error('Error fetching data for view:', error);
     res.status(500).render('index', {
       title: '温度センサー監視システム',
       error: 'データの取得中にエラーが発生しました'

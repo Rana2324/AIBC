@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import { Server as SocketServer } from 'socket.io';
 import http from 'http';
+import logger from './utils/logger.js';
 
 // Import routes
 import viewRoutes from './routes/viewRoutes.js';
@@ -56,8 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => logger.info('MongoDB connected successfully'))
+  .catch(err => logger.error('MongoDB connection error:', err));
 
 // Set up Socket.io
 setupSocketHandlers(io);

@@ -7,29 +7,73 @@
 const socket = io();
 let isConnected = true;
 const INACTIVE_MESSAGES = {
-  data: "現在、センサーからのデータが取得できません。",
+  data: "センサーが未接続のため、データが取得できません。",
   alert: "アラート情報はありません。",
-  settings: "設定変更履歴は現在ありません。",
-  personality: "個性（バイアス）の履歴データはまだありません。"
+  settings: "設定変更履歴は表示できません。",
+  personality: "個性（バイアス）の履歴データは表示できません。"
 };
+
+/**
+ * Client-side logger utility that can send important logs to the server
+ */
+const clientLogger = {
+  debug: (message, ...args) => {
+    if (window.debug) {
+      console.debug(`[DEBUG] ${message}`, ...args);
+    }
+  },
+  info: (message, ...args) => {
+    console.info(`[INFO] ${message}`, ...args);
+    // For important info logs, we could send them to the server
+    // socket.emit('clientLog', { level: 'info', message, args });
+  },
+  warn: (message, ...args) => {
+    console.warn(`[WARN] ${message}`, ...args);
+    // socket.emit('clientLog', { level: 'warn', message, args });
+  },
+  error: (message, ...args) => {
+    console.error(`[ERROR] ${message}`, ...args);
+    // Send error logs to the server for monitoring
+    socket.emit('clientLog', { level: 'error', message, args: JSON.stringify(args) });
+  }
+};
+
+/**
+ * Store and retrieve active tab information to/from localStorage
+ */
+function saveActiveTab(tabId) {
+  localStorage.setItem('activeTab', tabId);
+  localStorage.setItem('activeTabTimestamp', new Date().getTime());
+}
+
+function getActiveTab() {
+  const tabId = localStorage.getItem('activeTab') || 'sensorTab';
+  const timestamp = parseInt(localStorage.getItem('activeTabTimestamp') || '0');
+  const now = new Date().getTime();
+  
+  // If stored more than 30 minutes ago, ignore it
+  if (now - timestamp > 30 * 60 * 1000) {
+    return 'sensorTab'; // Default to sensor tab
+  }
+  
+  return tabId;
+}
 
 /**
  * Initialize the application when the DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Initializing temperature sensor monitoring system...');
+  clientLogger.info('Initializing temperature sensor monitoring system...');
   
-  // Get the last active tab from sessionStorage or default to sensor tab
-  const lastActiveTab = sessionStorage.getItem('activeTab') || 'sensorTab';
-  const lastActiveTabBtn = sessionStorage.getItem('activeTabBtn') || 'sensorTabBtn';
-  
-  // Set the remembered tab as active
-  const tabBtn = document.getElementById(lastActiveTabBtn);
-  if (tabBtn) {
-    tabBtn.classList.add('active');
-    document.getElementById(lastActiveTab).classList.add('active');
+  // Load the user's last active tab from localStorage
+  const activeTabId = getActiveTab();
+  const activeTabBtn = document.getElementById(`${activeTabId.replace('Tab', '')}TabBtn`);
+
+  // Set the active tab
+  if (activeTabBtn) {
+    switchTab(activeTabId, activeTabBtn);
   } else {
-    // Fallback to default tab if saved tab doesn't exist
+    // If no stored tab or the stored tab doesn't exist anymore, set the first tab as active
     const defaultTabBtn = document.getElementById('sensorTabBtn');
     if (defaultTabBtn) {
       defaultTabBtn.classList.add('active');
@@ -37,40 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Check for any sensors with inactive status and set proper messages
-  checkAndSetInactiveSensors();
-
   // Setup socket event listeners
   setupSocketListeners();
   
   // Log connection status
-  console.log('Socket.io initialized, waiting for connection...');
+  clientLogger.info('Socket.io initialized, waiting for connection...');
 });
-
-/**
- * Check all sensors and set inactive messages for those with inactive status
- */
-function checkAndSetInactiveSensors() {
-  // Find all sensor elements
-  const sensorElements = document.querySelectorAll('.sensor-data-section');
-  
-  sensorElements.forEach(sensorElement => {
-    // Get the sensor ID from the element ID
-    const sensorId = sensorElement.id.replace('sensor-', '');
-    
-    // Check if this sensor has inactive status
-    const statusElement = sensorElement.querySelector('.sensor-status');
-    if (statusElement && statusElement.classList.contains('inactive')) {
-      console.log(`Found inactive sensor during initialization: ${sensorId}`);
-      
-      // Set all the inactive messages for this sensor
-      setInactiveMessage(sensorId, 'data');
-      setInactiveMessage(sensorId, 'alert');
-      setInactiveMessage(sensorId, 'settings');
-      setInactiveMessage(sensorId, 'personality');
-    }
-  });
-}
 
 /**
  * Setup all Socket.io event listeners
@@ -78,18 +94,18 @@ function checkAndSetInactiveSensors() {
 function setupSocketListeners() {
   // Connection events
   socket.on('connect', function() {
-    console.log('Connected to server');
+    clientLogger.info('Connected to server');
     updateConnectionStatus(true);
   });
 
   socket.on('disconnect', function() {
-    console.log('Disconnected from server');
+    clientLogger.warn('Disconnected from server');
     updateConnectionStatus(false);
   });
   
   // Initial data load
   socket.on('initialData', function(data) {
-    console.log('Received initial data');
+    clientLogger.info('Received initial data');
     if (data.sensorData && Array.isArray(data.sensorData)) {
       data.sensorData.forEach(sensorData => {
         updateSensorData(sensorData);
@@ -105,12 +121,12 @@ function setupSocketListeners() {
 
   // Real-time data updates
   socket.on('newSensorData', function(data) {
-    console.log('Received new sensor data:', data);
+    clientLogger.info('Received new sensor data:', data);
     updateSensorData(data);
   });
 
   socket.on('newAlert', function(data) {
-    console.log('Received new alert:', data);
+    clientLogger.info('Received new alert:', data);
     updateAlertData(data);
   });
 }
@@ -134,7 +150,7 @@ function updateConnectionStatus(connected) {
 }
 
 /**
- * Switch between tabs
+ * Switch between tabs and save the active tab
  */
 function switchTab(tabId, button) {
   // Hide all tab contents
@@ -151,16 +167,15 @@ function switchTab(tabId, button) {
   const selectedTab = document.getElementById(tabId);
   if (selectedTab) {
     selectedTab.classList.add('active');
-    // Save the active tab to sessionStorage
-    sessionStorage.setItem('activeTab', tabId);
   }
   
   // Add active class to the clicked button
   if (button) {
     button.classList.add('active');
-    // Save the active tab button to sessionStorage
-    sessionStorage.setItem('activeTabBtn', button.id);
   }
+  
+  // Save the active tab to localStorage
+  saveActiveTab(tabId);
 }
 
 /**
@@ -225,47 +240,6 @@ function updateSensorStatus(sensorId, status) {
       statusElement.className = `sensor-status ${isNormal ? 'active' : 'alert'}`;
       statusElement.textContent = isNormal ? '稼働中' : '異常検出';
     }
-  }
-}
-
-/**
- * Set the appropriate inactive message for a specific section
- */
-function setInactiveMessage(sensorId, section) {
-  let tbody;
-  
-  switch(section) {
-    case 'data':
-      tbody = document.getElementById(`tbody-${sensorId}`);
-      break;
-    case 'alert':
-      tbody = document.getElementById(`alert-tbody-${sensorId}`);
-      break;
-    case 'settings':
-      tbody = document.getElementById(`settings-${sensorId}`);
-      break;
-    case 'personality':
-      tbody = document.getElementById(`personality-${sensorId}`);
-      break;
-  }
-  
-  if (tbody) {
-    // Clear any existing content
-    tbody.innerHTML = '';
-    
-    // Create empty row with message
-    const emptyRow = document.createElement('tr');
-    const messageCell = document.createElement('td');
-    messageCell.setAttribute('colspan', section === 'data' ? '20' : '3');
-    messageCell.className = 'text-center';
-    messageCell.textContent = INACTIVE_MESSAGES[section];
-    emptyRow.appendChild(messageCell);
-    
-    if (section === 'data') {
-      emptyRow.className = 'empty-row';
-    }
-    
-    tbody.appendChild(emptyRow);
   }
 }
 
@@ -471,10 +445,10 @@ function refreshPersonalityData(sensorId) {
 }
 
 /**
- * Refresh standard model history data
+ * Refresh system status data
  */
-function refreshModelHistory() {
-  const refreshButton = document.querySelector(`button[onclick="refreshModelHistory()"]`);
+function refreshSystemStatus() {
+  const refreshButton = document.querySelector(`.system-status .refresh-btn`);
   if (refreshButton) {
     refreshButton.classList.add('refreshing');
     
@@ -483,75 +457,126 @@ function refreshModelHistory() {
       refreshButton.classList.remove('refreshing');
       
       // Update timestamp
-      const lastUpdatedSpan = refreshButton.closest('.stat-header').querySelector('.last-updated');
-      if (lastUpdatedSpan) {
-        lastUpdatedSpan.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      const timestampElement = document.querySelector('.system-status .last-updated');
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleString()}`;
       }
-      
-      // Simulate getting new model history data
-      const tbody = document.getElementById('model-history-tbody');
-      if (tbody) {
-        // Create a new model update entry
-        const newRow = document.createElement('tr');
-        newRow.className = 'new-model-update';
-        
-        // Current date and time
-        const now = new Date();
-        
-        // Create cells
-        const dateCell = document.createElement('td');
-        dateCell.textContent = now.toLocaleDateString();
-        
-        const timeCell = document.createElement('td');
-        timeCell.textContent = now.toLocaleTimeString();
-        
-        const versionCell = document.createElement('td');
-        versionCell.className = 'model-version';
-        versionCell.textContent = 'v3.2.2';
-        
-        const updateTypeCell = document.createElement('td');
-        updateTypeCell.textContent = '即時更新';
-        
-        const targetSensorCell = document.createElement('td');
-        targetSensorCell.textContent = '全センサー';
-        
-        const accuracyCell = document.createElement('td');
-        accuracyCell.className = 'model-accuracy';
-        accuracyCell.textContent = '99.1%';
-        
-        const outputCell = document.createElement('td');
-        outputCell.textContent = '異常検知アルゴリズムの強化';
-        
-        const statusCell = document.createElement('td');
-        statusCell.className = 'status-completed';
-        statusCell.textContent = '完了';
-        
-        // Add cells to row
-        newRow.appendChild(dateCell);
-        newRow.appendChild(timeCell);
-        newRow.appendChild(versionCell);
-        newRow.appendChild(updateTypeCell);
-        newRow.appendChild(targetSensorCell);
-        newRow.appendChild(accuracyCell);
-        newRow.appendChild(outputCell);
-        newRow.appendChild(statusCell);
-        
-        // Add to table at the beginning
-        if (tbody.firstChild) {
-          tbody.insertBefore(newRow, tbody.firstChild);
-        } else {
-          tbody.appendChild(newRow);
-        }
-        
-        // Remove the last row if we have more than 10 entries
-        const rows = tbody.querySelectorAll('tr');
-        if (rows.length > 10) {
-          tbody.removeChild(rows[rows.length - 1]);
-        }
-      }
-    }, 800);
+    }, 1000);
     
-    // In a real application, you would emit a socket event to get data from the server
-    // socket.emit('requestModelHistory');
+    // Request fresh data from server
+    socket.emit('requestSystemStatus');
+  }
+}
+
+/**
+ * Refresh model education data
+ */
+function refreshModelEducation() {
+  const refreshButton = document.querySelector(`.model-update-education .refresh-btn`);
+  if (refreshButton) {
+    refreshButton.classList.add('refreshing');
+    
+    // Simulate refresh with animation
+    setTimeout(() => {
+      refreshButton.classList.remove('refreshing');
+      
+      // Update timestamp
+      const timestampElement = document.querySelector('.model-update-education .last-updated');
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
+    }, 1000);
+    
+    // Request fresh data from server
+    socket.emit('requestModelEducation');
+  }
+}
+
+/**
+ * Refresh personality comparison data
+ */
+function refreshPersonalityComparison() {
+  const refreshButton = document.querySelector(`.personality-comparison .refresh-btn`);
+  if (refreshButton) {
+    refreshButton.classList.add('refreshing');
+    
+    // Simulate refresh with animation
+    setTimeout(() => {
+      refreshButton.classList.remove('refreshing');
+      
+      // Update timestamp
+      const timestampElement = document.querySelector('.personality-comparison .last-updated');
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
+    }, 1000);
+    
+    // Request fresh data from server
+    socket.emit('requestPersonalityComparison');
+  }
+}
+
+/**
+ * Refresh blockchain/IPFS data
+ */
+function refreshBlockchainData() {
+  const refreshButton = document.querySelector(`.blockchain-ipfs .refresh-btn`);
+  if (refreshButton) {
+    refreshButton.classList.add('refreshing');
+    
+    // Simulate refresh with animation
+    setTimeout(() => {
+      refreshButton.classList.remove('refreshing');
+      
+      // Update timestamp
+      const timestampElement = document.querySelector('.blockchain-ipfs .last-updated');
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
+    }, 1000);
+    
+    // Request fresh data from server
+    socket.emit('requestBlockchainData');
+  }
+}
+
+/**
+ * Set the appropriate inactive message for a specific section
+ */
+function setInactiveMessage(sensorId, section) {
+  let tbody;
+  
+  switch(section) {
+    case 'data':
+      tbody = document.getElementById(`tbody-${sensorId}`);
+      break;
+    case 'alert':
+      tbody = document.getElementById(`alert-tbody-${sensorId}`);
+      break;
+    case 'settings':
+      tbody = document.getElementById(`settings-${sensorId}`);
+      break;
+    case 'personality':
+      tbody = document.getElementById(`personality-${sensorId}`);
+      break;
+  }
+  
+  if (tbody) {
+    // Clear any existing content
+    tbody.innerHTML = '';
+    
+    // Create empty row with message
+    const emptyRow = document.createElement('tr');
+    const messageCell = document.createElement('td');
+    messageCell.setAttribute('colspan', section === 'data' ? '20' : '3');
+    messageCell.className = 'text-center';
+    messageCell.textContent = INACTIVE_MESSAGES[section];
+    emptyRow.appendChild(messageCell);
+    
+    if (section === 'data') {
+      emptyRow.className = 'empty-row';
+    }
+    
+    tbody.appendChild(emptyRow);
   }
 }
