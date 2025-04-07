@@ -6,6 +6,7 @@
 // Import models
 import TemperatureSensor from '../models/temperatureSensor.js';
 import Alert from '../models/alert.js';
+import logger from '../utils/logger.js';
 
 /**
  * Initialize Socket.io service
@@ -13,7 +14,7 @@ import Alert from '../models/alert.js';
  */
 export const initSocketService = (io) => {
   io.on('connection', (socket) => {
-    console.log('A client connected');
+    // logger.info('A client connected', { socketId: socket.id });
     
     // Send initial data to the newly connected client
     sendInitialData(socket);
@@ -28,8 +29,9 @@ export const initSocketService = (io) => {
           .limit(100);
         
         socket.emit('sensorData', data);
+        logger.debug('Sent sensor data to client', { socketId: socket.id, sensorId, count: data.length });
       } catch (error) {
-        console.error('Error fetching sensor data:', error);
+        logger.error('Error fetching sensor data:', { error: error.message, socketId: socket.id, sensorId });
       }
     });
     
@@ -42,14 +44,15 @@ export const initSocketService = (io) => {
           .limit(10);
         
         socket.emit('alertData', alerts);
+        logger.debug('Sent alert data to client', { socketId: socket.id, sensorId, count: alerts.length });
       } catch (error) {
-        console.error('Error fetching alert data:', error);
+        logger.error('Error fetching alert data:', { error: error.message, socketId: socket.id, sensorId });
       }
     });
     
     // Handle disconnect
     socket.on('disconnect', () => {
-      console.log('A client disconnected');
+      logger.info('A client disconnected', { socketId: socket.id });
     });
   });
 };
@@ -96,7 +99,13 @@ async function sendInitialData(socket) {
       sensorData: formattedData,
       alerts: formattedAlerts
     });
+    
+    // logger.info('Sent initial data to client', { 
+    //   socketId: socket.id, 
+    //   sensorCount: formattedData.length, 
+    //   alertCount: formattedAlerts.length 
+    // });
   } catch (error) {
-    console.error('Error sending initial data:', error);
+    logger.error('Error sending initial data:', { error: error.message, socketId: socket.id });
   }
 }

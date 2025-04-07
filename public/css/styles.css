@@ -769,7 +769,7 @@ body {
 }
 
 .alert-row {
-  background-color: var(--alert-light) !important;
+  /* background-color: var(--alert-light) !important; */
 }
 
 .alert-recovery {
@@ -778,12 +778,22 @@ body {
 
 .table-danger {
   background-color: #ffebee !important;
-  color: red !important;
- 
+  color: #d32f2f !important;
 }
 
 .table-danger:hover {
-  background-color: #ffe5e8 !important;
+  background-color: #ffcdd2 !important;
+}
+
+/* Make sure temperature cells in danger range are highlighted properly */
+.data-table tr td:nth-child(19) {
+  font-weight: 600;
+}
+
+/* Style for temperature between 20°C and 70°C */
+.data-table tr.table-danger td:nth-child(19) {
+  color: #d32f2f !important;
+  font-weight: 700;
 }
 
 /* Empty state styling */

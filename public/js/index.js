@@ -42,7 +42,7 @@ function getActiveTab() {
  * Initialize the application when the DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-  logger.info('Initializing temperature sensor monitoring system...');
+  console.log('Initializing temperature sensor monitoring system...');
   
   // Load the user's last active tab from localStorage
   const activeTabId = getActiveTab();
@@ -63,9 +63,42 @@ document.addEventListener('DOMContentLoaded', function() {
   // Setup socket event listeners
   setupSocketListeners();
   
+  // Start connection timestamp interval update
+  startTimestampInterval();
+  
   // Log connection status
   logger.info('Socket.io initialized, waiting for connection...');
+  
+  // Get all sensor IDs
+  const sensorIds = ['sensor_1', 'sensor_2', 'sensor_3'];
+  
+  // Refresh data for each sensor
+  sensorIds.forEach(sensorId => {
+    refreshData(sensorId);
+    refreshAlertData(sensorId);
+  });
 });
+
+/**
+ * Start interval to update connection timestamp every second
+ */
+function startTimestampInterval() {
+  // Update timestamp immediately
+  updateConnectionTimestamp();
+  
+  // Then update every second
+  setInterval(updateConnectionTimestamp, 1000);
+}
+
+/**
+ * Update only the connection timestamp with current time
+ */
+function updateConnectionTimestamp() {
+  const timestampElement = document.getElementById('connection-timestamp');
+  if (timestampElement) {
+    timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+  }
+}
 
 /**
  * Setup all Socket.io event listeners
@@ -80,6 +113,10 @@ function setupSocketListeners() {
   socket.on('disconnect', function() {
     logger.warn('Disconnected from server');
     updateConnectionStatus(false);
+  });
+
+  socket.on('reconnect_attempt', function() {
+    showConnecting();
   });
   
   // Initial data load
@@ -100,14 +137,14 @@ function setupSocketListeners() {
 
   // Real-time data updates
   socket.on('newSensorData', function(data) {
-    logger.info('Received new sensor data');
-    logger.debug('Sensor data details:', data);
+    console.log('Received new sensor data');
+    console.log('Sensor data details:', data);
     updateSensorData(data);
   });
 
   socket.on('newAlert', function(data) {
-    logger.info('Received new alert');
-    logger.debug('Alert details:', data);
+    console.log('Received new alert');
+    console.log('Alert details:', data);
     updateAlertData(data);
   });
 
@@ -130,21 +167,79 @@ function setupSocketListeners() {
 }
 
 /**
+ * Handle UI changes when scrolling for connection status
+ */
+document.addEventListener('scroll', function() {
+  const connectionContainer = document.querySelector('.connection-status-container');
+  
+  if (connectionContainer) {
+    // After scrolling more than 100px, change to compact mode
+    if (window.scrollY > 100) {
+      connectionContainer.classList.add('scrolling');
+    } else {
+      connectionContainer.classList.remove('scrolling');
+    }
+  }
+});
+
+/**
  * Update the connection status UI
  */
 function updateConnectionStatus(connected) {
   isConnected = connected;
-  const statusElement = document.getElementById('connectionStatus');
   
-  if (statusElement) {
+  // Update both timestamp and connection status
+  const timestampElement = document.getElementById('connection-timestamp');
+  const statusValueElement = document.getElementById('connectionStatusValue');
+  
+  if (timestampElement) {
+    timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+  }
+  
+  if (statusValueElement) {
+    // Remove all status classes
+    statusValueElement.classList.remove('connected', 'disconnected', 'connecting');
+    
+    // Update the status text and class
+    const statusTextElement = statusValueElement.querySelector('span:last-child');
+    
     if (connected) {
-      statusElement.className = 'connection-status connected';
-      statusElement.textContent = 'サーバーに接続中';
+      statusValueElement.classList.add('connected');
+      if (statusTextElement) statusTextElement.textContent = '接続中';
     } else {
-      statusElement.className = 'connection-status disconnected';
-      statusElement.textContent = 'サーバーから切断されました';
+      statusValueElement.classList.add('disconnected');
+      if (statusTextElement) statusTextElement.textContent = '切断されました';
+      
+      // Update inactive messages for all sections if disconnected
+      const sensorIds = ['sensor_1', 'sensor_2', 'sensor_3'];
+      sensorIds.forEach(sensorId => {
+        setInactiveMessage(sensorId, 'data');
+        setInactiveMessage(sensorId, 'alert');
+        setInactiveMessage(sensorId, 'settings');
+        setInactiveMessage(sensorId, 'personality');
+      });
     }
   }
+  
+  // Log connection status change
+  logger.info(`Connection status changed: ${connected ? 'Connected' : 'Disconnected'}`);
+}
+
+/**
+ * Show connecting state during reconnect attempts
+ */
+function showConnecting() {
+  const statusValueElement = document.getElementById('connectionStatusValue');
+  
+  if (statusValueElement) {
+    statusValueElement.classList.remove('connected', 'disconnected');
+    statusValueElement.classList.add('connecting');
+    
+    const statusTextElement = statusValueElement.querySelector('span:last-child');
+    if (statusTextElement) statusTextElement.textContent = '再接続中...';
+  }
+  
+  logger.info('Attempting to reconnect to server...');
 }
 
 /**
@@ -374,36 +469,181 @@ function formatSensorData(data) {
  * Refresh data for a specific sensor
  */
 function refreshData(sensorId) {
-  const refreshButton = document.querySelector(`button[onclick="refreshData('${sensorId}')"]`);
-  if (refreshButton) {
-    refreshButton.classList.add('refreshing');
-    
-    // Simulate refresh with animation
-    setTimeout(() => {
-      refreshButton.classList.remove('refreshing');
-    }, 1000);
-    
-    // Request fresh data from server
-    socket.emit('requestData', { sensorId });
-  }
+  // Show loading indicator
+  document.getElementById(`data-last-updated-${sensorId}`).textContent = '読み込み中...';
+  
+  // Fetch sensor data from API
+  fetch(`/api/sensors/${sensorId}/readings?limit=10`)
+    .then(response => response.json())
+    .then(data => {
+      // Update last updated timestamp
+      document.getElementById(`data-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      
+      // Get the sensor tbody element
+      const sensorTbody = document.getElementById(`tbody-${sensorId}`);
+      
+      // Clear existing rows
+      sensorTbody.innerHTML = '';
+      
+      // Check if there are any readings
+      if (data && data.length > 0) {
+        // Loop through readings and add rows
+        data.forEach(reading => {
+          const row = document.createElement('tr');
+          
+          // Add temperature-based color coding: red if temp ≤ 20°C or ≥ 70°C
+          const avgTemp = reading.temperature || reading.average_temp;
+          if (avgTemp <= 20 || avgTemp >= 70) {
+            row.className = 'table-danger';
+          } else {
+            // Ensure normal rows have white background
+            row.style.backgroundColor = 'white';
+          }
+          
+          // Add date cell
+          const dateCell = document.createElement('td');
+          dateCell.textContent = reading.date || formatDate(new Date(reading.timestamp));
+          row.appendChild(dateCell);
+          
+          // Add time cell
+          const timeCell = document.createElement('td');
+          timeCell.textContent = reading.time || formatTime(new Date(reading.timestamp));
+          row.appendChild(timeCell);
+          
+          // Add temperature cells
+          if (reading.temperatureData && reading.temperatureData.length > 0) {
+            reading.temperatureData.forEach(temp => {
+              const tempCell = document.createElement('td');
+              tempCell.textContent = temp.toFixed(1);
+              row.appendChild(tempCell);
+            });
+            
+            // Fill in missing cells if less than 16 data points
+            for (let i = reading.temperatureData.length; i < 16; i++) {
+              const emptyCell = document.createElement('td');
+              emptyCell.textContent = '--';
+              row.appendChild(emptyCell);
+            }
+          } else if (reading.temperature_data && reading.temperature_data.length > 0) {
+            reading.temperature_data.forEach(temp => {
+              const tempCell = document.createElement('td');
+              tempCell.textContent = temp.toFixed(1);
+              row.appendChild(tempCell);
+            });
+            
+            // Fill in missing cells if less than 16 data points
+            for (let i = reading.temperature_data.length; i < 16; i++) {
+              const emptyCell = document.createElement('td');
+              emptyCell.textContent = '--';
+              row.appendChild(emptyCell);
+            }
+          } else {
+            // If no temperature data, show 16 empty cells
+            for (let i = 0; i < 16; i++) {
+              const emptyCell = document.createElement('td');
+              emptyCell.textContent = '--';
+              row.appendChild(emptyCell);
+            }
+          }
+          
+          // Add average temperature cell
+          const avgTempCell = document.createElement('td');
+          avgTempCell.textContent = `${avgTemp.toFixed(1)} °C`;
+          row.appendChild(avgTempCell);
+          
+          // Add status cell
+          const statusCell = document.createElement('td');
+          statusCell.textContent = reading.status.replace('0 ：', '').replace('１：', '');
+          row.appendChild(statusCell);
+          
+          sensorTbody.appendChild(row);
+        });
+      } else {
+        // If no readings, show a message
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 20;
+        cell.textContent = 'データがありません';
+        cell.className = 'empty-table-row';
+        cell.style.textAlign = 'center';
+        row.appendChild(cell);
+        sensorTbody.appendChild(row);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching sensor data:', error);
+      document.getElementById(`data-last-updated-${sensorId}`).textContent = 'データの取得に失敗しました';
+    });
 }
 
 /**
  * Refresh alert data for a specific sensor
  */
 function refreshAlertData(sensorId) {
-  const refreshButton = document.querySelector(`button[onclick="refreshAlertData('${sensorId}')"]`);
-  if (refreshButton) {
-    refreshButton.classList.add('refreshing');
-    
-    // Simulate refresh with animation
-    setTimeout(() => {
-      refreshButton.classList.remove('refreshing');
-    }, 1000);
-    
-    // Request fresh alert data from server
-    socket.emit('requestAlerts', { sensorId });
-  }
+  // Show loading indicator
+  document.getElementById(`alert-last-updated-${sensorId}`).textContent = '読み込み中...';
+  
+  // Fetch alert data from API
+  fetch(`/api/alerts/${sensorId}?limit=10`)
+    .then(response => response.json())
+    .then(data => {
+      // Update last updated timestamp
+      document.getElementById(`alert-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      
+      // Get the alert tbody element
+      const alertTbody = document.getElementById(`alert-tbody-${sensorId}`);
+      
+      // Clear existing rows
+      alertTbody.innerHTML = '';
+      
+      // Check if there are any alerts
+      if (data && data.length > 0) {
+        // Loop through alerts and add rows
+        data.forEach(alert => {
+          const row = document.createElement('tr');
+          row.className = 'alert-row';
+          
+          const dateCell = document.createElement('td');
+          dateCell.textContent = alert.date || formatDate(new Date(alert.timestamp));
+          
+          const timeCell = document.createElement('td');
+          timeCell.textContent = alert.time || formatTime(new Date(alert.timestamp));
+          
+          const messageCell = document.createElement('td');
+          messageCell.textContent = alert.message;
+          
+          row.appendChild(dateCell);
+          row.appendChild(timeCell);
+          row.appendChild(messageCell);
+          
+          alertTbody.appendChild(row);
+        });
+      } else {
+        // If no alerts, show a message
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 3;
+        cell.textContent = 'アラートはありません';
+        cell.className = 'empty-table-row';
+        cell.style.textAlign = 'center';
+        row.appendChild(cell);
+        alertTbody.appendChild(row);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching alert data:', error);
+      document.getElementById(`alert-last-updated-${sensorId}`).textContent = 'データの取得に失敗しました';
+    });
+}
+
+// Helper function to format date
+function formatDate(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+// Helper function to format time
+function formatTime(date) {
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
 }
 
 /**

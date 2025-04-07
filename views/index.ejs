@@ -57,14 +57,10 @@
             <div class="sensor-data-section">
               <div class="section-controls">
                 <h3>取得データ履歴 <span class="data-count">(最新<%= readings.length %>件)</span></h3>
-                <div class="controls-right">
-                  <span class="last-updated" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
-                  <span id="realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                    <span class="realtime-dot"></span>
-                    <span class="realtime-text">リアルタイム</span>
-                  </span>
-                  <button class="refresh-btn" onclick="refreshData('<%= sensorId %>')">
-                    <span class="refresh-icon">🔄</span>
+                <div class="info-controls">
+                  <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
+                  <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
+                    <span class="material-icons-round">refresh</span>
                   </button>
                 </div>
               </div>
@@ -74,22 +70,9 @@
                     <tr>
                       <th>年月日</th>
                       <th>時刻</th>
-                      <th>1</th>
-                      <th>2</th>
-                      <th>3</th>
-                      <th>4</th>
-                      <th>5</th>
-                      <th>6</th>
-                      <th>7</th>
-                      <th>8</th>
-                      <th>9</th>
-                      <th>10</th>
-                      <th>11</th>
-                      <th>12</th>
-                      <th>13</th>
-                      <th>14</th>
-                      <th>15</th>
-                      <th>16</th>
+                      <% for (let i = 1; i <= 16; i++) { %>
+                        <th><%= i %></th>
+                      <% } %>
                       <th>平均温度</th>
                       <th>状態</th>
                     </tr>
@@ -127,14 +110,10 @@
             <!-- Alert History -->
             <div class="section-header history-section-header">
               <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
-              <div class="controls-right">
-                <span class="last-updated" id="alert-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <span id="alert-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshAlertData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -175,14 +154,10 @@
             <!-- Settings History -->
             <div class="section-header history-section-header">
               <h3>設定変更履歴</h3>
-              <div class="controls-right">
-                <span class="last-updated" id="settings-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <span id="settings-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshSettingsData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -219,14 +194,10 @@
             <!-- Personality History -->
             <div class="section-header history-section-header">
               <h3>個性（バイアス）履歴</h3>
-              <div class="controls-right">
-                <span class="last-updated" id="personality-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <span id="personality-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshPersonalityData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -274,14 +245,10 @@
             <div class="sensor-data-section">
               <div class="section-controls">
                 <h3>取得データ履歴 <span class="data-count">(データなし)</span></h3>
-                <div class="controls-right">
-                  <span class="last-updated" id="data-last-updated-<%= sensorId %>">最終更新: --</span>
-                  <span id="realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                    <span class="realtime-dot"></span>
-                    <span class="realtime-text">リアルタイム</span>
-                  </span>
-                  <button class="refresh-btn" onclick="refreshData('<%= sensorId %>')">
-                    <span class="refresh-icon">🔄</span>
+                <div class="info-controls">
+                  <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: --</span>
+                  <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
+                    <span class="material-icons-round">refresh</span>
                   </button>
                 </div>
               </div>
@@ -291,22 +258,9 @@
                     <tr>
                       <th>年月日</th>
                       <th>時刻</th>
-                      <th>1</th>
-                      <th>2</th>
-                      <th>3</th>
-                      <th>4</th>
-                      <th>5</th>
-                      <th>6</th>
-                      <th>7</th>
-                      <th>8</th>
-                      <th>9</th>
-                      <th>10</th>
-                      <th>11</th>
-                      <th>12</th>
-                      <th>13</th>
-                      <th>14</th>
-                      <th>15</th>
-                      <th>16</th>
+                      <% for (let i = 1; i <= 16; i++) { %>
+                        <th><%= i %></th>
+                      <% } %>
                       <th>平均温度</th>
                       <th>状態</th>
                     </tr>
@@ -323,14 +277,10 @@
             <!-- Empty Alert History -->
             <div class="section-header history-section-header">
               <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
-              <div class="controls-right">
-                <span class="last-updated" id="alert-last-updated-<%= sensorId %>">最終更新: --</span>
-                <span id="alert-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshAlertData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: --</span>
+                <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -354,14 +304,10 @@
             <!-- Empty Settings History -->
             <div class="section-header history-section-header">
               <h3>設定変更履歴</h3>
-              <div class="controls-right">
-                <span class="last-updated" id="settings-last-updated-<%= sensorId %>">最終更新: --</span>
-                <span id="settings-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshSettingsData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: --</span>
+                <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -385,14 +331,10 @@
             <!-- Empty Personality History -->
             <div class="section-header history-section-header">
               <h3>個性（バイアス）履歴</h3>
-              <div class="controls-right">
-                <span class="last-updated" id="personality-last-updated-<%= sensorId %>">最終更新: --</span>
-                <span id="personality-realtime-indicator-<%= sensorId %>" class="realtime-indicator">
-                  <span class="realtime-dot"></span>
-                  <span class="realtime-text">リアルタイム</span>
-                </span>
-                <button class="refresh-btn" onclick="refreshPersonalityData('<%= sensorId %>')">
-                  <span class="refresh-icon">🔄</span>
+              <div class="info-controls">
+                <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: --</span>
+                <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
@@ -682,9 +624,30 @@
   </div>
 </div>
 
-<!-- Connection Status -->
-<div id="connectionStatus" class="connection-status connected">
-  サーバーに接続中
+<!-- Connection status with enhanced UI design -->
+<div id="connectionStatus" class="connection-status-container">
+  <div class="info-card">
+    <div class="info-card-header">
+      <h3 class="info-card-title">
+        <span class="info-card-icon">
+          <span class="material-icons-round">cloud</span>
+        </span>
+        接続状態
+      </h3>
+      <div class="info-controls">
+        <span class="info-timestamp" id="connection-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
+      </div>
+    </div>
+    <div class="info-card-content">
+      <div class="status-item">
+        <h4 class="status-item-label">サーバー接続</h4>
+        <div class="status-item-value" id="connectionStatusValue">
+          <span class="status-indicator status-connected"></span>
+          <span>接続中</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- JavaScript -->

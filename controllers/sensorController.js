@@ -11,7 +11,7 @@ import logger from '../utils/logger.js';
  */
 export const processSensorData = async (req, res, io) => {
   try {
-    // logger.info(`Received data: ${JSON.stringify(req.body)}`);
+    logger.info(`Received data: ${JSON.stringify(req.body)}`);
     
     // Validate that the required fields exist
     const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
@@ -88,6 +88,7 @@ export const getLatestSensorData = async (req, res) => {
     
     // Render the index page with the data
     res.render('index', { 
+      title: '温度センサー監視システム',
       latestReadings: {
         data: latestReadings,
         alerts: latestAlerts
@@ -96,6 +97,7 @@ export const getLatestSensorData = async (req, res) => {
   } catch (error) {
     logger.error('Error fetching sensor data:', error);
     res.status(500).render('error', { 
+      title: 'エラー | 温度センサー監視システム',
       message: 'Failed to fetch sensor data', 
       error 
     });
@@ -124,5 +126,41 @@ export const sendInitialData = async (socket) => {
     });
   } catch (error) {
     logger.error('Error sending initial data:', error);
+  }
+};
+
+/**
+ * Get alert history for a specific sensor (max 10 latest)
+ */
+export const getAlertHistory = async (req, res) => {
+  try {
+    const { sensorId } = req.params;
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 if not specified
+    
+    // Fetch the latest alerts for this sensor, sorted by timestamp (newest first)
+    const alerts = await Alert.find({ sensorId })
+      .sort({ timestamp: -1 })
+      .limit(limit)
+      .exec();
+    
+    // Format alerts for display
+    const formattedAlerts = alerts.map(alert => {
+      const timestamp = new Date(alert.timestamp);
+      return {
+        date: timestamp.toISOString().split('T')[0], // YYYY-MM-DD format
+        time: timestamp.toTimeString().split(' ')[0], // HH:MM:SS format
+        timestamp: alert.timestamp,
+        sensorId: alert.sensorId,
+        message: alert.message,
+        temperatureValue: alert.temperatureValue,
+        severity: alert.severity || 'medium'
+      };
+    });
+    
+    // Return alert data
+    res.json(formattedAlerts);
+  } catch (error) {
+    logger.error('Error fetching alert history:', error);
+    res.status(500).json({ error: 'Error fetching alert history' });
   }
 };
