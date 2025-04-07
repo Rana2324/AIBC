@@ -313,7 +313,7 @@
                   </thead>
                   <tbody id="tbody-<%= sensorId %>">
                     <tr class="empty-row">
-                      <td colspan="20" class="text-center">データがありません</td>
+                      <td colspan="20" class="text-center">センサーが未接続のため、データが取得できません。</td>
                     </tr>
                   </tbody>
                 </table>
@@ -423,154 +423,257 @@
 
     <!-- Server Tab Content -->
     <div id="serverTab" class="tab-content">
-      <h2 class="server-title">サーバー情報</h2>
-      
-      <div class="server-stats">
-        <!-- System Status Card -->
-        <div class="stat-card system-status">
-          <div class="stat-header">
-            <h3 class="stat-title">
-              <span class="stat-icon">⚡</span>
-              システム状態
-            </h3>
-            <div class="controls-right">
-              <span class="last-updated">最終更新: <%= new Date().toLocaleString() %></span>
-              <span class="realtime-indicator">
-                <span class="realtime-dot"></span>
-                <span class="realtime-text">リアルタイム</span>
-              </span>
-              <button class="refresh-btn">
-                <span class="refresh-icon">🔄</span>
-              </button>
-            </div>
-          </div>
-          <div class="stat-content">
-            <table class="data-table status-table">
-              <tr>
-                <th>MongoDB接続状態</th>
-                <td class="status-connected">接続中</td>
-              </tr>
-              <tr>
-                <th>センサー数</th>
-                <td>3</td>
-              </tr>
-              <tr>
-                <th>アクティブセンサー</th>
-                <td><%= locals.latestReadings && locals.latestReadings.data ? 
-                  [...new Set(locals.latestReadings.data.map(r => r.sensorId))].length : 0 %></td>
-              </tr>
-              <tr>
-                <th>最終データ受信</th>
-                <td><%= locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0 ? 
-                  new Date(locals.latestReadings.data[0].timestamp).toLocaleString() : '未受信' %></td>
-              </tr>
-            </table>
+      <div class="server-info-container">
+        <div class="server-info-header">
+          <div>
+            <h2 class="server-info-title">
+              <span class="server-info-title-icon material-icons-round">dns</span>
+              サーバー情報
+            </h2>
+            <p class="server-info-description">システムの状態、モデル学習の進捗、およびブロックチェーン/IPFSの格納情報</p>
           </div>
         </div>
 
-        <!-- Personality Comparison History Card -->
-        <div class="stat-card personality-comparison">
-          <div class="stat-header">
-            <h3 class="stat-title">
-              <span class="stat-icon">🧠</span>
-              個性比較履歴
-            </h3>
-            <div class="controls-right">
-              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
-              <span class="realtime-indicator">
-                <span class="realtime-dot"></span>
-                <span class="realtime-text">リアルタイム</span>
-              </span>
-              <button class="refresh-btn">
-                <span class="refresh-icon">🔄</span>
-              </button>
+        <div class="server-info-grid">
+          <!-- System Status Card -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <h3 class="info-card-title">
+                <span class="info-card-icon material-icons-round">monitor_heart</span>
+                システム状態
+              </h3>
+              <div class="info-controls">
+                <span class="info-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshSystemStatus()">
+                  <span class="material-icons-round">refresh</span>
+                </button>
+              </div>
+            </div>
+            <div class="info-card-content">
+              <div class="status-grid">
+                <div class="status-item">
+                  <p class="status-item-label">MongoDB接続状態</p>
+                  <div class="status-item-value">
+                    <span class="status-indicator status-connected"></span>
+                    <span>接続中</span>
+                  </div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">アクティブセンサー</p>
+                  <div class="status-item-value">3/5</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">CPU使用率</p>
+                  <div class="status-item-value">23%</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">メモリ使用率</p>
+                  <div class="status-item-value">45%</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">ディスク使用率</p>
+                  <div class="status-item-value">38%</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">サーバー稼働時間</p>
+                  <div class="status-item-value">6時間 28分</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="stat-content">
-            <div class="description-text">
-              <small>個性: １０秒間(４０点データ)で判断される標準モデルとの差異</small>
+
+          <!-- Personality Comparison Card -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <h3 class="info-card-title">
+                <span class="info-card-icon material-icons-round">psychology</span>
+                個性比較履歴
+              </h3>
+              <div class="info-controls">
+                <span class="info-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshPersonalityComparisonData()">
+                  <span class="material-icons-round">refresh</span>
+                </button>
+              </div>
             </div>
-            <div class="table-wrapper">
-              <table class="data-table status-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>センサーID</th>
-                    <th>差異値</th>
-                    <th>AIの出力</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
-                    <% const reading = locals.latestReadings.data[0]; %>
+            <div class="info-card-content">
+              <div class="table-container">
+                <table class="info-table">
+                  <thead>
                     <tr>
-                      <td><%= reading.date %></td>
-                      <td><%= reading.time %></td>
-                      <td><%= reading.sensorId %></td>
-                      <td><%= (Math.random() * 2).toFixed(2) %></td>
+                      <th>日付</th>
+                      <th>時刻</th>
+                      <th>センサーID</th>
+                      <th>差異値</th>
+                      <th>評価</th>
+                      <th>特徴パターン</th>
+                      <th>変動傾向</th>
+                    </tr>
+                  </thead>
+                  <tbody id="personality-comparison-tbody">
+                    <tr>
+                      <td>2025-04-07</td>
+                      <td>10:25:30</td>
+                      <td>sensor_1</td>
+                      <td>0.85</td>
                       <td>通常範囲内の個性</td>
+                      <td>規則的変動</td>
+                      <td>安定</td>
                     </tr>
-                  <% } else { %>
                     <tr>
-                      <td colspan="5" class="text-center">データなし</td>
+                      <td>2025-04-07</td>
+                      <td>09:15:22</td>
+                      <td>sensor_2</td>
+                      <td>1.75</td>
+                      <td>注意: 高い個性</td>
+                      <td>不規則変動</td>
+                      <td>上昇傾向</td>
                     </tr>
-                  <% } %>
-                </tbody>
-              </table>
+                    <tr>
+                      <td>2025-04-06</td>
+                      <td>18:45:12</td>
+                      <td>sensor_3</td>
+                      <td>1.25</td>
+                      <td>通常範囲内の個性</td>
+                      <td>周期的変動</td>
+                      <td>緩やかな上昇</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Blockchain/IPFS Storage History Card -->
-        <div class="stat-card blockchain-ipfs">
-          <div class="stat-header">
-            <h3 class="stat-title">
-              <span class="stat-icon">🔗</span>
-              ブロックチェーン/IPFS格納履歴
-            </h3>
-            <div class="controls-right">
-              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
-              <span class="realtime-indicator">
-                <span class="realtime-dot"></span>
-                <span class="realtime-text">リアルタイム</span>
-              </span>
-              <button class="refresh-btn">
-                <span class="refresh-icon">🔄</span>
-              </button>
+          <!-- Blockchain/IPFS Storage Card -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <h3 class="info-card-title">
+                <span class="info-card-icon material-icons-round">storage</span>
+                ブロックチェーン/IPFS格納履歴
+              </h3>
+              <div class="info-controls">
+                <span class="info-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshBlockchainData()">
+                  <span class="material-icons-round">refresh</span>
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="stat-content">
-            <div class="table-wrapper">
-              <table class="data-table status-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>モデルID</th>
-                    <th>IPFS CID</th>
-                    <th>ブロックチェーンTX</th>
-                    <th>ステータス</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
-                    <% const reading = locals.latestReadings.data[0]; %>
+            <div class="info-card-content">
+              <div class="table-container">
+                <table class="info-table">
+                  <thead>
                     <tr>
-                      <td><%= reading.date %></td>
-                      <td><%= reading.time %></td>
+                      <th>日付</th>
+                      <th>時刻</th>
+                      <th>モデルID</th>
+                      <th>センサーID</th>
+                      <th>IPFS CID</th>
+                      <th>ブロックチェーンTX</th>
+                      <th>ステータス</th>
+                    </tr>
+                  </thead>
+                  <tbody id="blockchain-ipfs-tbody">
+                    <tr>
+                      <td>2025-04-07</td>
+                      <td>11:05:35</td>
                       <td>model_001</td>
-                      <td class="ipfs-cid"><a href="#" target="_blank">QmXyZ1234...</a></td>
-                      <td class="blockchain-tx"><a href="#" target="_blank">0xAbc123...</a></td>
+                      <td>sensor_1</td>
+                      <td>QmABC123...</td>
+                      <td>0xDef456...</td>
                       <td class="status-completed">完了</td>
                     </tr>
-                  <% } else { %>
                     <tr>
-                      <td colspan="6" class="text-center">データなし</td>
+                      <td>2025-04-07</td>
+                      <td>10:30:22</td>
+                      <td>model_002</td>
+                      <td>sensor_2</td>
+                      <td>QmDEF456...</td>
+                      <td>0xGhi789...</td>
+                      <td class="status-pending">処理中</td>
                     </tr>
-                  <% } %>
-                </tbody>
-              </table>
+                    <tr>
+                      <td>2025-04-06</td>
+                      <td>19:25:12</td>
+                      <td>model_003</td>
+                      <td>sensor_3</td>
+                      <td>QmGHI789...</td>
+                      <td>0xJkl012...</td>
+                      <td class="status-completed">完了</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Model Training Card -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <h3 class="info-card-title">
+                <span class="info-card-icon material-icons-round">model_training</span>
+                標準モデルをデータで教育してアップデート
+              </h3>
+              <div class="info-controls">
+                <span class="info-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshModelTrainingData()">
+                  <span class="material-icons-round">refresh</span>
+                </button>
+              </div>
+            </div>
+            <div class="info-card-content">
+              
+              
+              <div class="status-grid">
+                <div class="status-item">
+                  <p class="status-item-label">データポイント</p>
+                  <div class="status-item-value">12,458</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">学習エポック</p>
+                  <div class="status-item-value">35/50</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">推定残り時間</p>
+                  <div class="status-item-value">00:15:32</div>
+                </div>
+                <div class="status-item">
+                  <p class="status-item-label">モデル精度</p>
+                  <div class="status-item-value">94.8%</div>
+                </div>
+              </div>
+              
+              <div class="table-container">
+                <table class="info-table">
+                  <thead>
+                    <tr>
+                      <th>日付</th>
+                      <th>バージョン</th>
+                      <th>精度</th>
+                      <th>損失</th>
+                      <th>データポイント</th>
+                      <th>所要時間</th>
+                    </tr>
+                  </thead>
+                  <tbody id="model-training-tbody">
+                    <tr>
+                      <td>2025-04-06</td>
+                      <td>v1.2.5</td>
+                      <td>93.5%</td>
+                      <td>0.12</td>
+                      <td>10,234</td>
+                      <td>01:25:13</td>
+                    </tr>
+                    <tr>
+                      <td>2025-04-04</td>
+                      <td>v1.2.4</td>
+                      <td>92.8%</td>
+                      <td>0.15</td>
+                      <td>9,845</td>
+                      <td>01:20:45</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

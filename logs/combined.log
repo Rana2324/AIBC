@@ -307,3 +307,15 @@
 {"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:33:29"}
 {"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:34:19"}
 {"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:34:19"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:11:10"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:11:10"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:11:18"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:11:18"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:22:53"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:22:53"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:23:21"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:23:21"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:27:14"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:27:14"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 14:27:36"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 14:27:36"}

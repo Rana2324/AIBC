@@ -769,7 +769,7 @@ body {
 }
 
 .alert-row {
-  /* background-color: var(--alert-light) !important; */
+  background-color: var(--alert-light) !important;
 }
 
 .alert-recovery {
