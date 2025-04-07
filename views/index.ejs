@@ -313,7 +313,7 @@
                   </thead>
                   <tbody id="tbody-<%= sensorId %>">
                     <tr class="empty-row">
-                      <td colspan="20" class="text-center">最新データがありません。センサーの接続を確認してください。</td>
+                      <td colspan="20" class="text-center">データがありません</td>
                     </tr>
                   </tbody>
                 </table>
@@ -345,12 +345,11 @@
                 </thead>
                 <tbody id="alert-tbody-<%= sensorId %>">
                   <tr>
-                    <td colspan="3" class="text-center">アラート情報はありません</td>
+                    <td colspan="3" class="text-center">アラートはありません</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-             <!-- Alert History -->
             
             <!-- Empty Settings History -->
             <div class="section-header history-section-header">
@@ -377,7 +376,7 @@
                 </thead>
                 <tbody id="settings-<%= sensorId %>">
                   <tr>
-                    <td colspan="3" class="text-center">設定変更履歴は現在ありません。</td>
+                    <td colspan="3" class="text-center">設定変更履歴はありません</td>
                   </tr>
                 </tbody>
               </table>
@@ -408,7 +407,7 @@
                 </thead>
                 <tbody id="personality-<%= sensorId %>">
                   <tr>
-                    <td colspan="3" class="text-center">個性（バイアス）の履歴データはまだありません。</td>
+                    <td colspan="3" class="text-center">バイアス設定履歴はありません</td>
                   </tr>
                 </tbody>
               </table>
@@ -440,7 +439,7 @@
                 <span class="realtime-dot"></span>
                 <span class="realtime-text">リアルタイム</span>
               </span>
-              <button class="refresh-btn" onclick="refreshSystemStatus()">
+              <button class="refresh-btn">
                 <span class="refresh-icon">🔄</span>
               </button>
             </div>
@@ -450,92 +449,22 @@
               <tr>
                 <th>MongoDB接続状態</th>
                 <td class="status-connected">接続中</td>
+              </tr>
+              <tr>
                 <th>センサー数</th>
                 <td>3</td>
+              </tr>
+              <tr>
                 <th>アクティブセンサー</th>
                 <td><%= locals.latestReadings && locals.latestReadings.data ? 
                   [...new Set(locals.latestReadings.data.map(r => r.sensorId))].length : 0 %></td>
+              </tr>
+              <tr>
                 <th>最終データ受信</th>
                 <td><%= locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0 ? 
                   new Date(locals.latestReadings.data[0].timestamp).toLocaleString() : '未受信' %></td>
               </tr>
             </table>
-          </div>
-        </div>
-
-        <!-- NEW: Standard Model Education and Update History Card -->
-        <div class="stat-card model-update-education">
-          <div class="stat-header">
-            <h3 class="stat-title">
-              <span class="stat-icon">🤖</span>
-              標準モデルをデータで教育してアップデート
-            </h3>
-            <div class="controls-right">
-              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
-              <span class="realtime-indicator">
-                <span class="realtime-dot"></span>
-                <span class="realtime-text">リアルタイム</span>
-              </span>
-              <button class="refresh-btn" onclick="refreshModelEducation()">
-                <span class="refresh-icon">🔄</span>
-              </button>
-            </div>
-          </div>
-          <div class="stat-content">
-            <div class="description-text">
-              <small>※ AI モデルの教育とアップデート履歴 最新10件表示</small>
-            </div>
-            <div class="table-wrapper">
-              <table class="data-table status-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>モデルID</th>
-                    <th>教育データ量</th>
-                    <th>進捗</th>
-                    <th>精度</th>
-                    <th>ステータス</th>
-                  </tr>
-                </thead>
-                <tbody id="model-education-tbody">
-                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
-                    <% const reading = locals.latestReadings.data[0]; %>
-                    <% 
-                      // Sample model education data
-                      const modelIds = ['SEN-MDL-2025-04-07-T1', 'SEN-MDL-2025-04-06-T2', 'SEN-MDL-2025-04-05-T1', 'SEN-MDL-2025-04-04-T3'];
-                      const dataSizes = ['1.2 GB', '980 MB', '1.5 GB', '750 MB'];
-                      const progresses = ['100%', '100%', '100%', '100%'];
-                      const accuracies = ['99.2%', '98.7%', '98.1%', '97.5%'];
-                      const statuses = ['完了', '完了', '完了', '完了'];
-                      
-                      for(let i = 0; i < 4; i++) {
-                        const date = new Date();
-                        date.setDate(date.getDate() - i);
-                        const displayDate = date.toLocaleDateString();
-                        const displayTime = date.toLocaleTimeString();
-                        const progressValue = progresses[i].replace('%', '');
-                    %>
-                      <tr>
-                        <td><%= displayDate %></td>
-                        <td><%= displayTime %></td>
-                        <td><span class="model-id"><%= modelIds[i] %></span></td>
-                        <td><%= dataSizes[i] %></td>
-                        <td>
-                          <div class="model-education-progress" style="--progress: <%= progresses[i] %>;" data-progress="<%= progresses[i] %>"></div>
-                        </td>
-                        <td class="model-accuracy"><%= accuracies[i] %></td>
-                        <td class="status-completed"><%= statuses[i] %></td>
-                      </tr>
-                    <% } %>
-                  <% } else { %>
-                    <tr>
-                      <td colspan="7" class="text-center">データなし</td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
 
@@ -552,7 +481,7 @@
                 <span class="realtime-dot"></span>
                 <span class="realtime-text">リアルタイム</span>
               </span>
-              <button class="refresh-btn" onclick="refreshPersonalityComparison()">
+              <button class="refresh-btn">
                 <span class="refresh-icon">🔄</span>
               </button>
             </div>
@@ -568,35 +497,23 @@
                     <th>日付</th>
                     <th>時刻</th>
                     <th>センサーID</th>
-                    <th>モデルID</th>
                     <th>差異値</th>
                     <th>AIの出力</th>
                   </tr>
                 </thead>
-                <tbody id="personality-comparison-tbody">
+                <tbody>
                   <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
-                    <% 
-                      const sensorIds = ['sensor_1', 'sensor_2', 'sensor_3'];
-                      const modelIds = ['SEN-MDL-2025-04-07-T1', 'SEN-MDL-2025-04-06-T2', 'SEN-MDL-2025-04-05-T1'];
-                      const dates = ['2025-04-07', '2025-04-07', '2025-04-06'];
-                      const times = ['14:30:00', '13:45:20', '18:22:15'];
-                      
-                      for(let i = 0; i < 3; i++) {
-                        const variance = (Math.random() * 2).toFixed(2);
-                        const aiOutput = variance < 1 ? '通常範囲内の個性' : '個性的なデータパターンを検出';
-                    %>
-                      <tr>
-                        <td><%= dates[i] %></td>
-                        <td><%= times[i] %></td>
-                        <td><%= sensorIds[i] %></td>
-                        <td><span class="model-id"><%= modelIds[i] %></span></td>
-                        <td><%= variance %></td>
-                        <td><%= aiOutput %></td>
-                      </tr>
-                    <% } %>
+                    <% const reading = locals.latestReadings.data[0]; %>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= reading.time %></td>
+                      <td><%= reading.sensorId %></td>
+                      <td><%= (Math.random() * 2).toFixed(2) %></td>
+                      <td>通常範囲内の個性</td>
+                    </tr>
                   <% } else { %>
                     <tr>
-                      <td colspan="6" class="text-center">データなし</td>
+                      <td colspan="5" class="text-center">データなし</td>
                     </tr>
                   <% } %>
                 </tbody>
@@ -618,7 +535,7 @@
                 <span class="realtime-dot"></span>
                 <span class="realtime-text">リアルタイム</span>
               </span>
-              <button class="refresh-btn" onclick="refreshBlockchainData()">
+              <button class="refresh-btn">
                 <span class="refresh-icon">🔄</span>
               </button>
             </div>
@@ -636,26 +553,17 @@
                     <th>ステータス</th>
                   </tr>
                 </thead>
-                <tbody id="blockchain-ipfs-tbody">
+                <tbody>
                   <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
-                    <% 
-                      const modelIds = ['SEN-MDL-2025-04-07-T1', 'SEN-MDL-2025-04-06-T2', 'SEN-MDL-2025-04-05-T1'];
-                      const ipfsCids = ['QmXyZ1234...', 'QmUvW5678...', 'QmPqR9012...'];
-                      const bcTxs = ['0xAbc123...', '0xDef456...', '0xGhi789...'];
-                      const dates = ['2025-04-07', '2025-04-06', '2025-04-05'];
-                      const times = ['15:30:00', '16:45:20', '09:22:15'];
-                      
-                      for(let i = 0; i < 3; i++) {
-                    %>
-                      <tr>
-                        <td><%= dates[i] %></td>
-                        <td><%= times[i] %></td>
-                        <td><span class="model-id"><%= modelIds[i] %></span></td>
-                        <td class="ipfs-cid"><a href="#" target="_blank"><%= ipfsCids[i] %></a></td>
-                        <td class="blockchain-tx"><a href="#" target="_blank"><%= bcTxs[i] %></a></td>
-                        <td class="status-completed">完了</td>
-                      </tr>
-                    <% } %>
+                    <% const reading = locals.latestReadings.data[0]; %>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= reading.time %></td>
+                      <td>model_001</td>
+                      <td class="ipfs-cid"><a href="#" target="_blank">QmXyZ1234...</a></td>
+                      <td class="blockchain-tx"><a href="#" target="_blank">0xAbc123...</a></td>
+                      <td class="status-completed">完了</td>
+                    </tr>
                   <% } else { %>
                     <tr>
                       <td colspan="6" class="text-center">データなし</td>

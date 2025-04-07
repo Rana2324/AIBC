@@ -4,7 +4,8 @@
  */
 
 // Global variables
-const socket = io();
+// Check if socket already exists, otherwise create it
+const socket = window.socket || io();
 let isConnected = true;
 const INACTIVE_MESSAGES = {
   data: "センサーが未接続のため、データが取得できません。",
@@ -13,30 +14,8 @@ const INACTIVE_MESSAGES = {
   personality: "個性（バイアス）の履歴データは表示できません。"
 };
 
-/**
- * Client-side logger utility that can send important logs to the server
- */
-const clientLogger = {
-  debug: (message, ...args) => {
-    if (window.debug) {
-      console.debug(`[DEBUG] ${message}`, ...args);
-    }
-  },
-  info: (message, ...args) => {
-    console.info(`[INFO] ${message}`, ...args);
-    // For important info logs, we could send them to the server
-    // socket.emit('clientLog', { level: 'info', message, args });
-  },
-  warn: (message, ...args) => {
-    console.warn(`[WARN] ${message}`, ...args);
-    // socket.emit('clientLog', { level: 'warn', message, args });
-  },
-  error: (message, ...args) => {
-    console.error(`[ERROR] ${message}`, ...args);
-    // Send error logs to the server for monitoring
-    socket.emit('clientLog', { level: 'error', message, args: JSON.stringify(args) });
-  }
-};
+// Make socket globally available for logger
+window.socket = socket;
 
 /**
  * Store and retrieve active tab information to/from localStorage
@@ -63,7 +42,7 @@ function getActiveTab() {
  * Initialize the application when the DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-  clientLogger.info('Initializing temperature sensor monitoring system...');
+  logger.info('Initializing temperature sensor monitoring system...');
   
   // Load the user's last active tab from localStorage
   const activeTabId = getActiveTab();
@@ -85,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setupSocketListeners();
   
   // Log connection status
-  clientLogger.info('Socket.io initialized, waiting for connection...');
+  logger.info('Socket.io initialized, waiting for connection...');
 });
 
 /**
@@ -94,18 +73,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupSocketListeners() {
   // Connection events
   socket.on('connect', function() {
-    clientLogger.info('Connected to server');
+    logger.info('Connected to server');
     updateConnectionStatus(true);
   });
 
   socket.on('disconnect', function() {
-    clientLogger.warn('Disconnected from server');
+    logger.warn('Disconnected from server');
     updateConnectionStatus(false);
   });
   
   // Initial data load
   socket.on('initialData', function(data) {
-    clientLogger.info('Received initial data');
+    logger.info('Received initial data');
     if (data.sensorData && Array.isArray(data.sensorData)) {
       data.sensorData.forEach(sensorData => {
         updateSensorData(sensorData);
@@ -121,12 +100,14 @@ function setupSocketListeners() {
 
   // Real-time data updates
   socket.on('newSensorData', function(data) {
-    clientLogger.info('Received new sensor data:', data);
+    logger.info('Received new sensor data');
+    logger.debug('Sensor data details:', data);
     updateSensorData(data);
   });
 
   socket.on('newAlert', function(data) {
-    clientLogger.info('Received new alert:', data);
+    logger.info('Received new alert');
+    logger.debug('Alert details:', data);
     updateAlertData(data);
   });
 }
@@ -228,7 +209,7 @@ function updateSensorStatus(sensorId, status) {
       statusElement.className = 'sensor-status inactive';
       statusElement.textContent = '未接続';
       
-      console.log(`Sensor ${sensorId} is not connected, setting inactive messages`);
+      logger.info(`Sensor ${sensorId} is not connected, setting inactive messages`);
       
       // Set proper inactive messages for all sections
       setInactiveMessage(sensorId, 'data');

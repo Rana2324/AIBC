@@ -12,7 +12,6 @@ import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
-import logger from './utils/logger.js';
 
 // Import routes
 import apiRoutes from './routes/apiRoutes.js';
@@ -20,6 +19,8 @@ import viewRoutes from './routes/viewRoutes.js';
 
 // Import services
 import { initSocketService } from './services/socketService.js';
+
+import logger from './utils/logger.js';
 
 // Load environment variables
 dotenv.config();
@@ -83,7 +84,7 @@ server.listen(PORT, () => {
 import TemperatureSensor from './models/temperatureSensor.js';
 import Alert from './models/alert.js';
 
-// API Routes
+// API Routes for direct data access
 // データを受け取るエンドポイント
 app.post('/api/data', async (req, res) => {
   try {
@@ -168,57 +169,6 @@ app.get('/api/data/:sensorId', async (req, res) => {
   } catch (error) {
     logger.error('Error retrieving sensor data:', error);
     res.status(500).json({ message: 'Error retrieving sensor data', error: error.message });
-  }
-});
-
-// Web routes
-app.get('/', async (req, res) => {
-  try {
-    // Fetch the latest sensor readings from MongoDB (100 records as requested)
-    const latestReadings = await TemperatureSensor.find()
-      .sort({ created_at: -1 })
-      .limit(100);
-
-    // Format data for the view
-    const formattedData = latestReadings.map(reading => ({
-      sensorId: reading.sensor_id,
-      date: reading.date,
-      time: reading.time,
-      temperature: reading.average_temp,
-      temperatureData: reading.temperature_data,
-      status: reading.status,
-      timestamp: reading.created_at
-    }));
-
-    // Fetch the latest 10 alerts from MongoDB
-    const latestAlerts = await Alert.find()
-      .sort({ created_at: -1 })
-      .limit(10);
-      
-    // Format alerts for the view
-    const formattedAlerts = latestAlerts.map(alert => ({
-      sensorId: alert.sensor_id,
-      date: alert.date,
-      time: alert.time,
-      message: alert.alert_reason,
-      severity: 'high',
-      timestamp: alert.created_at
-    }));
-
-    // Render the view with data
-    res.render('index', {
-      title: '温度センサー監視システム',
-      latestReadings: {
-        data: formattedData,
-        alerts: formattedAlerts
-      }
-    });
-  } catch (error) {
-    logger.error('Error fetching data for view:', error);
-    res.status(500).render('index', {
-      title: '温度センサー監視システム',
-      error: 'データの取得中にエラーが発生しました'
-    });
   }
 });
 

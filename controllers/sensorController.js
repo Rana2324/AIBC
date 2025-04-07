@@ -4,13 +4,14 @@
  */
 import TemperatureSensor from '../models/temperatureSensor.js';
 import Alert from '../models/alert.js';
+import logger from '../utils/logger.js';
 
 /**
  * Process and save incoming sensor data
  */
 export const processSensorData = async (req, res, io) => {
   try {
-    console.log(`Received data: ${JSON.stringify(req.body)}`);
+    // logger.info(`Received data: ${JSON.stringify(req.body)}`);
     
     // Validate that the required fields exist
     const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
@@ -65,7 +66,7 @@ export const processSensorData = async (req, res, io) => {
     
     res.status(201).json({ message: 'Data received and stored successfully' });
   } catch (error) {
-    console.error('Error processing sensor data:', error);
+    logger.error('Error processing sensor data:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -93,7 +94,7 @@ export const getLatestSensorData = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching sensor data:', error);
+    logger.error('Error fetching sensor data:', error);
     res.status(500).render('error', { 
       message: 'Failed to fetch sensor data', 
       error 
@@ -122,6 +123,6 @@ export const sendInitialData = async (socket) => {
       alerts: latestAlerts
     });
   } catch (error) {
-    console.error('Error sending initial data:', error);
+    logger.error('Error sending initial data:', error);
   }
 };

@@ -1,0 +1,53 @@
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:10:44"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:10:44"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:11:24"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:11:24"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:11:29"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:11:29"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:11:31"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:11:31"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:11:34"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:11:34"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:12:14"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:12:14"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:12:41"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:12:41"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:13:12"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:13:12"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:17:20"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:17:20"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:17:23"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:17:23"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:17:28"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:20:35"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:20:35"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:20:36"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:20:36"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:20:44"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:20:44"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:20:45"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:20:45"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:21:10"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:21:10"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:21:11"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:21:11"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:21:40"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:21:40"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:21:41"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:21:41"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","timestamp":"2025-04-07 13:21:46"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:21:47"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:22:13"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:22:13"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:22:14"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:14"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:22:16"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:22:16"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-07 13:22:18"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-07 13:22:18"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:22:18"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:18"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:22:26"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:26"}
+{"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:22:33"}
+{"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:33"}

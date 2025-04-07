@@ -57,7 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => logger.info('MongoDB connected successfully'))
+  .then(() => logger.log('MongoDB connected successfully'))
   .catch(err => logger.error('MongoDB connection error:', err));
 
 // Set up Socket.io
