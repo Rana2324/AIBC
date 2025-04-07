@@ -6,6 +6,12 @@
 // Global variables
 const socket = io();
 let isConnected = true;
+const INACTIVE_MESSAGES = {
+  data: "現在、センサーからのデータが取得できません。",
+  alert: "アラート情報はありません。",
+  settings: "設定変更履歴は現在ありません。",
+  personality: "個性（バイアス）の履歴データはまだありません。"
+};
 
 /**
  * Initialize the application when the DOM is loaded
@@ -13,12 +19,26 @@ let isConnected = true;
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Initializing temperature sensor monitoring system...');
   
-  // Set the first tab as active by default
-  const defaultTabBtn = document.getElementById('sensorTabBtn');
-  if (defaultTabBtn) {
-    defaultTabBtn.classList.add('active');
-    document.getElementById('sensorTab').classList.add('active');
+  // Get the last active tab from sessionStorage or default to sensor tab
+  const lastActiveTab = sessionStorage.getItem('activeTab') || 'sensorTab';
+  const lastActiveTabBtn = sessionStorage.getItem('activeTabBtn') || 'sensorTabBtn';
+  
+  // Set the remembered tab as active
+  const tabBtn = document.getElementById(lastActiveTabBtn);
+  if (tabBtn) {
+    tabBtn.classList.add('active');
+    document.getElementById(lastActiveTab).classList.add('active');
+  } else {
+    // Fallback to default tab if saved tab doesn't exist
+    const defaultTabBtn = document.getElementById('sensorTabBtn');
+    if (defaultTabBtn) {
+      defaultTabBtn.classList.add('active');
+      document.getElementById('sensorTab').classList.add('active');
+    }
   }
+
+  // Check for any sensors with inactive status and set proper messages
+  checkAndSetInactiveSensors();
 
   // Setup socket event listeners
   setupSocketListeners();
@@ -26,6 +46,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // Log connection status
   console.log('Socket.io initialized, waiting for connection...');
 });
+
+/**
+ * Check all sensors and set inactive messages for those with inactive status
+ */
+function checkAndSetInactiveSensors() {
+  // Find all sensor elements
+  const sensorElements = document.querySelectorAll('.sensor-data-section');
+  
+  sensorElements.forEach(sensorElement => {
+    // Get the sensor ID from the element ID
+    const sensorId = sensorElement.id.replace('sensor-', '');
+    
+    // Check if this sensor has inactive status
+    const statusElement = sensorElement.querySelector('.sensor-status');
+    if (statusElement && statusElement.classList.contains('inactive')) {
+      console.log(`Found inactive sensor during initialization: ${sensorId}`);
+      
+      // Set all the inactive messages for this sensor
+      setInactiveMessage(sensorId, 'data');
+      setInactiveMessage(sensorId, 'alert');
+      setInactiveMessage(sensorId, 'settings');
+      setInactiveMessage(sensorId, 'personality');
+    }
+  });
+}
 
 /**
  * Setup all Socket.io event listeners
@@ -106,11 +151,15 @@ function switchTab(tabId, button) {
   const selectedTab = document.getElementById(tabId);
   if (selectedTab) {
     selectedTab.classList.add('active');
+    // Save the active tab to sessionStorage
+    sessionStorage.setItem('activeTab', tabId);
   }
   
   // Add active class to the clicked button
   if (button) {
     button.classList.add('active');
+    // Save the active tab button to sessionStorage
+    sessionStorage.setItem('activeTabBtn', button.id);
   }
 }
 
@@ -158,9 +207,65 @@ function updateSensorData(data) {
 function updateSensorStatus(sensorId, status) {
   const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
   if (statusElement) {
-    const isNormal = status.includes('正常');
-    statusElement.className = `sensor-status ${isNormal ? 'active' : 'alert'}`;
-    statusElement.textContent = isNormal ? '稼働中' : '異常検出';
+    // Check explicitly for 'inactive' or '未接続' or empty/null status
+    if (status === 'inactive' || status === '未接続' || !status) {
+      // Set to inactive state
+      statusElement.className = 'sensor-status inactive';
+      statusElement.textContent = '未接続';
+      
+      console.log(`Sensor ${sensorId} is not connected, setting inactive messages`);
+      
+      // Set proper inactive messages for all sections
+      setInactiveMessage(sensorId, 'data');
+      setInactiveMessage(sensorId, 'alert');
+      setInactiveMessage(sensorId, 'settings');
+      setInactiveMessage(sensorId, 'personality');
+    } else {
+      const isNormal = status.includes('正常');
+      statusElement.className = `sensor-status ${isNormal ? 'active' : 'alert'}`;
+      statusElement.textContent = isNormal ? '稼働中' : '異常検出';
+    }
+  }
+}
+
+/**
+ * Set the appropriate inactive message for a specific section
+ */
+function setInactiveMessage(sensorId, section) {
+  let tbody;
+  
+  switch(section) {
+    case 'data':
+      tbody = document.getElementById(`tbody-${sensorId}`);
+      break;
+    case 'alert':
+      tbody = document.getElementById(`alert-tbody-${sensorId}`);
+      break;
+    case 'settings':
+      tbody = document.getElementById(`settings-${sensorId}`);
+      break;
+    case 'personality':
+      tbody = document.getElementById(`personality-${sensorId}`);
+      break;
+  }
+  
+  if (tbody) {
+    // Clear any existing content
+    tbody.innerHTML = '';
+    
+    // Create empty row with message
+    const emptyRow = document.createElement('tr');
+    const messageCell = document.createElement('td');
+    messageCell.setAttribute('colspan', section === 'data' ? '20' : '3');
+    messageCell.className = 'text-center';
+    messageCell.textContent = INACTIVE_MESSAGES[section];
+    emptyRow.appendChild(messageCell);
+    
+    if (section === 'data') {
+      emptyRow.className = 'empty-row';
+    }
+    
+    tbody.appendChild(emptyRow);
   }
 }
 
@@ -362,5 +467,91 @@ function refreshPersonalityData(sensorId) {
     
     // Request fresh personality data from server
     socket.emit('requestPersonality', { sensorId });
+  }
+}
+
+/**
+ * Refresh standard model history data
+ */
+function refreshModelHistory() {
+  const refreshButton = document.querySelector(`button[onclick="refreshModelHistory()"]`);
+  if (refreshButton) {
+    refreshButton.classList.add('refreshing');
+    
+    // Simulate refresh with animation
+    setTimeout(() => {
+      refreshButton.classList.remove('refreshing');
+      
+      // Update timestamp
+      const lastUpdatedSpan = refreshButton.closest('.stat-header').querySelector('.last-updated');
+      if (lastUpdatedSpan) {
+        lastUpdatedSpan.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
+      
+      // Simulate getting new model history data
+      const tbody = document.getElementById('model-history-tbody');
+      if (tbody) {
+        // Create a new model update entry
+        const newRow = document.createElement('tr');
+        newRow.className = 'new-model-update';
+        
+        // Current date and time
+        const now = new Date();
+        
+        // Create cells
+        const dateCell = document.createElement('td');
+        dateCell.textContent = now.toLocaleDateString();
+        
+        const timeCell = document.createElement('td');
+        timeCell.textContent = now.toLocaleTimeString();
+        
+        const versionCell = document.createElement('td');
+        versionCell.className = 'model-version';
+        versionCell.textContent = 'v3.2.2';
+        
+        const updateTypeCell = document.createElement('td');
+        updateTypeCell.textContent = '即時更新';
+        
+        const targetSensorCell = document.createElement('td');
+        targetSensorCell.textContent = '全センサー';
+        
+        const accuracyCell = document.createElement('td');
+        accuracyCell.className = 'model-accuracy';
+        accuracyCell.textContent = '99.1%';
+        
+        const outputCell = document.createElement('td');
+        outputCell.textContent = '異常検知アルゴリズムの強化';
+        
+        const statusCell = document.createElement('td');
+        statusCell.className = 'status-completed';
+        statusCell.textContent = '完了';
+        
+        // Add cells to row
+        newRow.appendChild(dateCell);
+        newRow.appendChild(timeCell);
+        newRow.appendChild(versionCell);
+        newRow.appendChild(updateTypeCell);
+        newRow.appendChild(targetSensorCell);
+        newRow.appendChild(accuracyCell);
+        newRow.appendChild(outputCell);
+        newRow.appendChild(statusCell);
+        
+        // Add to table at the beginning
+        if (tbody.firstChild) {
+          tbody.insertBefore(newRow, tbody.firstChild);
+        } else {
+          tbody.appendChild(newRow);
+        }
+        
+        // Remove the last row if we have more than 10 entries
+        const rows = tbody.querySelectorAll('tr');
+        if (rows.length > 10) {
+          tbody.removeChild(rows[rows.length - 1]);
+        }
+      }
+    }, 800);
+    
+    // In a real application, you would emit a socket event to get data from the server
+    // socket.emit('requestModelHistory');
   }
 }

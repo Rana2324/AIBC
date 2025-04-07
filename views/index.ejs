@@ -449,22 +449,96 @@
               <tr>
                 <th>MongoDB接続状態</th>
                 <td class="status-connected">接続中</td>
-              </tr>
-              <tr>
                 <th>センサー数</th>
                 <td>3</td>
-              </tr>
-              <tr>
                 <th>アクティブセンサー</th>
                 <td><%= locals.latestReadings && locals.latestReadings.data ? 
                   [...new Set(locals.latestReadings.data.map(r => r.sensorId))].length : 0 %></td>
-              </tr>
-              <tr>
                 <th>最終データ受信</th>
                 <td><%= locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0 ? 
                   new Date(locals.latestReadings.data[0].timestamp).toLocaleString() : '未受信' %></td>
               </tr>
             </table>
+          </div>
+        </div>
+
+        <!-- NEW: Standard Model Update History Card -->
+        <div class="stat-card model-update-history">
+          <div class="stat-header">
+            <h3 class="stat-title">
+              <span class="stat-icon">🤖</span>
+              標準モデル更新履歴
+            </h3>
+            <div class="controls-right">
+              <span class="last-updated">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <span class="realtime-indicator">
+                <span class="realtime-dot"></span>
+                <span class="realtime-text">リアルタイム</span>
+              </span>
+              <button class="refresh-btn" onclick="refreshModelHistory()">
+                <span class="refresh-icon">🔄</span>
+              </button>
+            </div>
+          </div>
+          <div class="stat-content">
+            <div class="description-text">
+              <small>※ AI の出力履歴含む 最新１０件表示</small>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table status-table">
+                <thead>
+                  <tr>
+                    <th>日付</th>
+                    <th>時刻</th>
+                    <th>モデルバージョン</th>
+                    <th>更新タイプ</th>
+                    <th>対象センサー</th>
+                    <th>精度</th>
+                    <th>AIの出力</th>
+                    <th>ステータス</th>
+                  </tr>
+                </thead>
+                <tbody id="model-history-tbody">
+                  <% if (locals.latestReadings && locals.latestReadings.data && locals.latestReadings.data.length > 0) { %>
+                    <% const reading = locals.latestReadings.data[0]; %>
+                    <% 
+                      // Sample model history data
+                      const modelVersions = ['v3.2.1', 'v3.2.0', 'v3.1.9', 'v3.1.8'];
+                      const updateTypes = ['自動更新', '手動更新', '定期更新', 'バグ修正'];
+                      const accuracies = ['98.7%', '97.5%', '96.8%', '95.4%'];
+                      const aiOutputs = [
+                        '温度予測モデルの精度向上',
+                        '異常検知の閾値最適化', 
+                        'センサー補正値の自動調整',
+                        'ノイズ除去アルゴリズムの改善'
+                      ];
+                      
+                      for(let i = 0; i < 4; i++) {
+                        const hours = i * 6; // Create sample times 6 hours apart
+                        const date = new Date();
+                        date.setHours(date.getHours() - hours);
+                        const displayDate = date.toLocaleDateString();
+                        const displayTime = date.toLocaleTimeString();
+                    %>
+                      <tr>
+                        <td><%= displayDate %></td>
+                        <td><%= displayTime %></td>
+                        <td class="model-version"><%= modelVersions[i] %></td>
+                        <td><%= updateTypes[i] %></td>
+                        <td>全センサー</td>
+                        <td class="model-accuracy"><%= accuracies[i] %></td>
+                        <td><%= aiOutputs[i] %></td>
+                        <td class="status-completed">完了</td>
+                      </tr>
+                    <% } %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="8" class="text-center">データなし</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -507,6 +581,13 @@
                     <tr>
                       <td><%= reading.date %></td>
                       <td><%= reading.time %></td>
+                      <td><%= reading.sensorId %></td>
+                      <td><%= (Math.random() * 2).toFixed(2) %></td>
+                      <td>通常範囲内の個性</td>
+                    </tr>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= (parseInt(reading.time.split(':')[0]) - 1).toString().padStart(2, '0') %>:<%= reading.time.split(':')[1] %>:<%= reading.time.split(':')[2] %></td>
                       <td><%= reading.sensorId %></td>
                       <td><%= (Math.random() * 2).toFixed(2) %></td>
                       <td>通常範囲内の個性</td>
@@ -562,6 +643,14 @@
                       <td>model_001</td>
                       <td class="ipfs-cid"><a href="#" target="_blank">QmXyZ1234...</a></td>
                       <td class="blockchain-tx"><a href="#" target="_blank">0xAbc123...</a></td>
+                      <td class="status-completed">完了</td>
+                    </tr>
+                    <tr>
+                      <td><%= reading.date %></td>
+                      <td><%= (parseInt(reading.time.split(':')[0]) - 1).toString().padStart(2, '0') %>:<%= reading.time.split(':')[1] %>:<%= reading.time.split(':')[2] %></td>
+                      <td>model_002</td>
+                      <td class="ipfs-cid"><a href="#" target="_blank">QmUvW5678...</a></td>
+                      <td class="blockchain-tx"><a href="#" target="_blank">0xDef456...</a></td>
                       <td class="status-completed">完了</td>
                     </tr>
                   <% } else { %>

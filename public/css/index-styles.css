@@ -484,9 +484,153 @@
 
 /* Fix for the server tab */
 #serverTab .server-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  width: 100%;
+}
+
+#serverTab .stat-card {
+  width: 100%;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+#serverTab .stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+#serverTab .stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 25px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#serverTab .stat-title {
+  margin: 0;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+#serverTab .stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+  font-size: 1.6em;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#serverTab .stat-content {
+  padding: 0;
+}
+
+#serverTab .system-status .stat-icon {
+  background: linear-gradient(135deg, #ff9f43, #ff7e5f);
+}
+
+#serverTab .personality-comparison .stat-icon {
+  background: linear-gradient(135deg, #0abde3, #48dbfb);
+}
+
+#serverTab .blockchain-ipfs .stat-icon {
+  background: linear-gradient(135deg, #8854d0, #a55eea);
+}
+
+/* Standard Model Update History styling */
+#serverTab .model-update-history .stat-icon {
+  background: linear-gradient(135deg, #00b894, #00cec9);
+}
+
+.model-version {
+  font-family: monospace;
+  font-weight: 600;
+  color: #3498db;
+}
+
+.model-accuracy {
+  font-weight: 600;
+  color: #00b894;
+}
+
+/* Animation for new model updates */
+.new-model-update {
+  animation: highlight-model 1.5s ease;
+}
+
+@keyframes highlight-model {
+  0% { background-color: rgba(0, 184, 148, 0.2); }
+  100% { background-color: transparent; }
+}
+
+/* Server stats table styling */
+#serverTab .data-table.status-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+#serverTab .data-table.status-table th {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: #2c3e50;
+  padding: 15px 20px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+#serverTab .data-table.status-table td {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+#serverTab .data-table.status-table tr:last-child td,
+#serverTab .data-table.status-table tr:last-child th {
+  border-bottom: none;
+}
+
+#serverTab .description-text {
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.02);
+  color: var(--gray-600);
+}
+
+/* Status indicators in server stats */
+.status-connected,
+.status-completed {
+  background: linear-gradient(to right, rgba(46, 213, 115, 0.15), rgba(46, 213, 115, 0.05));
+  color: #2ed573;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: 600;
+  position: relative;
+}
+
+.status-connected::before,
+.status-completed::before {
+  content: '●';
+  margin-right: 6px;
+  font-size: 12px;
+  animation: blink 2s infinite;
 }
 
 /* Settings and Personality table styles */
