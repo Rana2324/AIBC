@@ -130,12 +130,12 @@ body {
 }
 
 .sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb {
-  background: #bdbdbd;
-  border-radius: 4px;
+  /* background: #bdbdbd;
+  border-radius: 4px; */
 }
 
 .sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb:hover {
-  background: #9e9e9e;
+  /* background: #9e9e9e; */
 }
 
 /* Connection Status */
@@ -769,7 +769,7 @@ body {
 }
 
 .alert-row {
-  background-color: var(--alert-light) !important;
+  /* background-color: var(--alert-light) !important; */
 }
 
 .alert-recovery {

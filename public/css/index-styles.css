@@ -140,7 +140,7 @@
 .sensor-panels {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Always show 3 equal columns */
-  gap: 40px; /* Reduced gap between sensor panels */
+  gap: 60px; /* Reduced gap between sensor panels */
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -205,11 +205,11 @@
 
 /* Alert styling */
 .alert-row {
-  background-color: rgba(255, 152, 0, 0.08) !important;
+  /* background-color: rgba(255, 152, 0, 0.08) !important; */
 }
 
 .alert-row:hover {
-  background-color: rgba(255, 152, 0, 0.15) !important;
+  /* background-color: rgba(255, 152, 0, 0.15) !important; */
 }
 
 /* Highlight sensor section with new alert */
@@ -323,7 +323,7 @@
   margin-right: 15px;
   font-size: 1.4em;
   background: linear-gradient(135deg, #007bff, #0056b3);
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 50%;
   color: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
@@ -473,14 +473,14 @@
 }
 
 /* Ensure the new data is highlighted */
-tr.new-data {
+/* tr.new-data {
   animation: highlight 1s ease;
 }
 
 @keyframes highlight {
   0% { background-color: rgba(67, 97, 238, 0.2); }
   100% { background-color: white; }
-}
+} */
 
 /* Fix for the server tab */
 #serverTab .server-stats {
