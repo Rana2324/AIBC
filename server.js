@@ -60,6 +60,10 @@ connectDB();
 // Initialize Socket.io service
 initSocketService(io);
 
+// Initialize the WebSocket integration for logger
+logger.setupSocketIO(io);
+logger.info('Logger WebSocket integration initialized');
+
 // Set up routes
 app.use('/api', apiRoutes(io));
 app.use('/', viewRoutes);

@@ -16,9 +16,9 @@ if (!window.socket) {
 let isConnected = true;
 const INACTIVE_MESSAGES = {
   data: "センサーが未接続のため、データが取得できません。",
-  alert: "センサーが未接続のため、アラート情報はありません。",
-  settings: "センサーが未接続のため、設定変更履歴は表示できません。",
-  personality: "センサーが未接続のため、個性（バイアス）の履歴データは表示できません。"
+  alert: "アラート情報はありません。",
+  settings: "設定変更履歴は表示できません。",
+  personality: "個性（バイアス）の履歴データは表示できません。"
 };
 
 /**
@@ -776,215 +776,215 @@ function refreshSystemStatus() {
 /**
  * Refresh personality comparison data
  */
-function refreshPersonalityComparisonData() {
-  const refreshButton = document.querySelector(`#personality-comparison-section .refresh-btn`);
-  if (refreshButton) {
-    refreshButton.classList.add('refreshing');
+// function refreshPersonalityComparisonData() {
+//   const refreshButton = document.querySelector(`#personality-comparison-section .refresh-btn`);
+//   if (refreshButton) {
+//     refreshButton.classList.add('refreshing');
     
-    // Simulate refresh with animation
-    setTimeout(() => {
-      refreshButton.classList.remove('refreshing');
+//     // Simulate refresh with animation
+//     setTimeout(() => {
+//       refreshButton.classList.remove('refreshing');
       
-      // Update timestamp
-      const timestampElement = document.querySelector('#personality-comparison-section .last-updated');
-      if (timestampElement) {
-        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
-      }
+//       // Update timestamp
+//       const timestampElement = document.querySelector('#personality-comparison-section .last-updated');
+//       if (timestampElement) {
+//         timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+//       }
 
-      // Update data with simulated values
-      const tbody = document.getElementById('personality-comparison-tbody');
-      if (tbody) {
-        // Get all sensor IDs from table
-        const sensorIds = [];
-        const rows = tbody.querySelectorAll('tr');
-        rows.forEach(row => {
-          const sensorCell = row.querySelector('td:nth-child(3)');
-          if (sensorCell) {
-            const sensorId = sensorCell.textContent;
-            if (!sensorIds.includes(sensorId)) {
-              sensorIds.push(sensorId);
-            }
-          }
-        });
+//       // Update data with simulated values
+//       const tbody = document.getElementById('personality-comparison-tbody');
+//       if (tbody) {
+//         // Get all sensor IDs from table
+//         const sensorIds = [];
+//         const rows = tbody.querySelectorAll('tr');
+//         rows.forEach(row => {
+//           const sensorCell = row.querySelector('td:nth-child(3)');
+//           if (sensorCell) {
+//             const sensorId = sensorCell.textContent;
+//             if (!sensorIds.includes(sensorId)) {
+//               sensorIds.push(sensorId);
+//             }
+//           }
+//         });
 
-        // Generate updated data for each sensor
-        if (sensorIds.length > 0) {
-          tbody.innerHTML = '';
+//         // Generate updated data for each sensor
+//         if (sensorIds.length > 0) {
+//           tbody.innerHTML = '';
           
-          sensorIds.forEach(sensorId => {
-            const row = document.createElement('tr');
-            const today = new Date();
+//           sensorIds.forEach(sensorId => {
+//             const row = document.createElement('tr');
+//             const today = new Date();
             
-            const variation = (Math.random() * 2).toFixed(2);
-            const pattern = ["ランダム変動", "規則的変動", "単調増加", "単調減少"][Math.floor(Math.random() * 4)];
-            const trend = ["安定", "上昇傾向", "下降傾向", "周期的"][Math.floor(Math.random() * 4)];
+//             const variation = (Math.random() * 2).toFixed(2);
+//             const pattern = ["ランダム変動", "規則的変動", "単調増加", "単調減少"][Math.floor(Math.random() * 4)];
+//             const trend = ["安定", "上昇傾向", "下降傾向", "周期的"][Math.floor(Math.random() * 4)];
             
-            row.innerHTML = `
-              <td>${today.toLocaleDateString()}</td>
-              <td>${today.toLocaleTimeString()}</td>
-              <td>${sensorId}</td>
-              <td>${variation}</td>
-              <td>${parseFloat(variation) > 1.5 ? "注意: 高い個性" : "通常範囲内の個性"}</td>
-              <td>${pattern}</td>
-              <td>${trend}</td>
-            `;
+//             row.innerHTML = `
+//               <td>${today.toLocaleDateString()}</td>
+//               <td>${today.toLocaleTimeString()}</td>
+//               <td>${sensorId}</td>
+//               <td>${variation}</td>
+//               <td>${parseFloat(variation) > 1.5 ? "注意: 高い個性" : "通常範囲内の個性"}</td>
+//               <td>${pattern}</td>
+//               <td>${trend}</td>
+//             `;
             
-            tbody.appendChild(row);
-          });
-        }
-      }
-    }, 1000);
+//             tbody.appendChild(row);
+//           });
+//         }
+//       }
+//     }, 1000);
     
-    // Request fresh data from server
-    socket.emit('requestPersonalityComparison');
-    logger.info('Requested personality comparison update');
-  }
-}
+//     // Request fresh data from server
+//     socket.emit('requestPersonalityComparison');
+//     logger.info('Requested personality comparison update');
+//   }
+// }
 
 /**
  * Refresh blockchain/IPFS data
  */
-function refreshBlockchainData() {
-  const refreshButton = document.querySelector(`#blockchain-ipfs-section .refresh-btn`);
-  if (refreshButton) {
-    refreshButton.classList.add('refreshing');
+// function refreshBlockchainData() {
+//   const refreshButton = document.querySelector(`#blockchain-ipfs-section .refresh-btn`);
+//   if (refreshButton) {
+//     refreshButton.classList.add('refreshing');
     
-    // Simulate refresh with animation
-    setTimeout(() => {
-      refreshButton.classList.remove('refreshing');
+//     // Simulate refresh with animation
+//     setTimeout(() => {
+//       refreshButton.classList.remove('refreshing');
       
-      // Update timestamp
-      const timestampElement = document.querySelector('#blockchain-ipfs-section .last-updated');
-      if (timestampElement) {
-        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
-      }
+//       // Update timestamp
+//       const timestampElement = document.querySelector('#blockchain-ipfs-section .last-updated');
+//       if (timestampElement) {
+//         timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+//       }
 
-      // Update one random row with new status
-      const tbody = document.getElementById('blockchain-ipfs-tbody');
-      if (tbody && tbody.children.length > 0) {
-        const randomRowIndex = Math.floor(Math.random() * tbody.children.length);
-        const randomRow = tbody.children[randomRowIndex];
+//       // Update one random row with new status
+//       const tbody = document.getElementById('blockchain-ipfs-tbody');
+//       if (tbody && tbody.children.length > 0) {
+//         const randomRowIndex = Math.floor(Math.random() * tbody.children.length);
+//         const randomRow = tbody.children[randomRowIndex];
         
-        // Update the status cell
-        const statusCell = randomRow.querySelector('td:last-child');
-        if (statusCell) {
-          // Cycle through statuses
-          if (statusCell.classList.contains('status-completed')) {
-            statusCell.classList.remove('status-completed');
-            statusCell.classList.add('status-pending');
-            statusCell.textContent = '処理中';
-          } else if (statusCell.classList.contains('status-pending')) {
-            statusCell.classList.remove('status-pending');
-            statusCell.classList.add('status-failed');
-            statusCell.textContent = 'エラー';
-          } else {
-            statusCell.classList.remove('status-failed');
-            statusCell.classList.add('status-completed');
-            statusCell.textContent = '完了';
-          }
-        }
+//         // Update the status cell
+//         const statusCell = randomRow.querySelector('td:last-child');
+//         if (statusCell) {
+//           // Cycle through statuses
+//           if (statusCell.classList.contains('status-completed')) {
+//             statusCell.classList.remove('status-completed');
+//             statusCell.classList.add('status-pending');
+//             statusCell.textContent = '処理中';
+//           } else if (statusCell.classList.contains('status-pending')) {
+//             statusCell.classList.remove('status-pending');
+//             statusCell.classList.add('status-failed');
+//             statusCell.textContent = 'エラー';
+//           } else {
+//             statusCell.classList.remove('status-failed');
+//             statusCell.classList.add('status-completed');
+//             statusCell.textContent = '完了';
+//           }
+//         }
 
-        // Update the date and time
-        const dateCell = randomRow.querySelector('td:first-child');
-        const timeCell = randomRow.querySelector('td:nth-child(2)');
-        if (dateCell && timeCell) {
-          const now = new Date();
-          dateCell.textContent = now.toLocaleDateString();
-          timeCell.textContent = now.toLocaleTimeString();
-        }
-      }
-    }, 1000);
+//         // Update the date and time
+//         const dateCell = randomRow.querySelector('td:first-child');
+//         const timeCell = randomRow.querySelector('td:nth-child(2)');
+//         if (dateCell && timeCell) {
+//           const now = new Date();
+//           dateCell.textContent = now.toLocaleDateString();
+//           timeCell.textContent = now.toLocaleTimeString();
+//         }
+//       }
+//     }, 1000);
     
-    // Request fresh data from server
-    socket.emit('requestBlockchainData');
-    logger.info('Requested blockchain data update');
-  }
-}
+//     // Request fresh data from server
+//     socket.emit('requestBlockchainData');
+//     logger.info('Requested blockchain data update');
+//   }
+// }
 
 /**
  * Refresh model training data
  */
-function refreshModelTrainingData() {
-  const refreshButton = document.querySelector(`#model-training-section .refresh-btn`);
-  if (refreshButton) {
-    refreshButton.classList.add('refreshing');
+// function refreshModelTrainingData() {
+//   const refreshButton = document.querySelector(`#model-training-section .refresh-btn`);
+//   if (refreshButton) {
+//     refreshButton.classList.add('refreshing');
     
-    // Simulate refresh with animation
-    setTimeout(() => {
-      refreshButton.classList.remove('refreshing');
+//     // Simulate refresh with animation
+//     setTimeout(() => {
+//       refreshButton.classList.remove('refreshing');
       
-      // Update timestamp
-      const timestampElement = document.querySelector('#model-training-section .last-updated');
-      if (timestampElement) {
-        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
-      }
+//       // Update timestamp
+//       const timestampElement = document.querySelector('#model-training-section .last-updated');
+//       if (timestampElement) {
+//         timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+//       }
 
-      // Update progress
-      const progressBar = document.querySelector('#model-training-section .progress-bar');
-      const progressText = document.querySelector('#model-training-section .progress-text');
-      if (progressBar && progressText) {
-        let currentProgress = parseInt(progressBar.style.width) || 65;
-        currentProgress += 5;
+//       // Update progress
+//       const progressBar = document.querySelector('#model-training-section .progress-bar');
+//       const progressText = document.querySelector('#model-training-section .progress-text');
+//       if (progressBar && progressText) {
+//         let currentProgress = parseInt(progressBar.style.width) || 65;
+//         currentProgress += 5;
         
-        if (currentProgress > 100) {
-          currentProgress = 100;
-          progressText.textContent = '完了';
-        } else {
-          progressBar.style.width = `${currentProgress}%`;
-          progressText.textContent = `${currentProgress}% 完了`;
-        }
-      }
+//         if (currentProgress > 100) {
+//           currentProgress = 100;
+//           progressText.textContent = '完了';
+//         } else {
+//           progressBar.style.width = `${currentProgress}%`;
+//           progressText.textContent = `${currentProgress}% 完了`;
+//         }
+//       }
 
-      // Update remaining time
-      const timeDisplay = document.querySelector('#model-training-section .model-stat-item:last-child .stat-value');
-      if (timeDisplay) {
-        const timeParts = timeDisplay.textContent.split(':').map(Number);
-        let minutes = timeParts[0];
-        let seconds = timeParts[1];
+//       // Update remaining time
+//       const timeDisplay = document.querySelector('#model-training-section .model-stat-item:last-child .stat-value');
+//       if (timeDisplay) {
+//         const timeParts = timeDisplay.textContent.split(':').map(Number);
+//         let minutes = timeParts[0];
+//         let seconds = timeParts[1];
         
-        // Decrease time by 30 seconds
-        seconds -= 30;
-        if (seconds < 0) {
-          seconds += 60;
-          minutes -= 1;
-        }
+//         // Decrease time by 30 seconds
+//         seconds -= 30;
+//         if (seconds < 0) {
+//           seconds += 60;
+//           minutes -= 1;
+//         }
         
-        if (minutes < 0) {
-          timeDisplay.textContent = '00:00:00';
-        } else {
-          timeDisplay.textContent = `00:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-      }
+//         if (minutes < 0) {
+//           timeDisplay.textContent = '00:00:00';
+//         } else {
+//           timeDisplay.textContent = `00:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+//         }
+//       }
 
-      // Update data points
-      const dataPointsDisplay = document.querySelector('#model-training-section .model-stat-item:first-child .stat-value');
-      if (dataPointsDisplay) {
-        let currentPoints = parseInt(dataPointsDisplay.textContent.replace(/,/g, ''));
-        currentPoints += 150;
-        dataPointsDisplay.textContent = currentPoints.toLocaleString();
-      }
+//       // Update data points
+//       const dataPointsDisplay = document.querySelector('#model-training-section .model-stat-item:first-child .stat-value');
+//       if (dataPointsDisplay) {
+//         let currentPoints = parseInt(dataPointsDisplay.textContent.replace(/,/g, ''));
+//         currentPoints += 150;
+//         dataPointsDisplay.textContent = currentPoints.toLocaleString();
+//       }
 
-      // Update epochs
-      const epochsDisplay = document.querySelector('#model-training-section .model-stat-item:nth-child(2) .stat-value');
-      if (epochsDisplay) {
-        const epochParts = epochsDisplay.textContent.split('/');
-        let current = parseInt(epochParts[0]);
-        let total = parseInt(epochParts[1]);
+//       // Update epochs
+//       const epochsDisplay = document.querySelector('#model-training-section .model-stat-item:nth-child(2) .stat-value');
+//       if (epochsDisplay) {
+//         const epochParts = epochsDisplay.textContent.split('/');
+//         let current = parseInt(epochParts[0]);
+//         let total = parseInt(epochParts[1]);
         
-        current += 1;
-        if (current > total) {
-          current = total;
-        }
+//         current += 1;
+//         if (current > total) {
+//           current = total;
+//         }
         
-        epochsDisplay.textContent = `${current}/${total}`;
-      }
-    }, 1000);
+//         epochsDisplay.textContent = `${current}/${total}`;
+//       }
+//     }, 1000);
     
-    // Request fresh data from server
-    socket.emit('requestModelTraining');
-    logger.info('Requested model training data update');
-  }
-}
+//     // Request fresh data from server
+//     socket.emit('requestModelTraining');
+//     logger.info('Requested model training data update');
+//   }
+// }
 
 /**
  * Update system status data
@@ -1023,104 +1023,104 @@ function updateSystemStatus(data) {
 /**
  * Update personality comparison data
  */
-function updatePersonalityComparison(data) {
-  if (!data || !Array.isArray(data)) return;
+// function updatePersonalityComparison(data) {
+//   if (!data || !Array.isArray(data)) return;
   
-  const tbody = document.getElementById('personality-comparison-tbody');
-  if (!tbody) return;
+//   const tbody = document.getElementById('personality-comparison-tbody');
+//   if (!tbody) return;
 
-  tbody.innerHTML = '';
+//   tbody.innerHTML = '';
   
-  data.forEach(item => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item.date}</td>
-      <td>${item.time}</td>
-      <td>${item.sensorId}</td>
-      <td>${item.variation}</td>
-      <td>${parseFloat(item.variation) > 1.5 ? "注意: 高い個性" : "通常範囲内の個性"}</td>
-      <td>${item.pattern}</td>
-      <td>${item.trend}</td>
-    `;
-    tbody.appendChild(row);
-  });
-}
+//   data.forEach(item => {
+//     const row = document.createElement('tr');
+//     row.innerHTML = `
+//       <td>${item.date}</td>
+//       <td>${item.time}</td>
+//       <td>${item.sensorId}</td>
+//       <td>${item.variation}</td>
+//       <td>${parseFloat(item.variation) > 1.5 ? "注意: 高い個性" : "通常範囲内の個性"}</td>
+//       <td>${item.pattern}</td>
+//       <td>${item.trend}</td>
+//     `;
+//     tbody.appendChild(row);
+//   });
+// }
 
 /**
  * Update blockchain/IPFS data
  */
-function updateBlockchainData(data) {
-  if (!data || !Array.isArray(data)) return;
+// function updateBlockchainData(data) {
+//   if (!data || !Array.isArray(data)) return;
   
-  const tbody = document.getElementById('blockchain-ipfs-tbody');
-  if (!tbody) return;
+//   const tbody = document.getElementById('blockchain-ipfs-tbody');
+//   if (!tbody) return;
 
-  tbody.innerHTML = '';
+//   tbody.innerHTML = '';
   
-  data.forEach(item => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item.date}</td>
-      <td>${item.time}</td>
-      <td>${item.modelId}</td>
-      <td>${item.sensorId}</td>
-      <td class="ipfs-cid"><a href="#" target="_blank">${item.ipfsCid}</a></td>
-      <td class="blockchain-tx"><a href="#" target="_blank">${item.transactionHash}</a></td>
-      <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-    `;
-    tbody.appendChild(row);
-  });
-}
+//   data.forEach(item => {
+//     const row = document.createElement('tr');
+//     row.innerHTML = `
+//       <td>${item.date}</td>
+//       <td>${item.time}</td>
+//       <td>${item.modelId}</td>
+//       <td>${item.sensorId}</td>
+//       <td class="ipfs-cid"><a href="#" target="_blank">${item.ipfsCid}</a></td>
+//       <td class="blockchain-tx"><a href="#" target="_blank">${item.transactionHash}</a></td>
+//       <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+//     `;
+//     tbody.appendChild(row);
+//   });
+// }
 
 /**
  * Update model training data
  */
-function updateModelTraining(data) {
-  if (!data) return;
+// function updateModelTraining(data) {
+//   if (!data) return;
   
-  // Update progress bar
-  const progressBar = document.querySelector('#model-training-section .progress-bar');
-  const progressText = document.querySelector('#model-training-section .progress-text');
-  if (progressBar && progressText) {
-    progressBar.style.width = `${data.progress}%`;
-    progressText.textContent = `${data.progress}% 完了`;
-  }
+//   // Update progress bar
+//   const progressBar = document.querySelector('#model-training-section .progress-bar');
+//   const progressText = document.querySelector('#model-training-section .progress-text');
+//   if (progressBar && progressText) {
+//     progressBar.style.width = `${data.progress}%`;
+//     progressText.textContent = `${data.progress}% 完了`;
+//   }
 
-  // Update stats
-  const dataPoints = document.querySelector('#model-training-section .model-stat-item:nth-child(1) .stat-value');
-  if (dataPoints) {
-    dataPoints.textContent = data.dataPoints.toLocaleString();
-  }
+//   // Update stats
+//   const dataPoints = document.querySelector('#model-training-section .model-stat-item:nth-child(1) .stat-value');
+//   if (dataPoints) {
+//     dataPoints.textContent = data.dataPoints.toLocaleString();
+//   }
 
-  const epochs = document.querySelector('#model-training-section .model-stat-item:nth-child(2) .stat-value');
-  if (epochs) {
-    epochs.textContent = `${data.currentEpoch}/${data.totalEpochs}`;
-  }
+//   const epochs = document.querySelector('#model-training-section .model-stat-item:nth-child(2) .stat-value');
+//   if (epochs) {
+//     epochs.textContent = `${data.currentEpoch}/${data.totalEpochs}`;
+//   }
 
-  const timeRemaining = document.querySelector('#model-training-section .model-stat-item:nth-child(3) .stat-value');
-  if (timeRemaining) {
-    timeRemaining.textContent = data.estimatedTimeRemaining;
-  }
+//   const timeRemaining = document.querySelector('#model-training-section .model-stat-item:nth-child(3) .stat-value');
+//   if (timeRemaining) {
+//     timeRemaining.textContent = data.estimatedTimeRemaining;
+//   }
 
-  // Update training history
-  const tbody = document.getElementById('model-training-tbody');
-  if (tbody && data.history && Array.isArray(data.history)) {
-    tbody.innerHTML = '';
+//   // Update training history
+//   const tbody = document.getElementById('model-training-tbody');
+//   if (tbody && data.history && Array.isArray(data.history)) {
+//     tbody.innerHTML = '';
     
-    data.history.forEach(item => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.date}</td>
-        <td>${item.version}</td>
-        <td>${item.accuracy}%</td>
-        <td>${item.loss}</td>
-        <td>${item.dataPoints.toLocaleString()}</td>
-        <td>${item.duration}</td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-}
+//     data.history.forEach(item => {
+//       const row = document.createElement('tr');
+//       row.innerHTML = `
+//         <td>${item.date}</td>
+//         <td>${item.version}</td>
+//         <td>${item.accuracy}%</td>
+//         <td>${item.loss}</td>
+//         <td>${item.dataPoints.toLocaleString()}</td>
+//         <td>${item.duration}</td>
+//       `;
+//       tbody.appendChild(row);
+//     });
+//   }
+// }
 
 /**
  * Set the appropriate inactive message for a specific section

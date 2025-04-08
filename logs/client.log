@@ -51,3 +51,71 @@
 {"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:26"}
 {"level":"info","message":"A client connected","service":"sensor-api","timestamp":"2025-04-07 13:22:33"}
 {"clientData":[],"level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-07 13:22:33"}
+{"level":"info","message":"Logger WebSocket integration initialized","service":"sensor-api","timestamp":"2025-04-08 14:19:15"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 14:19:15"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 14:19:15"}
+{"level":"info","message":"Logger WebSocket integration initialized","service":"sensor-api","timestamp":"2025-04-08 14:19:23"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 14:19:23"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 14:19:23"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"HTZZFPF4AY1uNiXoAAAB","timestamp":"2025-04-08 14:19:38"}
+{"clientId":"XGs8LCQ5opcZx-2ZAAAD","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:38","version":"1.0.0"}
+{"clientId":"XGs8LCQ5opcZx-2ZAAAD","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:38"}
+{"clientId":"XGs8LCQ5opcZx-2ZAAAD","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:38"}
+{"clientId":"XGs8LCQ5opcZx-2ZAAAD","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:38"}
+{"clientId":"XGs8LCQ5opcZx-2ZAAAD","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:38"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"XGs8LCQ5opcZx-2ZAAAD","timestamp":"2025-04-08 14:19:41"}
+{"clientId":"vuEsNmZPAcpcEVogAAAF","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:41","version":"1.0.0"}
+{"clientId":"vuEsNmZPAcpcEVogAAAF","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:41"}
+{"clientId":"vuEsNmZPAcpcEVogAAAF","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:41"}
+{"clientId":"vuEsNmZPAcpcEVogAAAF","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:41"}
+{"clientId":"vuEsNmZPAcpcEVogAAAF","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:41"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"vuEsNmZPAcpcEVogAAAF","timestamp":"2025-04-08 14:19:42"}
+{"clientId":"5GC36WoH-JEfoaUoAAAH","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:42","version":"1.0.0"}
+{"clientId":"5GC36WoH-JEfoaUoAAAH","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:42"}
+{"clientId":"5GC36WoH-JEfoaUoAAAH","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:42"}
+{"clientId":"5GC36WoH-JEfoaUoAAAH","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:42"}
+{"clientId":"5GC36WoH-JEfoaUoAAAH","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:42"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"5GC36WoH-JEfoaUoAAAH","timestamp":"2025-04-08 14:19:43"}
+{"clientId":"Wy1pUzpCB6ujzHn9AAAJ","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:43","version":"1.0.0"}
+{"clientId":"Wy1pUzpCB6ujzHn9AAAJ","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:43"}
+{"clientId":"Wy1pUzpCB6ujzHn9AAAJ","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:43"}
+{"clientId":"Wy1pUzpCB6ujzHn9AAAJ","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:43"}
+{"clientId":"Wy1pUzpCB6ujzHn9AAAJ","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:44"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"Wy1pUzpCB6ujzHn9AAAJ","timestamp":"2025-04-08 14:19:45"}
+{"clientId":"UBSQN98cfcuVd8fwAAAL","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:45","version":"1.0.0"}
+{"clientId":"UBSQN98cfcuVd8fwAAAL","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:45"}
+{"clientId":"UBSQN98cfcuVd8fwAAAL","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:45"}
+{"clientId":"UBSQN98cfcuVd8fwAAAL","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:45"}
+{"clientId":"UBSQN98cfcuVd8fwAAAL","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:19:45"}
+{"level":"info","message":"Logger WebSocket integration initialized","service":"sensor-api","timestamp":"2025-04-08 14:22:40"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 14:22:40"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 14:22:40"}
+{"clientId":"3Wpy8Ao4gbiXLbtSAAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:40"}
+{"clientId":"3Wpy8Ao4gbiXLbtSAAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:40"}
+{"clientId":"3Wpy8Ao4gbiXLbtSAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:40"}
+{"clientId":"3Wpy8Ao4gbiXLbtSAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:40"}
+{"clientId":"3Wpy8Ao4gbiXLbtSAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:41"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"3Wpy8Ao4gbiXLbtSAAAB","timestamp":"2025-04-08 14:22:45"}
+{"clientId":"khkI6xJvZ9uazXMZAAAD","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:45","version":"1.0.0"}
+{"clientId":"khkI6xJvZ9uazXMZAAAD","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:45"}
+{"clientId":"khkI6xJvZ9uazXMZAAAD","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:45"}
+{"clientId":"khkI6xJvZ9uazXMZAAAD","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:45"}
+{"clientId":"khkI6xJvZ9uazXMZAAAD","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:45"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"khkI6xJvZ9uazXMZAAAD","timestamp":"2025-04-08 14:22:49"}
+{"clientId":"yrtXfQ9vBmsPKkjsAAAF","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:49","version":"1.0.0"}
+{"clientId":"yrtXfQ9vBmsPKkjsAAAF","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:49"}
+{"clientId":"yrtXfQ9vBmsPKkjsAAAF","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:49"}
+{"clientId":"yrtXfQ9vBmsPKkjsAAAF","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:49"}
+{"clientId":"yrtXfQ9vBmsPKkjsAAAF","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:49"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"yrtXfQ9vBmsPKkjsAAAF","timestamp":"2025-04-08 14:22:50"}
+{"clientId":"9dL44MB7jwPy1S_hAAAH","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:51","version":"1.0.0"}
+{"clientId":"9dL44MB7jwPy1S_hAAAH","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:51"}
+{"clientId":"9dL44MB7jwPy1S_hAAAH","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:51"}
+{"clientId":"9dL44MB7jwPy1S_hAAAH","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:51"}
+{"clientId":"9dL44MB7jwPy1S_hAAAH","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:51"}
+{"level":"info","message":"A client disconnected","service":"sensor-api","socketId":"9dL44MB7jwPy1S_hAAAH","timestamp":"2025-04-08 14:22:57"}
+{"clientId":"KHfUH9RuYgCJHDR9AAAJ","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:57","version":"1.0.0"}
+{"clientId":"KHfUH9RuYgCJHDR9AAAJ","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:57"}
+{"clientId":"KHfUH9RuYgCJHDR9AAAJ","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:57"}
+{"clientId":"KHfUH9RuYgCJHDR9AAAJ","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:57"}
+{"clientId":"KHfUH9RuYgCJHDR9AAAJ","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 14:22:57"}
