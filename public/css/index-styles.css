@@ -203,7 +203,7 @@
 
 /* Alert styling */
 .alert-row {
-  background-color: rgba(255, 152, 0, 0.05);
+  /* background-color: rgba(255, 152, 0, 0.05); */
   transition: background-color 0.3s ease;
 }
 
@@ -321,7 +321,8 @@
 .sensor-icon {
   margin-right: 15px;
   font-size: 1.4em;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  /* background: linear-gradient(135deg, #007bff, #0056b3); */
+  background-color: #b2e0e6;
   /* padding: 10px; */
   border-radius: 50%;
   color: white;
@@ -935,6 +936,11 @@
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
+}
+
+/* Highlight rows with temperature values ≤ 20°C or ≥ 70°C */
+tr.temperature-warning {
+  background-color: #f5e6f6;
 }
 
 .info-card:hover {

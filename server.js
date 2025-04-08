@@ -21,6 +21,7 @@ import viewRoutes from './routes/viewRoutes.js';
 import { initSocketService } from './services/socketService.js';
 
 import logger from './utils/logger.js';
+import connectDB from './config/database.js';
 
 // Load environment variables
 dotenv.config();
@@ -48,15 +49,8 @@ app.set('layout', 'layout');
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/temperatureSensors')
-  .then(() => {
-    logger.info('MongoDB connected successfully');
-  })
-  .catch(err => {
-    logger.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
+// Connect to MongoDB
+connectDB();
 
 // Initialize Socket.io service
 initSocketService(io);

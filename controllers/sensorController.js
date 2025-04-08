@@ -11,7 +11,7 @@ import logger from '../utils/logger.js';
  */
 export const processSensorData = async (req, res, io) => {
   try {
-    logger.info(`Received data: ${JSON.stringify(req.body)}`);
+    // logger.info(`Received data: ${JSON.stringify(req.body)}`);
     
     // Validate that the required fields exist
     const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];

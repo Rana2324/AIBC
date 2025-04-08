@@ -343,6 +343,11 @@ function createSensorDataRow(data) {
   const newRow = document.createElement('tr');
   newRow.className = 'new-data';
   
+  // Apply temperature-warning class if temperature is ≤ 20°C or ≥ 70°C
+  if (data.average_temp !== undefined && (data.average_temp <= 20 || data.average_temp >= 70)) {
+    newRow.classList.add('temperature-warning');
+  }
+  
   // Create date cell
   const dateCell = document.createElement('td');
   dateCell.textContent = data.date;
@@ -491,13 +496,10 @@ function refreshData(sensorId) {
         data.forEach(reading => {
           const row = document.createElement('tr');
           
-          // Add temperature-based color coding: red if temp ≤ 20°C or ≥ 70°C
+          // Add temperature-based color coding for temperatures ≤ 20°C or ≥ 70°C
           const avgTemp = reading.temperature || reading.average_temp;
           if (avgTemp <= 20 || avgTemp >= 70) {
-            row.className = 'table-danger';
-          } else {
-            // Ensure normal rows have white background
-            row.style.backgroundColor = 'white';
+            row.classList.add('temperature-warning');
           }
           
           // Add date cell
