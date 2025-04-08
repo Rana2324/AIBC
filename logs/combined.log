@@ -47254,3 +47254,81 @@
 {"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:50:13"}
 {"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:50:13"}
 {"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:50:14"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 15:55:38"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 15:55:38"}
+{"clientId":"3EVBJzfsikPI4lx5AAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:55:39"}
+{"clientId":"3EVBJzfsikPI4lx5AAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:55:39"}
+{"clientId":"3EVBJzfsikPI4lx5AAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:55:39"}
+{"clientId":"3EVBJzfsikPI4lx5AAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:55:39"}
+{"clientId":"3EVBJzfsikPI4lx5AAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:55:40"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 15:56:46"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 15:56:46"}
+{"clientId":"8ZGFreRv4LYjYJd9AAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:56:47"}
+{"clientId":"8ZGFreRv4LYjYJd9AAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:56:47"}
+{"clientId":"8ZGFreRv4LYjYJd9AAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:56:47"}
+{"clientId":"8ZGFreRv4LYjYJd9AAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:56:47"}
+{"clientId":"8ZGFreRv4LYjYJd9AAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:56:48"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-08 15:57:07"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-08 15:57:07"}
+{"clientId":"DNiHmY5o_8jI5RgjAAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:07"}
+{"clientId":"DNiHmY5o_8jI5RgjAAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:07"}
+{"clientId":"DNiHmY5o_8jI5RgjAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:07"}
+{"clientId":"DNiHmY5o_8jI5RgjAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:07"}
+{"clientId":"DNiHmY5o_8jI5RgjAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:08"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-08 15:57:12"}
+{"clientId":"SMfRlsaXMAhfCedbAAAD","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:12","version":"1.0.0"}
+{"clientId":"SMfRlsaXMAhfCedbAAAD","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:12"}
+{"clientId":"SMfRlsaXMAhfCedbAAAD","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:12"}
+{"clientId":"SMfRlsaXMAhfCedbAAAD","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:12"}
+{"clientId":"SMfRlsaXMAhfCedbAAAD","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-08 15:57:12"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:19"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:19"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:19"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:20"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:20"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:20"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:20"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:21"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:21"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:21"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:22"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:22"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:22"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:23"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:23"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:23"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:24"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:24"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:57:24"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:57:40"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:03"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:03"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:04"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:05"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:05"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_3","service":"sensor-api","timestamp":"2025-04-08 15:58:06"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:58:41"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:58:41"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:58:47"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:00"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:00"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:00"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:01"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:04"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:04"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:04"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:05"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:05"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:05"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:06"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:06"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:06"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-08 15:59:07"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:10"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:10"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:10"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:11"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:11"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:11"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:12"}
+{"level":"info","message":"Created new alert","reason":"１：異常","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-08 15:59:12"}

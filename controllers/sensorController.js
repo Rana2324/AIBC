@@ -80,7 +80,9 @@ export const processSensorData = async (req, res, io) => {
  */
 async function createAndEmitAlert(sensorData, io) {
   try {
-    const alertMessage = `温度異常: ${sensorData.average_temp}°C`;
+    // Format temperature to 2 decimal places for cleaner display
+    const formattedTemp = sensorData.average_temp.toFixed(2);
+    const alertMessage = `温度異常: ${formattedTemp}°C`;
     
     // Create and save alert
     const alert = new Alert({
