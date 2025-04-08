@@ -131,7 +131,7 @@
   margin-left: 147px;
   margin-bottom: 30px;
   font-weight: 700;
-  color: var(--primary);
+  color: #2d2d2d	;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   font-size: 2.5rem;
 }
@@ -322,7 +322,7 @@
   margin-right: 15px;
   font-size: 1.4em;
   /* background: linear-gradient(135deg, #007bff, #0056b3); */
-  background-color: #b2e0e6;
+  background-color: #5e60ce;
   /* padding: 10px; */
   border-radius: 50%;
   color: white;
@@ -369,7 +369,8 @@
 }
 
 .sensor-status.active {
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: #5e60ce;
+  border: #0056b3;
   color: white;
 }
 

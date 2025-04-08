@@ -129,14 +129,7 @@ body {
   border-radius: 4px;
 }
 
-.sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb {
-  /* background: #bdbdbd;
-  border-radius: 4px; */
-}
 
-.sensor-panels > .sensor-data-section::-webkit-scrollbar-thumb:hover {
-  /* background: #9e9e9e; */
-}
 
 /* Connection Status */
 .connection-status {
@@ -339,11 +332,6 @@ body {
   transition: all 0.3s ease;
 }
 
-.sensor-status.active {
-  background-color: rgba(76, 175, 80, 0.2);
-  color: #4CAF50;
-  border: 1px solid rgba(76, 175, 80, 0.3);
-}
 
 .sensor-status.active::before {
   background-color: #4CAF50;
@@ -538,10 +526,11 @@ body {
   font-weight: 500;
 }
 
-.sensor-status.active {
-  background-color: var(--success);
+/* .sensor-status.active {
+  background-color: #5e60ce;
+  border: #0077b6;
   color: white;
-}
+} */
 
 .sensor-status.alert {
   background-color: var(--warning);
@@ -1048,10 +1037,11 @@ body {
   font-weight: 600;
 }
 
-.sensor-status.active {
-  background-color: #28a745;
+/* .sensor-status.active {
+  background-color: #5e60ce;
+  border: #0077b6;
   color: white;
-}
+} */
 
 .sensor-status.inactive {
   background-color: #dc3545;
@@ -1105,8 +1095,8 @@ body {
 }
 
 .tab-button.active {
-  color: #0d6efd;
-  border-bottom: 2px solid #0d6efd;
+  color: #0077b6;
+  border-bottom: 2px solid #0077b6;
 }
 
 .tab-content {
