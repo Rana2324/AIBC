@@ -941,7 +941,11 @@
 
 /* Highlight rows with temperature values ≤ 20°C or ≥ 70°C */
 tr.temperature-warning {
-  background-color: #f5e6f6;
+  background-color: #f5e6f6 !important;
+}
+
+tr.temperature-warning:hover {
+  background-color: #f0d9f1 !important;
 }
 
 .info-card:hover {

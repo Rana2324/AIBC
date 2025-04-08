@@ -79,7 +79,13 @@
                   </thead>
                   <tbody id="tbody-<%= sensorId %>">
                     <% readings.forEach(reading => { 
-                      const rowClass = reading.status.includes('正常') ? '' : 'table-danger';
+                      // Set rowClass - danger for abnormal status, temperature-warning for temperature thresholds
+                      let rowClass = reading.status.includes('正常') ? '' : 'table-danger';
+                      
+                      // Apply temperature-warning class if temperature is ≤ 20°C or ≥ 70°C
+                      if (reading.temperature <= 20 || reading.temperature >= 70) {
+                        rowClass += ' temperature-warning';
+                      }
                     %>
                     <tr class="<%= rowClass %>">
                       <td><%= reading.date %></td>

@@ -3,6 +3,10 @@
  * Main JavaScript functionality with modular organization
  */
 
+// Global temperature warning thresholds
+const TEMP_WARNING_LOW = 20;
+const TEMP_WARNING_HIGH = 70;
+
 // ===================================================
 // Module: Core Application
 // ===================================================
@@ -419,8 +423,8 @@ const UIManager = (function() {
     const newRow = document.createElement('tr');
     newRow.className = 'new-data';
     
-    // Apply temperature-warning class if temperature is ≤ 20°C or ≥ 70°C
-    if (data.average_temp !== undefined && (data.average_temp <= 20 || data.average_temp >= 70)) {
+    // Apply temperature-warning class if temperature is ≤ TEMP_WARNING_LOW or ≥ TEMP_WARNING_HIGH
+    if (data.average_temp !== undefined && (data.average_temp <= TEMP_WARNING_LOW || data.average_temp >= TEMP_WARNING_HIGH)) {
       newRow.classList.add('temperature-warning');
     }
     
@@ -722,9 +726,9 @@ const DataService = (function() {
           data.data.forEach(reading => {
             const row = document.createElement('tr');
             
-            // Add temperature-based color coding for temperatures ≤ 20°C or ≥ 70°C
+            // Add temperature-based color coding for temperatures ≤ TEMP_WARNING_LOW or ≥ TEMP_WARNING_HIGH
             const avgTemp = reading.temperature || reading.average_temp;
-            if (avgTemp <= 20 || avgTemp >= 70) {
+            if (avgTemp <= TEMP_WARNING_LOW || avgTemp >= TEMP_WARNING_HIGH) {
               row.classList.add('temperature-warning');
             }
             
