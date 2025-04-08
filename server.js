@@ -49,6 +49,11 @@ app.set('layout', 'layout');
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Basic favicon response to prevent 404 errors
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content response instead of 404 error
+});
+
 // Connect to MongoDB
 connectDB();
 

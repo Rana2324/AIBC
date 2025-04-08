@@ -5,17 +5,21 @@
 
 // Global variables
 // Check if socket already exists, otherwise create it
-const socket = window.socket || io();
+let socket;
+if (!window.socket) {
+  socket = io();
+  window.socket = socket;
+} else {
+  socket = window.socket;
+}
+
 let isConnected = true;
 const INACTIVE_MESSAGES = {
   data: "センサーが未接続のため、データが取得できません。",
-  alert: "アラート情報はありません。",
-  settings: "設定変更履歴は表示できません。",
-  personality: "個性（バイアス）の履歴データは表示できません。"
+  alert: "センサーが未接続のため、アラート情報はありません。",
+  settings: "センサーが未接続のため、設定変更履歴は表示できません。",
+  personality: "センサーが未接続のため、個性（バイアス）の履歴データは表示できません。"
 };
-
-// Make socket globally available for logger
-window.socket = socket;
 
 /**
  * Store and retrieve active tab information to/from localStorage
@@ -77,6 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
     refreshData(sensorId);
     refreshAlertData(sensorId);
   });
+
+  // Start periodic checks for inactive sensors
+  setInterval(checkInactiveSensors, 5000);
 });
 
 /**
@@ -125,12 +132,11 @@ function setupSocketListeners() {
     if (data.sensorData && Array.isArray(data.sensorData)) {
       data.sensorData.forEach(sensorData => {
         updateSensorData(sensorData);
-      });
-    }
-    
-    if (data.alerts && Array.isArray(data.alerts)) {
-      data.alerts.forEach(alert => {
-        updateAlertData(alert);
+        
+        // If sensor is disconnected, clear its alert history
+        if (sensorData.status === '未接続' || sensorData.status === 'inactive') {
+          setInactiveMessage(sensorData.sensor_id, 'alert');
+        }
       });
     }
   });
@@ -140,12 +146,22 @@ function setupSocketListeners() {
     console.log('Received new sensor data');
     console.log('Sensor data details:', data);
     updateSensorData(data);
+    
+    // If sensor becomes disconnected, clear its alert history
+    if (data.status === '未接続' || data.status === 'inactive') {
+      setInactiveMessage(data.sensor_id, 'alert');
+    }
   });
 
   socket.on('newAlert', function(data) {
     console.log('Received new alert');
     console.log('Alert details:', data);
-    updateAlertData(data);
+    
+    // Check if sensor is connected before updating alert data
+    const statusElement = document.querySelector(`#sensor-${data.sensor_id} .sensor-status`);
+    if (statusElement && !statusElement.classList.contains('inactive') && statusElement.textContent !== '未接続') {
+      updateAlertData(data);
+    }
   });
 
   // Server information updates
@@ -477,9 +493,25 @@ function refreshData(sensorId) {
   // Show loading indicator
   document.getElementById(`data-last-updated-${sensorId}`).textContent = '読み込み中...';
   
+  // Check if the sensor is disconnected first
+  const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
+  if (statusElement && (statusElement.textContent === '未接続' || statusElement.classList.contains('inactive'))) {
+    // Sensor is disconnected, show inactive message instead of fetching data
+    console.log(`Sensor ${sensorId} is disconnected, not fetching data`);
+    document.getElementById(`data-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+    setInactiveMessage(sensorId, 'data');
+    return;
+  }
+  
   // Fetch sensor data from API
   fetch(`/api/sensors/${sensorId}/readings?limit=10`)
-    .then(response => response.json())
+    .then(response => {
+      // First check if the response is ok
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       // Update last updated timestamp
       document.getElementById(`data-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
@@ -585,6 +617,16 @@ function refreshAlertData(sensorId) {
   // Show loading indicator
   document.getElementById(`alert-last-updated-${sensorId}`).textContent = '読み込み中...';
   
+  // Check if the sensor is disconnected first
+  const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
+  if (statusElement && (statusElement.textContent === '未接続' || statusElement.classList.contains('inactive'))) {
+    // Sensor is disconnected, show inactive message
+    console.log(`Sensor ${sensorId} is disconnected, not fetching alert data`);
+    document.getElementById(`alert-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+    setInactiveMessage(sensorId, 'alert');
+    return;
+  }
+  
   // Fetch alert data from API
   fetch(`/api/alerts/${sensorId}?limit=10`)
     .then(response => response.json())
@@ -621,13 +663,19 @@ function refreshAlertData(sensorId) {
           alertTbody.appendChild(row);
         });
       } else {
-        // If no alerts, show a message
+        // If no alerts and sensor is active (稼働中), show "アラート情報はありません。"
         const row = document.createElement('tr');
         const cell = document.createElement('td');
         cell.colSpan = 3;
-        cell.textContent = 'アラートはありません';
-        cell.className = 'empty-table-row';
+        cell.className = 'text-center empty-table-row';
         cell.style.textAlign = 'center';
+        
+        if (statusElement && statusElement.textContent === '稼働中') {
+          cell.textContent = 'アラート情報はありません。';
+        } else {
+          cell.textContent = 'アラートはありません';
+        }
+        
         row.appendChild(cell);
         alertTbody.appendChild(row);
       }
@@ -1078,39 +1126,49 @@ function updateModelTraining(data) {
  * Set the appropriate inactive message for a specific section
  */
 function setInactiveMessage(sensorId, section) {
-  let tbody;
+  // Log the received data for debugging purposes
+  console.log(`Setting inactive message for sensor ${sensorId}, section: ${section}`);
   
-  switch(section) {
+  // Get the appropriate table body or container based on section
+  let container;
+  
+  switch (section) {
     case 'data':
-      tbody = document.getElementById(`tbody-${sensorId}`);
+      container = document.getElementById(`tbody-${sensorId}`);
       break;
     case 'alert':
-      tbody = document.getElementById(`alert-tbody-${sensorId}`);
+      container = document.getElementById(`alert-tbody-${sensorId}`);
       break;
     case 'settings':
-      tbody = document.getElementById(`settings-${sensorId}`);
+      container = document.getElementById(`settings-${sensorId}`);
       break;
     case 'personality':
-      tbody = document.getElementById(`personality-${sensorId}`);
+      container = document.getElementById(`personality-${sensorId}`);
       break;
+    default:
+      return;
   }
   
-  if (tbody) {
-    // Clear any existing content
-    tbody.innerHTML = '';
+  if (container) {
+    // Clear existing content
+    container.innerHTML = '';
     
-    // Create empty row with message
-    const emptyRow = document.createElement('tr');
-    const messageCell = document.createElement('td');
-    messageCell.setAttribute('colspan', section === 'data' ? '20' : '3');
-    messageCell.className = 'text-center';
-    messageCell.textContent = INACTIVE_MESSAGES[section];
-    emptyRow.appendChild(messageCell);
+    // Create a new empty row with message
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
     
-    if (section === 'data') {
-      emptyRow.className = 'empty-row';
-    }
+    // Set colspan based on section
+    cell.setAttribute('colspan', (section === 'data') ? 20 : 3);
+    cell.className = 'text-center empty-table-row';
+    cell.style.textAlign = 'center';
     
-    tbody.appendChild(emptyRow);
+    // Set the inactive message based on section
+    cell.textContent = INACTIVE_MESSAGES[section];
+    
+    row.appendChild(cell);
+    container.appendChild(row);
+    
+    // Log that the message was displayed
+    console.log(`Displayed inactive message for ${sensorId}, ${section}: ${INACTIVE_MESSAGES[section]}`);
   }
 }
