@@ -11,11 +11,6 @@
  * - Customizable log level
  */
 
-// Check if socket.io is available
-if (typeof io === 'undefined') {
-  console.warn('Socket.io not found, real-time logging will be disabled');
-}
-
 // Logger configuration
 const loggerConfig = {
   enabled: true,
@@ -56,19 +51,21 @@ const loggerConfig = {
   bufferPauseTime: 5000
 };
 
-// Log buffer for disconnected state
-const logBuffer = [];
-let bufferPaused = false;
-
 // Create the enhanced logger
 window.logger = (function() {
-  // Create logger object with all log levels
+  // Log buffer for disconnected state
+  const logBuffer = [];
+  let bufferPaused = false;
+  
+  // Logger object with all log levels
   const logger = {};
   
   // Current socket instance
   let socket = null;
-  
-  // Initialize socket connection
+
+  /**
+   * Initialize socket connection
+   */
   const initSocket = function() {
     // Use existing socket if available (from index.js)
     if (window.socket) {
@@ -78,6 +75,9 @@ window.logger = (function() {
       socket = io();
       window.socket = socket;
       console.log('Logger: Created new socket connection');
+    } else {
+      console.warn('Socket.io not found, real-time logging will be disabled');
+      return;
     }
     
     // Set up socket event handlers
@@ -94,7 +94,9 @@ window.logger = (function() {
     }
   };
   
-  // Flush buffered logs when connection is restored
+  /**
+   * Flush buffered logs when connection is restored
+   */
   const flushBuffer = function() {
     if (logBuffer.length > 0 && socket && socket.connected) {
       console.log(`Logger: Sending ${logBuffer.length} buffered log(s)`);
@@ -106,7 +108,9 @@ window.logger = (function() {
     }
   };
   
-  // Add log to buffer when disconnected
+  /**
+   * Add log to buffer when disconnected
+   */
   const bufferLog = function(level, message, meta) {
     if (logBuffer.length >= loggerConfig.maxBufferSize) {
       if (!bufferPaused) {
@@ -123,7 +127,9 @@ window.logger = (function() {
     return true;
   };
   
-  // Send log to server via socket
+  /**
+   * Send log to server via socket
+   */
   const sendLog = function(level, message, meta) {
     if (socket && socket.connected) {
       socket.emit('client-log', {
@@ -166,7 +172,9 @@ window.logger = (function() {
     };
   });
   
-  // Set the logging level
+  /**
+   * Set the logging level
+   */
   logger.setLevel = function(level) {
     if (loggerConfig.levels[level] !== undefined) {
       loggerConfig.level = level;
@@ -176,13 +184,17 @@ window.logger = (function() {
     return false;
   };
   
-  // Enable/disable logging
+  /**
+   * Enable/disable logging
+   */
   logger.setEnabled = function(enabled) {
     loggerConfig.enabled = !!enabled;
     console.log(`Logger: ${loggerConfig.enabled ? 'Enabled' : 'Disabled'}`);
   };
   
-  // Get current logger configuration
+  /**
+   * Get current logger configuration
+   */
   logger.getConfig = function() {
     return { ...loggerConfig };
   };

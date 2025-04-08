@@ -1,13 +1,14 @@
-# Node.js dependencies
-node_modules/
+# npm debug log
 npm-debug.log*
+
+# node_modules
+node_modules/
+# Package lock file
 package-lock.json
 
 # Environment files
 .env
 
-#log files
+# Log files
 *.log
-*.log.*
-
-
+logs/

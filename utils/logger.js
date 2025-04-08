@@ -12,8 +12,6 @@ import winston from 'winston';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { mkdirSync, existsSync } from 'fs';
-// Import socket.io for real-time logging integration
-import { Server as SocketServer } from 'socket.io';
 // Import daily rotation package
 import 'winston-daily-rotate-file';
 
@@ -23,15 +21,25 @@ const { format, transports } = winston;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Configuration constants
+const LOG_CONFIG = {
+  directory: join(__dirname, '..', 'logs'),
+  retention: '14d', // keep logs for 14 days
+  maxSize: '20m',
+  datePattern: 'YYYY-MM-DD',
+  timeFormat: 'YYYY-MM-DD HH:mm:ss',
+  defaultLevel: process.env.LOG_LEVEL || 'info',
+  serviceName: 'sensor-api'
+};
+
 // Create logs directory if it doesn't exist
-const logDir = join(__dirname, '..', 'logs');
-if (!existsSync(logDir)) {
-  mkdirSync(logDir);
+if (!existsSync(LOG_CONFIG.directory)) {
+  mkdirSync(LOG_CONFIG.directory);
 }
 
 // Define log format
 const logFormat = format.combine(
-  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  format.timestamp({ format: LOG_CONFIG.timeFormat }),
   format.errors({ stack: true }),
   format.splat(),
   format.json()
@@ -51,28 +59,28 @@ let socketClients = [];
 
 // Daily rotating file transport for error logs
 const errorRotateTransport = new winston.transports.DailyRotateFile({
-  filename: join(logDir, 'error-%DATE%.log'),
-  datePattern: 'YYYY-MM-DD',
+  filename: join(LOG_CONFIG.directory, 'error-%DATE%.log'),
+  datePattern: LOG_CONFIG.datePattern,
   level: 'error',
-  maxSize: '20m',
-  maxFiles: '14d', // keep logs for 14 days
+  maxSize: LOG_CONFIG.maxSize,
+  maxFiles: LOG_CONFIG.retention,
   format: logFormat
 });
 
 // Daily rotating file transport for combined logs
 const combinedRotateTransport = new winston.transports.DailyRotateFile({
-  filename: join(logDir, 'combined-%DATE%.log'),
-  datePattern: 'YYYY-MM-DD',
-  maxSize: '20m',
-  maxFiles: '14d', // keep logs for 14 days
+  filename: join(LOG_CONFIG.directory, 'combined-%DATE%.log'),
+  datePattern: LOG_CONFIG.datePattern,
+  maxSize: LOG_CONFIG.maxSize,
+  maxFiles: LOG_CONFIG.retention,
   format: logFormat
 });
 
 // Create the logger with enhanced options
 const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: LOG_CONFIG.defaultLevel,
   format: logFormat,
-  defaultMeta: { service: 'sensor-api' },
+  defaultMeta: { service: LOG_CONFIG.serviceName },
   transports: [
     // Write all logs to console with colors
     new transports.Console({
@@ -84,15 +92,15 @@ const logger = winston.createLogger({
     combinedRotateTransport,
     // Keep original file transports for backward compatibility
     new transports.File({ 
-      filename: join(logDir, 'error.log'), 
+      filename: join(LOG_CONFIG.directory, 'error.log'), 
       level: 'error' 
     }),
     new transports.File({ 
-      filename: join(logDir, 'combined.log')
+      filename: join(LOG_CONFIG.directory, 'combined.log')
     }),
     // Client logs stored separately
     new transports.File({ 
-      filename: join(logDir, 'client.log'),
+      filename: join(LOG_CONFIG.directory, 'client.log'),
       level: 'info'
     })
   ],
@@ -115,7 +123,10 @@ logger.stream = {
   write: (message) => logger.info(message.trim()),
 };
 
-// Setup WebSocket integration for real-time logging
+/**
+ * Sets up WebSocket integration for real-time logging
+ * @param {SocketIO.Server} io - Socket.io server instance
+ */
 logger.setupSocketIO = (io) => {
   // Listen for new client connections
   io.on('connection', (socket) => {
