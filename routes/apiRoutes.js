@@ -111,6 +111,8 @@ const setupRoutes = (io) => {
   // GET /api/alerts - Get all alerts with pagination
   router.get('/alerts', validatePagination, asyncHandler(async (req, res) => {
     try {
+       console.log('Received aleart data:', req.body);
+
       const alerts = await Alert.find()
         .sort({ created_at: -1 })
         .limit(req.pagination.limit)

@@ -10,5 +10,6 @@ package-lock.json
 .env
 
 # Log files
-*.logs
-logs/
+logs/*
+.log 
+logs/*-*.log.gz

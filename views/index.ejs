@@ -56,7 +56,7 @@
             <!-- Raw Data History -->
             <div class="sensor-data-section">
               <div class="section-controls">
-                <h3>取得データ履歴 <span class="data-count">(最新<%= readings.length %>件)</span></h3>
+                <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
                 <div class="info-controls">
                   <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
                   <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
@@ -250,7 +250,7 @@
             <!-- Empty Data History -->
             <div class="sensor-data-section">
               <div class="section-controls">
-                <h3>取得データ履歴 <span class="data-count">(データなし)</span></h3>
+                <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
                 <div class="info-controls">
                   <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: --</span>
                   <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">

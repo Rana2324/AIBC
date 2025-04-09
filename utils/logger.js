@@ -29,7 +29,8 @@ const LOG_CONFIG = {
   datePattern: 'YYYY-MM-DD',
   timeFormat: 'YYYY-MM-DD HH:mm:ss',
   defaultLevel: process.env.LOG_LEVEL || 'info',
-  serviceName: 'sensor-api'
+  serviceName: 'sensor-api',
+  zippedArchive: true
 };
 
 // Create logs directory if it doesn't exist
@@ -64,7 +65,8 @@ const errorRotateTransport = new winston.transports.DailyRotateFile({
   level: 'error',
   maxSize: LOG_CONFIG.maxSize,
   maxFiles: LOG_CONFIG.retention,
-  format: logFormat
+  format: logFormat,
+  zippedArchive: LOG_CONFIG.zippedArchive
 });
 
 // Daily rotating file transport for combined logs
@@ -73,7 +75,8 @@ const combinedRotateTransport = new winston.transports.DailyRotateFile({
   datePattern: LOG_CONFIG.datePattern,
   maxSize: LOG_CONFIG.maxSize,
   maxFiles: LOG_CONFIG.retention,
-  format: logFormat
+  format: logFormat,
+  zippedArchive: LOG_CONFIG.zippedArchive
 });
 
 // Create the logger with enhanced options
