@@ -7,7 +7,8 @@ import {
   processSensorData, 
   getLatestSensorData, 
   getAlertHistory,
-  getSystemStatus
+  getSystemStatus,
+  processAlertData
 } from '../controllers/sensorController.js';
 import { 
   validateSensorData, 
@@ -108,17 +109,25 @@ const setupRoutes = (io) => {
   // GET /api/alerts/:sensorId - Get alerts for a specific sensor
   router.get('/alerts/:sensorId', validateSensorId, asyncHandler((req, res) => getAlertHistory(req, res)));
 
-  // GET /api/alerts - Get all alerts with pagination
+  // POST /api/alerts - Create a new alert directly from request body
+  router.post('/alerts', asyncHandler((req, res) => processAlertData(req, res, io)));
+
+  // GET /api/alerts - Get all alerts with pagination (read-only, no alert creation)
   router.get('/alerts', validatePagination, asyncHandler(async (req, res) => {
     try {
-       console.log('Received aleart data:', req.body);
+      logger.debug('Fetching all alerts with pagination', {
+        page: req.pagination.page,
+        limit: req.pagination.limit
+      });
 
+      // Only fetch existing alerts from MongoDB - no alert creation
       const alerts = await Alert.find()
         .sort({ created_at: -1 })
         .limit(req.pagination.limit)
         .skip((req.pagination.page - 1) * req.pagination.limit);
       
       const totalCount = await Alert.countDocuments();
+      logger.info(`Found ${alerts.length} alerts, total count: ${totalCount}`);
       
       res.status(200).json({
         data: alerts,

@@ -465,9 +465,9 @@ const UIManager = (function() {
     // Create status cell
     const statusCell = document.createElement('td');
     statusCell.textContent = data.status || '-';
-    if (data.status && !data.status.includes('正常')) {
-      statusCell.classList.add('table-danger');
-    }
+    // if (data.status && !data.status.includes('正常')) {
+    //   statusCell.classList.add('table-danger');
+    // }
     newRow.appendChild(statusCell);
     
     return newRow;
@@ -826,10 +826,19 @@ const DataService = (function() {
       return;
     }
     
+    console.log(`Fetching alert data for sensor ${sensorId}`);
+    
     // Fetch alert data from API
     fetch(`/api/alerts/${sensorId}?limit=10`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
+        console.log(`Received alert data for sensor ${sensorId}:`, data);
+        
         // Update last updated timestamp
         document.getElementById(`alert-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
         
@@ -853,7 +862,8 @@ const DataService = (function() {
             timeCell.textContent = alert.time || formatTime(new Date(alert.timestamp));
             
             const messageCell = document.createElement('td');
-            messageCell.textContent = alert.message;
+            // Use alert_reason if message is not available
+            messageCell.textContent = alert.message || alert.alert_reason || '異常を検出しました';
             
             row.appendChild(dateCell);
             row.appendChild(timeCell);
@@ -880,8 +890,9 @@ const DataService = (function() {
         }
       })
       .catch(error => {
-        console.error('Error fetching alert data:', error);
+        console.error(`Error fetching alert data for sensor ${sensorId}:`, error);
         document.getElementById(`alert-last-updated-${sensorId}`).textContent = 'データの取得に失敗しました';
+        UIManager.showError(`センサー ${sensorId} のアラートデータの取得に失敗しました`);
       });
   };
 

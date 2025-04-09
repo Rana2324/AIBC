@@ -12,42 +12,31 @@ import logger from '../utils/logger.js';
 
 /**
  * Process and save incoming sensor data
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {SocketIO.Server} io - Socket.io server instance for real-time updates
  */
 export const processSensorData = async (req, res, io) => {
   try {
+    logger.debug('Received sensor data:', req.body);
 
-    console.log('Received sensor data:', req.body);
-    // Validate that the required fields exist
     const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
-    
+
     if (missingFields.length > 0) {
-      logger.warn('Missing required fields in sensor data', { 
-        missingFields, 
-        receivedData: req.body 
-      });
-      
-      return res.status(400).json({ 
-        message: 'Missing required fields', 
-        missingFields: missingFields 
-      });
+      logger.warn('Missing required fields in sensor data', { missingFields, receivedData: req.body });
+      return res.status(400).json({ message: 'Missing required fields', missingFields });
     }
-    
-    // Save data to MongoDB
+
+    // Save sensor data
     const sensorData = new TemperatureSensor(req.body);
     await sensorData.save();
-    
+
     logger.debug('Sensor data saved successfully', {
       sensorId: sensorData.sensor_id,
       averageTemp: sensorData.average_temp,
       status: sensorData.status
     });
-    
-    // Prepare data for real-time emission
-    const sensorDataForEmit = {
+
+    // Emit sensor data to connected clients
+    io.emit('newSensorData', {
       sensor_id: sensorData.sensor_id,
       date: sensorData.date,
       time: sensorData.time,
@@ -55,16 +44,54 @@ export const processSensorData = async (req, res, io) => {
       temperature_data: sensorData.temperature_data,
       status: sensorData.status,
       created_at: sensorData.created_at
-    };
-    
-    // Emit the new data to all connected clients via Socket.io
-    io.emit('newSensorData', sensorDataForEmit);
-    
-    // Check if we need to create an alert
-    if (!sensorData.status.includes('正常')) {
-      await createAndEmitAlert(sensorData, io);
+    });
+
+    // Check for temperature alert conditions
+    let alertReason = null;
+    if (sensorData.average_temp <= 20) {
+      alertReason = '温度が 20°C未満になりました';
+    } else if (sensorData.average_temp >= 70) {
+      alertReason = '温度が 70°C超えました';
+    } else if (!sensorData.status.includes('正常')) {
+      alertReason = '温度が正常範囲に戻りました';
     }
-    
+
+    // Create alert if needed
+    if (alertReason) {
+      // Check for recent similar alerts to avoid duplicates
+      const recentAlert = await Alert.findOne({
+        sensor_id: sensorData.sensor_id,
+        alert_reason: alertReason,
+        created_at: { $gte: new Date(Date.now() - 30000) } // Within last 30 seconds
+      });
+
+      if (!recentAlert) {
+        const alert = new Alert({
+          sensor_id: sensorData.sensor_id,
+          date: sensorData.date,
+          time: sensorData.time,
+          alert_reason: alertReason,
+          status: 'alert',
+          created_at: new Date()
+        });
+
+        await alert.save();
+        logger.info('Created new alert', {
+          sensorId: alert.sensor_id,
+          reason: alert.alert_reason,
+          temperature: sensorData.average_temp
+        });
+
+        // Emit alert to connected clients
+        io.emit('newAlert', {
+          sensor_id: alert.sensor_id,
+          date: alert.date,
+          time: alert.time,
+          message: alert.alert_reason
+        });
+      }
+    }
+
     res.status(201).json({ message: 'Data received and stored successfully' });
   } catch (error) {
     logger.error('Error processing sensor data:', error);
@@ -73,77 +100,72 @@ export const processSensorData = async (req, res, io) => {
 };
 
 /**
- * Create alert from sensor data and emit to clients
- * @private
- * @param {Object} sensorData - Sensor data object
- * @param {SocketIO.Server} io - Socket.io server instance
+ * Process and save alert data directly from request body
  */
-async function createAndEmitAlert(sensorData, io) {
+export const processAlertData = async (req, res, io) => {
   try {
-    // Format temperature to 2 decimal places for cleaner display
-    const formattedTemp = sensorData.average_temp.toFixed(2);
-    const alertMessage = `温度異常: ${formattedTemp}°C`;
-    
-    // Create and save alert
+    logger.debug('Received alert data:', req.body);
+
+    const requiredFields = ['sensor_id', 'date', 'time', 'alert_reason', 'status'];
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+      logger.warn('Missing alert fields in request body', { missingFields, receivedData: req.body });
+      return res.status(400).json({ message: 'Missing required alert fields', missingFields });
+    }
+
     const alert = new Alert({
-      sensor_id: sensorData.sensor_id,
-      date: sensorData.date,
-      time: sensorData.time,
-      alert_reason: sensorData.status,
-      status: 'active',
-      message: alertMessage
+      sensor_id: req.body.sensor_id,
+      date: req.body.date,
+      time: req.body.time,
+      alert_reason: req.body.alert_reason,
+      status: req.body.status,
+      created_at: new Date()
     });
-    
+
     await alert.save();
-    logger.info('Created new alert', {
-      sensorId: alert.sensor_id,
-      reason: alert.alert_reason
+
+    logger.info('Alert saved successfully', {
+      sensorId: alert.sensor_id || 'unknown',
+      alertReason: alert.alert_reason || 'unknown'
     });
-    
-    // Emit alert to all connected clients
+
     io.emit('newAlert', {
       sensor_id: alert.sensor_id,
       date: alert.date,
       time: alert.time,
-      message: alertMessage
+      message: alert.alert_reason
     });
-    
-    return alert;
+
+    return res.status(201).json({ message: 'Alert saved successfully' });
   } catch (error) {
-    logger.error('Error creating alert:', error);
-    throw error; // Re-throw to be handled by calling function
+    logger.error('Error saving alert from body:', error);
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
-}
+};
 
 /**
- * Get latest sensor data for the web interface
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * Get latest sensor data
  */
 export const getLatestSensorData = async (req, res) => {
   try {
-    // Get sensor ID from request parameters, if any
     const { sensorId } = req.params;
     const query = sensorId ? { sensor_id: sensorId } : {};
     const limit = parseInt(req.query.limit) || 100;
-    
-    // Fetch the latest sensor readings from MongoDB
+
     const latestReadings = await TemperatureSensor.find(query)
       .sort({ created_at: -1 })
       .limit(limit);
-    
-    // If format=json is specified, return JSON data
+
     if (req.query.format === 'json') {
       return res.json(latestReadings);
     }
-    
-    // Otherwise, fetch alerts and render the page
+
     const latestAlerts = await Alert.find(query)
       .sort({ created_at: -1 })
       .limit(10);
-    
-    // Render the index page with the data
-    res.render('index', { 
+
+    res.render('index', {
       title: '温度センサー監視システム',
       latestReadings: {
         data: latestReadings,
@@ -152,51 +174,43 @@ export const getLatestSensorData = async (req, res) => {
     });
   } catch (error) {
     logger.error('Error fetching sensor data:', error);
-    
-    // Determine response based on request type
     if (req.xhr || req.query.format === 'json') {
       res.status(500).json({ error: 'Failed to fetch sensor data' });
     } else {
-      res.status(500).render('error', { 
+      res.status(500).render('error', {
         title: 'エラー | 温度センサー監視システム',
-        message: 'Failed to fetch sensor data', 
-        error 
+        message: 'Failed to fetch sensor data',
+        error
       });
     }
   }
 };
 
 /**
- * Send initial data to a newly connected Socket.io client
- * @param {SocketIO.Socket} socket - Socket.io client socket
+ * Send initial data to Socket.io client
  */
 export const sendInitialData = async (socket) => {
   try {
-    // Fetch latest sensor data
     const latestReadings = await TemperatureSensor.find()
       .sort({ created_at: -1 })
       .limit(100);
-    
-    // Fetch latest alerts
+
     const latestAlerts = await Alert.find()
       .sort({ created_at: -1 })
       .limit(10);
-    
-    // Send data to the connected client
+
     socket.emit('initialData', {
       sensorData: latestReadings,
       alerts: latestAlerts
     });
-    
-    logger.debug('Initial data sent to client', { 
+
+    logger.debug('Initial data sent to client', {
       socketId: socket.id,
       readingsCount: latestReadings.length,
       alertsCount: latestAlerts.length
     });
   } catch (error) {
     logger.error('Error sending initial data:', error);
-    
-    // Send error notification to client
     socket.emit('error', {
       message: 'Failed to load initial data',
       type: 'data_loading_error'
@@ -205,40 +219,38 @@ export const sendInitialData = async (socket) => {
 };
 
 /**
- * Get alert history for a specific sensor
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * Get alert history
  */
 export const getAlertHistory = async (req, res) => {
   try {
     const { sensorId } = req.params;
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 if not specified
-    
+    const limit = parseInt(req.query.limit) || 10;
+
     if (!sensorId) {
       return res.status(400).json({ error: 'Sensor ID is required' });
     }
-    
-    // Fetch the latest alerts for this sensor, sorted by timestamp (newest first)
+
+    logger.debug(`Fetching alert history for sensor ${sensorId}, limit: ${limit}`);
+
     const alerts = await Alert.find({ sensor_id: sensorId })
       .sort({ created_at: -1 })
-      .limit(limit)
-      .exec();
-    
-    // Format alerts for display
+      .limit(limit);
+
+    logger.info(`Found ${alerts.length} alerts for sensor ${sensorId}`);
+
     const formattedAlerts = alerts.map(alert => {
       const timestamp = alert.created_at || new Date();
       return {
         date: alert.date || timestamp.toISOString().split('T')[0],
         time: alert.time || timestamp.toTimeString().split(' ')[0],
-        timestamp: timestamp,
+        timestamp,
         sensor_id: alert.sensor_id,
         message: alert.alert_reason || alert.message,
         status: alert.status,
         severity: alert.severity || 'medium'
       };
     });
-    
-    // Return alert data
+
     res.json(formattedAlerts);
   } catch (error) {
     logger.error('Error fetching alert history:', error);
@@ -247,25 +259,22 @@ export const getAlertHistory = async (req, res) => {
 };
 
 /**
- * Get system status information
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * Get system status
  */
 export const getSystemStatus = async (req, res) => {
   try {
-    // Calculate basic system metrics
     const systemStatus = {
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
       memoryUsage: process.memoryUsage(),
       sensorCount: await TemperatureSensor.countDocuments(),
       alertCount: await Alert.countDocuments(),
-      activeSensors: await TemperatureSensor.distinct('sensor_id').countDocuments()
+      activeSensors: await TemperatureSensor.distinct('sensor_id').length
     };
-    
+
     res.json(systemStatus);
   } catch (error) {
     logger.error('Error fetching system status:', error);
-    res.status(500).json({ error: 'Failed to retrieve system status' });
+    res.status(500).json({ error: 'Failed to fetch system status' });
   }
 };
