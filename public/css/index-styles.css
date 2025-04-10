@@ -329,7 +329,7 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Sensor status styling */
+/* Sensor status styling - Enhanced design */
 .sensor-status {
   padding: 8px 16px;
   border-radius: 30px;
@@ -353,7 +353,6 @@
   height: 10px;
   border-radius: 50%;
   margin-right: 8px;
-  animation: pulse-status 2s infinite;
 }
 
 .sensor-status::after {
@@ -368,20 +367,26 @@
   animation: shimmer 2s infinite;
 }
 
+/* Active sensor - Enhanced with gradient and improved animation */
 .sensor-status.active {
-  background: #5e60ce;
-  border: #0056b3;
+  background: linear-gradient(135deg, #5e60ce, #0056b3);
   color: white;
+  border: 1px solid #0056b3;
+  transform: translateZ(0);
+  color: white; /* Hardware acceleration */
 }
 
 .sensor-status.active::before {
   background-color: white;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  animation: pulse-status 2s infinite;
 }
 
+/* Alert sensor */
 .sensor-status.alert {
   background: linear-gradient(135deg, #fd7e14, #ffc107);
   color: white;
+  border: 1px solid rgba(253, 126, 20, 0.3);
 }
 
 .sensor-status.alert::before {
@@ -389,9 +394,11 @@
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
+/* Inactive sensor */
 .sensor-status.inactive {
   background: linear-gradient(135deg, #6c757d, #adb5bd);
   color: white;
+  border: 1px solid rgba(108, 117, 125, 0.3);
 }
 
 .sensor-status.inactive::before {
@@ -399,6 +406,7 @@
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
+/* Improved pulse animation */
 @keyframes pulse-status {
   0% {
     transform: scale(1);
@@ -414,10 +422,31 @@
   }
 }
 
+/* Enhanced shimmer effect */
 @keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
   100% {
     transform: translateX(100%);
   }
+}
+
+/* Hover effect for status indicators */
+.sensor-status:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Status change animation */
+.sensor-status.status-changed {
+  animation: statusChangePulse 0.8s ease;
+}
+
+@keyframes statusChangePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+  100% { transform: scale(1); }
 }
 
 /* Table styling */
