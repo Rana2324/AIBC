@@ -23,6 +23,16 @@ const SensorApp = (function() {
     personality: "個性（バイアス）の履歴データは表示できません。"
   };
   
+  // Sensor activity tracking
+  const sensorLastActivity = {
+    sensor_1: 0,
+    sensor_2: 0,
+    sensor_3: 0
+  };
+  
+  // Configuration
+  const SENSOR_INACTIVE_THRESHOLD = 1000; // Mark as inactive after 1 second of no data
+  
   // Initialize the application
   const init = function() {
     console.log('Initializing temperature sensor monitoring system...');
@@ -48,8 +58,8 @@ const SensorApp = (function() {
       refreshAlertData(sensorId);
     });
 
-    // Start periodic checks for inactive sensors
-    setInterval(checkInactiveSensors, 5000);
+    // Start periodic checks for inactive sensors (check every 500ms for faster detection)
+    setInterval(checkInactiveSensors, 500);
     
     // Setup scroll handler for connection status
     setupScrollHandler();
@@ -114,19 +124,30 @@ const SensorApp = (function() {
   
   // Check for inactive sensors
   const checkInactiveSensors = function() {
-    // Get all sensor status elements
-    const statusElements = document.querySelectorAll('.sensor-status');
+    // Get current timestamp
+    const now = Date.now();
     
-    // Check each sensor
-    statusElements.forEach(statusElement => {
-      const sensorId = statusElement.closest('[id^="sensor-"]').id.replace('sensor-', '');
+    // For each sensor, check if it's been inactive for longer than the threshold
+    Object.keys(sensorLastActivity).forEach(sensorId => {
+      // Skip sensors with no activity recorded yet (value is 0)
+      if (sensorLastActivity[sensorId] === 0) return;
       
-      // If sensor is inactive, set appropriate messages
-      if (statusElement.classList.contains('inactive') || statusElement.textContent === '未接続') {
-        UIManager.setInactiveMessage(sensorId, 'data');
-        UIManager.setInactiveMessage(sensorId, 'alert');
-        UIManager.setInactiveMessage(sensorId, 'settings');
-        UIManager.setInactiveMessage(sensorId, 'personality');
+      const inactiveTime = now - sensorLastActivity[sensorId];
+      const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
+      
+      // If inactive for more than threshold and currently shown as active
+      if (inactiveTime > SENSOR_INACTIVE_THRESHOLD && 
+          statusElement && 
+          statusElement.textContent === '稼働中') {
+        
+        // Log the status change
+        logger.info(`Sensor ${sensorId} marked as inactive (no data for ${inactiveTime}ms)`);
+        
+        // Change status to inactive
+        UIManager.updateSensorStatus(sensorId, '未接続');
+        
+        // Show notification
+        UIManager.showError(`センサー ${sensorId} が未接続になりました`);
       }
     });
   };
@@ -166,6 +187,12 @@ const SensorApp = (function() {
     // Real-time data updates
     socket.on('newSensorData', function(data) {
       console.log('Received new sensor data');
+      
+      // Update last activity time for this sensor
+      if (data && data.sensor_id) {
+        SensorApp.updateSensorActivity(data.sensor_id);
+      }
+      
       UIManager.updateSensorData(data);
       
       // If sensor becomes disconnected, clear its alert history
@@ -227,6 +254,13 @@ const SensorApp = (function() {
     },
     getSocket: function() {
       return socket;
+    },
+    updateSensorActivity: function(sensorId) {
+      // Update the last activity timestamp for this sensor
+      if (sensorLastActivity.hasOwnProperty(sensorId)) {
+        sensorLastActivity[sensorId] = Date.now();
+        logger.debug(`Updated activity timestamp for sensor ${sensorId}`);
+      }
     }
   };
 })();
@@ -365,6 +399,9 @@ const UIManager = (function() {
       timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
     }
     
+    // Update last activity time for the sensor
+    SensorApp.updateSensorActivity(sensorId);
+    
     // Update status indicator if needed
     updateSensorStatus(sensorId, data.status);
     
@@ -395,6 +432,9 @@ const UIManager = (function() {
   const updateSensorStatus = function(sensorId, status) {
     const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
     if (statusElement) {
+      // Save previous status to detect changes
+      const previousStatus = statusElement.textContent;
+      
       // Check explicitly for 'inactive' or '未接続' or empty/null status
       if (status === 'inactive' || status === '未接続' || !status) {
         // Set to inactive state
@@ -412,6 +452,12 @@ const UIManager = (function() {
         const isNormal = status.includes('正常');
         statusElement.className = `sensor-status ${isNormal ? 'active' : 'alert'}`;
         statusElement.textContent = isNormal ? '稼働中' : '異常検出';
+        
+        // If previous status was '未接続' and now active, show reconnection notification
+        if (previousStatus === '未接続' && isNormal) {
+          logger.info(`Sensor ${sensorId} is back online`);
+          showError(`センサー ${sensorId} が再接続されました`);
+        }
       }
     }
   };
