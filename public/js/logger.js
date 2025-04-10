@@ -1,216 +1,149 @@
 /**
- * Client-side Logger
- * Real-time logger that sends logs to the server via WebSocket
- * and provides local console logging
- * 
+ * Client-side logger for the temperature sensor monitoring system
  * Features:
- * - Real-time integration with server via WebSocket
- * - Local console logging with formatting
- * - Multiple log levels (error, warn, info, etc.)
- * - Buffering when disconnected
- * - Customizable log level
+ * - Multiple log levels (debug, info, warn, error)
+ * - Console output with formatting
+ * - Socket.IO integration for sending logs to server
+ * - Configurable verbosity
  */
 
-// Logger configuration
-const loggerConfig = {
-  enabled: true,
-  level: 'info', // default level
-  levels: {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    verbose: 4,
-    debug: 5,
-    silly: 6
-  },
-  // Map log levels to console methods
-  consoleMethods: {
-    error: 'error',
-    warn: 'warn',
-    info: 'info',
-    http: 'log',
-    verbose: 'log',
-    debug: 'debug',
-    silly: 'log'
-  },
-  // Color codes for different log levels in console
-  colors: {
-    error: 'color: #ff0000; font-weight: bold',
-    warn: 'color: #ff9900; font-weight: bold',
-    info: 'color: #0099ff',
-    http: 'color: #00cc00',
-    verbose: 'color: #999999',
-    debug: 'color: #9900cc',
-    silly: 'color: #cccccc'
-  },
-  // Store logs when disconnected to send later (up to maxBufferSize)
-  bufferLogs: true,
-  maxBufferSize: 100,
-  // Pause time in ms when buffer is full before allowing more logs
-  bufferPauseTime: 5000
-};
+const Logger = (function() {
+  // Configuration
+  let config = {
+    enabled: true,
+    minLevel: 'info',      // Minimum level to log: debug, info, warn, error
+    consoleOutput: true,   // Output to browser console
+    serverSync: true,      // Send logs to server via socket.io
+    includeTimestamp: true // Include timestamp in logs
+  };
+  
+  // Log levels and their priorities
+  const LOG_LEVELS = {
+    debug: 0,
+    info: 1,
+    warn: 2,
+    error: 3
+  };
 
-// Create the enhanced logger
-window.logger = (function() {
-  // Log buffer for disconnected state
-  const logBuffer = [];
-  let bufferPaused = false;
+  // Convert minLevel to priority number
+  let minLevelPriority = LOG_LEVELS[config.minLevel] || 1;
   
-  // Logger object with all log levels
-  const logger = {};
-  
-  // Current socket instance
-  let socket = null;
+  // Format current time for logs
+  const getTimestamp = function() {
+    const now = new Date();
+    return now.toISOString();
+  };
 
-  /**
-   * Initialize socket connection
-   */
-  const initSocket = function() {
-    // Use existing socket if available (from index.js)
-    if (window.socket) {
-      socket = window.socket;
-      console.log('Logger: Using existing socket connection');
-    } else if (typeof io !== 'undefined') {
-      socket = io();
-      window.socket = socket;
-      console.log('Logger: Created new socket connection');
-    } else {
-      console.warn('Socket.io not found, real-time logging will be disabled');
-      return;
-    }
+  // Send log to server via Socket.IO if available
+  const sendToServer = function(level, message, meta) {
+    if (!config.serverSync) return;
     
-    // Set up socket event handlers
-    if (socket) {
-      socket.on('connect', function() {
-        console.log('Logger: Connected to server');
-        // Send any buffered logs
-        flushBuffer();
-      });
-      
-      socket.on('disconnect', function() {
-        console.log('Logger: Disconnected from server');
-      });
-    }
-  };
-  
-  /**
-   * Flush buffered logs when connection is restored
-   */
-  const flushBuffer = function() {
-    if (logBuffer.length > 0 && socket && socket.connected) {
-      console.log(`Logger: Sending ${logBuffer.length} buffered log(s)`);
-      
-      while (logBuffer.length > 0) {
-        const log = logBuffer.shift();
-        sendLog(log.level, log.message, log.meta);
-      }
-    }
-  };
-  
-  /**
-   * Add log to buffer when disconnected
-   */
-  const bufferLog = function(level, message, meta) {
-    if (logBuffer.length >= loggerConfig.maxBufferSize) {
-      if (!bufferPaused) {
-        bufferPaused = true;
-        setTimeout(function() {
-          bufferPaused = false;
-        }, loggerConfig.bufferPauseTime);
-        console.warn(`Logger: Buffer full (${loggerConfig.maxBufferSize} entries), pausing for ${loggerConfig.bufferPauseTime}ms`);
-      }
-      return false;
-    }
+    // Get the socket instance if it exists
+    const socket = window.socket;
+    if (!socket) return;
     
-    logBuffer.push({ level, message, meta });
-    return true;
-  };
-  
-  /**
-   * Send log to server via socket
-   */
-  const sendLog = function(level, message, meta) {
-    if (socket && socket.connected) {
+    // Only send if socket is connected
+    if (socket.connected) {
       socket.emit('client-log', {
-        level: level,
-        message: message,
+        level,
+        message,
         meta: meta || {},
-        timestamp: new Date().toISOString()
+        timestamp: getTimestamp(),
+        userAgent: navigator.userAgent
       });
-      return true;
-    } else if (loggerConfig.bufferLogs && !bufferPaused) {
-      return bufferLog(level, message, meta);
     }
-    return false;
   };
   
-  // Create log method for each level
-  Object.keys(loggerConfig.levels).forEach(level => {
-    logger[level] = function(message, meta) {
-      // Skip if logging is disabled or level is higher than current
-      if (!loggerConfig.enabled || loggerConfig.levels[level] > loggerConfig.levels[loggerConfig.level]) {
-        return;
-      }
-      
-      // Format console output
-      const consoleMethod = loggerConfig.consoleMethods[level];
-      const timestamp = new Date().toLocaleTimeString();
-      
-      // Log to console with formatting
-      if (typeof console[consoleMethod] === 'function') {
-        console[consoleMethod](
-          `%c[${timestamp}] [${level.toUpperCase()}]`,
-          loggerConfig.colors[level],
-          message,
-          meta || ''
-        );
-      }
-      
-      // Send to server
-      sendLog(level, message, meta);
-    };
-  });
-  
-  /**
-   * Set the logging level
-   */
-  logger.setLevel = function(level) {
-    if (loggerConfig.levels[level] !== undefined) {
-      loggerConfig.level = level;
-      console.log(`Logger: Set level to '${level}'`);
-      return true;
+  // Log to console with formatting
+  const logToConsole = function(level, message, meta) {
+    if (!config.consoleOutput) return;
+    
+    const timestamp = config.includeTimestamp ? `[${getTimestamp()}]` : '';
+    const prefix = `${timestamp} [${level.toUpperCase()}]`;
+    
+    // Different console methods based on level
+    switch (level) {
+      case 'debug':
+        console.debug(`${prefix}:`, message, meta || '');
+        break;
+      case 'info':
+        console.info(`${prefix}:`, message, meta || '');
+        break;
+      case 'warn':
+        console.warn(`${prefix}:`, message, meta || '');
+        break;
+      case 'error':
+        console.error(`${prefix}:`, message, meta || '');
+        break;
+      default:
+        console.log(`${prefix}:`, message, meta || '');
     }
-    return false;
   };
   
-  /**
-   * Enable/disable logging
-   */
-  logger.setEnabled = function(enabled) {
-    loggerConfig.enabled = !!enabled;
-    console.log(`Logger: ${loggerConfig.enabled ? 'Enabled' : 'Disabled'}`);
+  // Generic log method
+  const log = function(level, message, meta) {
+    if (!config.enabled) return;
+    
+    // Check if level meets minimum level requirement
+    const levelPriority = LOG_LEVELS[level] || 0;
+    if (levelPriority < minLevelPriority) return;
+    
+    // Log to console
+    logToConsole(level, message, meta);
+    
+    // Send to server
+    sendToServer(level, message, meta);
+    
+    return this; // For chaining
   };
   
-  /**
-   * Get current logger configuration
-   */
-  logger.getConfig = function() {
-    return { ...loggerConfig };
+  // Public API
+  return {
+    // Log methods
+    debug: function(message, meta) {
+      return log('debug', message, meta);
+    },
+    info: function(message, meta) {
+      return log('info', message, meta);
+    },
+    warn: function(message, meta) {
+      return log('warn', message, meta);
+    },
+    error: function(message, meta) {
+      return log('error', message, meta);
+    },
+    
+    // Configuration methods
+    configure: function(options) {
+      if (!options) return config;
+      
+      config = {
+        ...config,
+        ...options
+      };
+      
+      // Update minLevelPriority based on new config
+      minLevelPriority = LOG_LEVELS[config.minLevel] || 1;
+      
+      return this; // For chaining
+    },
+    getConfig: function() {
+      return { ...config };
+    },
+    
+    // Enable/disable logging
+    enable: function() {
+      config.enabled = true;
+      return this;
+    },
+    disable: function() {
+      config.enabled = false;
+      return this;
+    }
   };
-  
-  // Initialize when DOM is ready
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(initSocket, 0);
-  } else {
-    document.addEventListener('DOMContentLoaded', initSocket);
-  }
-  
-  return logger;
 })();
 
-// For backward compatibility
-const logger = window.logger;
+// Set global logger variable for use throughout the application
+window.logger = Logger;
 
-// Log that logger has been initialized
-logger.info('Client logger initialized', { version: '1.0.0' });
+// No export statement - just make it globally available

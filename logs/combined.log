@@ -63817,3 +63817,321 @@
 {"clientId":"Hq7xmt3qOsb7JgWWAAAD","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 1319ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:12:24"}
 {"clientId":"Hq7xmt3qOsb7JgWWAAAD","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:12:24"}
 {"clientId":"Hq7xmt3qOsb7JgWWAAAD","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:12:46"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:16:23"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:16:23","version":"1.0.0"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:16:23"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:16:23"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:16:23"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:16:23"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1899ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:17:33"}
+{"clientId":"YtbMVl8-aeMVlbPgAAAF","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:17:33"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:20:44"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:20:44","version":"1.0.0"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:20:44"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:20:44"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:20:44"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:20:45"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 4832ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:56"}
+{"clientId":"sGytZIL8kcmrNKZIAAAH","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:56"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:23:59"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:59","version":"1.0.0"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:59"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:59"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:23:59"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:00"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1044ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:01"}
+{"clientId":"x6bX3RT7GDV9AcuOAAAJ","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:01"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:24:55"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:55","version":"1.0.0"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:55"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:55"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:55"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:24:56"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 1174ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:25:01"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:25:01"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:25:25"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:13"}
+{"level":"info","message":"Created new alert","reason":"温度が正常範囲に戻りました","sensorId":"sensor_1","service":"sensor-api","temperature":20.118750000000006,"timestamp":"2025-04-10 14:30:13"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:13"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:28"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:28"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:29"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:45"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:45"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:58"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:30:58"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:01"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:01"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:14"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:14"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:15"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:15"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:20"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:20"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:21"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 14:31:21"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 4866ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_2 marked as inactive (no data for 4869ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_2 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 4753ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_2 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"clientId":"US7qllfB5KfCT6FcAAAL","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:46"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:31:56"}
+{"clientId":"4ITAibqytIsjfzdkAAAN","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:56","version":"1.0.0"}
+{"clientId":"4ITAibqytIsjfzdkAAAN","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:56"}
+{"clientId":"4ITAibqytIsjfzdkAAAN","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:56"}
+{"clientId":"4ITAibqytIsjfzdkAAAN","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:56"}
+{"clientId":"4ITAibqytIsjfzdkAAAN","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:31:56"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:32:04"}
+{"clientId":"nlvNv3IzmBX80vF7AAAP","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:04","version":"1.0.0"}
+{"clientId":"nlvNv3IzmBX80vF7AAAP","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:04"}
+{"clientId":"nlvNv3IzmBX80vF7AAAP","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:04"}
+{"clientId":"nlvNv3IzmBX80vF7AAAP","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:04"}
+{"clientId":"nlvNv3IzmBX80vF7AAAP","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:04"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:32:53"}
+{"clientId":"eaAGxcIRYevjgpREAAAR","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:53","version":"1.0.0"}
+{"clientId":"eaAGxcIRYevjgpREAAAR","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:53"}
+{"clientId":"eaAGxcIRYevjgpREAAAR","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:53"}
+{"clientId":"eaAGxcIRYevjgpREAAAR","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:53"}
+{"clientId":"eaAGxcIRYevjgpREAAAR","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:32:54"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:33:59"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Client logger initialized","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:33:59","version":"1.0.0"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Socket.io initialized, waiting for connection...","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:33:59"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:33:59"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:33:59"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:33:59"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Sensor sensor_2 marked as inactive (no data for 1370ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:10"}
+{"clientId":"gfqlJbM9HH-GWDz2AAAT","level":"info","message":"Sensor sensor_2 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:10"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:34:28"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:34:28"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1206ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 1152ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"clientId":"zJKXODNPVHMNnGBvAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:30"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:34:48"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:34:48"}
+{"clientId":"ies-mfrnciBIabZjAAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:49"}
+{"clientId":"ies-mfrnciBIabZjAAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:49"}
+{"clientId":"ies-mfrnciBIabZjAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:49"}
+{"clientId":"ies-mfrnciBIabZjAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:49"}
+{"clientId":"ies-mfrnciBIabZjAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:34:49"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:36:29"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:36:29"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1764ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 1722ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"clientId":"hxQPzB5_j0ycCNohAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:36:30"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:37:45"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"warn","message":"Disconnected from server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Connection status changed: Disconnected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1056ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 1013ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Sensor sensor_3 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"clientId":"7GKn94viqDNoxv83AAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:37:45"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:38:27"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:38:40"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:38:40"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:41:14"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:41:14"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:41:20"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:43:25"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:43:25"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:43:29"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:43:29"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:43:43"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:44:56"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:44:59"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:45:22"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:45:22"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 14:45:33"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 14:45:33"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:45:38"}
+{"clientId":"bEWDmkUAc-n5ZCMlAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:45:38"}
+{"clientId":"bEWDmkUAc-n5ZCMlAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:45:39"}
+{"clientId":"bEWDmkUAc-n5ZCMlAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:45:39"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:47:59"}
+{"clientId":"fzfAgkIz-vt16SL6AAAD","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:47:59"}
+{"clientId":"fzfAgkIz-vt16SL6AAAD","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:48:00"}
+{"clientId":"fzfAgkIz-vt16SL6AAAD","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:48:00"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:48:20"}
+{"clientId":"ydEQlDe0m7QAn80bAAAF","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:48:20"}
+{"clientId":"ydEQlDe0m7QAn80bAAAF","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:48:20"}
+{"clientId":"ydEQlDe0m7QAn80bAAAF","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:48:20"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 14:52:27"}
+{"clientId":"Ny2bgquswEdRMIL7AAAH","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:52:28"}
+{"clientId":"Ny2bgquswEdRMIL7AAAH","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:52:28"}
+{"clientId":"Ny2bgquswEdRMIL7AAAH","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 14:52:28"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:00:13"}
+{"clientId":"FFYOMAkXNAzvrenmAAAJ","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:14"}
+{"clientId":"FFYOMAkXNAzvrenmAAAJ","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:14"}
+{"clientId":"FFYOMAkXNAzvrenmAAAJ","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:14"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:00:28"}
+{"clientId":"7oPgX7INs1DSNDFBAAAL","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:29"}
+{"clientId":"7oPgX7INs1DSNDFBAAAL","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:29"}
+{"clientId":"7oPgX7INs1DSNDFBAAAL","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:29"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:00:39"}
+{"clientId":"fl5bGnqlZCHnRe7tAAAN","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:39"}
+{"clientId":"fl5bGnqlZCHnRe7tAAAN","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:39"}
+{"clientId":"fl5bGnqlZCHnRe7tAAAN","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:00:40"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:01:18"}
+{"clientId":"KqgNPjL2Xhas0DQ8AAAP","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:01:18"}
+{"clientId":"KqgNPjL2Xhas0DQ8AAAP","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:01:18"}
+{"clientId":"KqgNPjL2Xhas0DQ8AAAP","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:01:18"}
+{"clientId":"KqgNPjL2Xhas0DQ8AAAP","level":"info","message":"Sensor sensor_3 marked as inactive (no data for 50014ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:06:47"}
+{"clientId":"KqgNPjL2Xhas0DQ8AAAP","level":"info","message":"Sensor sensor_3 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:06:47"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:07:09"}
+{"clientId":"gB0VafRb_inAutphAAAR","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:07:09"}
+{"clientId":"gB0VafRb_inAutphAAAR","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:07:09"}
+{"clientId":"gB0VafRb_inAutphAAAR","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:07:10"}
+{"clientId":"gB0VafRb_inAutphAAAR","level":"info","message":"Sensor sensor_2 marked as inactive (no data for 1267ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:07:21"}
+{"clientId":"gB0VafRb_inAutphAAAR","level":"info","message":"Sensor sensor_2 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:07:21"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:08:48"}
+{"clientId":"h48kPTqz-rtV96rOAAAT","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:08:48"}
+{"clientId":"h48kPTqz-rtV96rOAAAT","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:08:48"}
+{"clientId":"h48kPTqz-rtV96rOAAAT","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:08:49"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:09:12"}
+{"clientId":"x_MEMISHz5wAsI4PAAAV","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:12"}
+{"clientId":"x_MEMISHz5wAsI4PAAAV","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:12"}
+{"clientId":"x_MEMISHz5wAsI4PAAAV","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:12"}
+{"clientId":"x_MEMISHz5wAsI4PAAAV","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1310ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:37"}
+{"clientId":"x_MEMISHz5wAsI4PAAAV","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:37"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:09:43"}
+{"clientId":"BAr0E72greK99byFAAAX","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:43"}
+{"clientId":"BAr0E72greK99byFAAAX","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:43"}
+{"clientId":"BAr0E72greK99byFAAAX","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:43"}
+{"clientId":"BAr0E72greK99byFAAAX","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1016ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:44"}
+{"clientId":"BAr0E72greK99byFAAAX","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:44"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:09:48"}
+{"clientId":"vG0rf479r93SS3eqAAAZ","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:48"}
+{"clientId":"vG0rf479r93SS3eqAAAZ","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:48"}
+{"clientId":"vG0rf479r93SS3eqAAAZ","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:48"}
+{"clientId":"vG0rf479r93SS3eqAAAZ","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1027ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:49"}
+{"clientId":"vG0rf479r93SS3eqAAAZ","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:49"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:09:52"}
+{"clientId":"8zVIZ2yHAMU4r0OaAAAb","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:53"}
+{"clientId":"8zVIZ2yHAMU4r0OaAAAb","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:53"}
+{"clientId":"8zVIZ2yHAMU4r0OaAAAb","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:53"}
+{"clientId":"8zVIZ2yHAMU4r0OaAAAb","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1031ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:54"}
+{"clientId":"8zVIZ2yHAMU4r0OaAAAb","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:54"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:09:56"}
+{"clientId":"69I4wiemZUsnKmYkAAAd","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:56"}
+{"clientId":"69I4wiemZUsnKmYkAAAd","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:56"}
+{"clientId":"69I4wiemZUsnKmYkAAAd","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:09:57"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:10:16"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:10:16"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:10:16"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:10:17"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1388ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:11:02"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:11:02"}
+{"clientId":"hWrlIsPu1pmx9PNSAAAf","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:11:23"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:12:15"}
+{"clientId":"PZ3xhP1Kz25JVVSZAAAh","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:16"}
+{"clientId":"PZ3xhP1Kz25JVVSZAAAh","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:16"}
+{"clientId":"PZ3xhP1Kz25JVVSZAAAh","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:16"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:12:26"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:12:26"}
+{"clientId":"R7jGbB64Z6YFBmIjAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:28"}
+{"clientId":"R7jGbB64Z6YFBmIjAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:28"}
+{"clientId":"R7jGbB64Z6YFBmIjAAAB","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:28"}
+{"clientId":"R7jGbB64Z6YFBmIjAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:12:28"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:13:13"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:13:13"}
+{"clientId":"-vlGHBh9pD2g1kHTAAAB","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:13:14"}
+{"clientId":"-vlGHBh9pD2g1kHTAAAB","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:13:14"}
+{"clientId":"-vlGHBh9pD2g1kHTAAAB","level":"info","message":"Sensor sensor_1 is back online","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:13:14"}
+{"clientId":"-vlGHBh9pD2g1kHTAAAB","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:13:14"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:13:18"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:13:21"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:14:21"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:15:01"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:15:27"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:15:27"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:15:41"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:15:41"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:15:48"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:15:48"}
+{"level":"info","message":"Server running on port 3000","service":"sensor-api","timestamp":"2025-04-10 15:16:01"}
+{"level":"info","message":"MongoDB connected successfully","service":"sensor-api","timestamp":"2025-04-10 15:16:01"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:16:05"}
+{"clientId":"W6kmhd0zMrkU-dMNAAAD","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:05"}
+{"clientId":"W6kmhd0zMrkU-dMNAAAD","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:05"}
+{"clientId":"W6kmhd0zMrkU-dMNAAAD","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:06"}
+{"activeSensorIds":["sensor_1","sensor_2","sensor_3","test1"],"alertsCount":10,"level":"info","message":"Home page rendered successfully","readingsCount":100,"service":"sensor-api","timestamp":"2025-04-10 15:16:19"}
+{"clientId":"T1huMyxYqkWaHkD1AAAF","level":"info","message":"Connected to server","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:19"}
+{"clientId":"T1huMyxYqkWaHkD1AAAF","level":"info","message":"Connection status changed: Connected","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:19"}
+{"clientId":"T1huMyxYqkWaHkD1AAAF","level":"info","message":"Received initial data","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:16:19"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:06"}
+{"level":"info","message":"Created new alert","reason":"温度が正常範囲に戻りました","sensorId":"sensor_1","service":"sensor-api","temperature":26.774999999999995,"timestamp":"2025-04-10 15:24:06"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:07"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:17"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:17"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:21"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:21"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:24"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:24"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:24"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:24"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:32"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:33"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:35"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:35"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:36"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:36"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:39"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:40"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:41"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:41"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:48"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:48"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:49"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:50"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:57"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:58"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:58"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:24:59"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:25:02"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:25:02"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:25:03"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_1","service":"sensor-api","timestamp":"2025-04-10 15:25:03"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:09"}
+{"level":"info","message":"Created new alert","reason":"温度が正常範囲に戻りました","sensorId":"sensor_2","service":"sensor-api","temperature":21.775,"timestamp":"2025-04-10 15:25:09"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:10"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:11"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:11"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:14"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:14"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:15"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:16"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:17"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:18"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:18"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:19"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:21"}
+{"alertReason":"温度が 20°C未満になりました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:21"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:22"}
+{"alertReason":"温度が正常範囲に戻りました","level":"info","message":"Alert saved successfully","sensorId":"sensor_2","service":"sensor-api","timestamp":"2025-04-10 15:25:22"}
+{"clientId":"T1huMyxYqkWaHkD1AAAF","level":"info","message":"Sensor sensor_1 marked as inactive (no data for 1089ms)","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:26:25"}
+{"clientId":"T1huMyxYqkWaHkD1AAAF","level":"info","message":"Sensor sensor_1 is not connected, setting inactive messages","service":"sensor-api","source":"client","timestamp":"2025-04-10 15:26:25"}

@@ -776,7 +776,7 @@ body {
 
 /* Make sure temperature cells in danger range are highlighted properly */
 .data-table tr td:nth-child(19) {
-  font-weight: 600;
+  /* font-weight: 600; */
 }
 
 /* Style for temperature between 20°C and 70°C */
