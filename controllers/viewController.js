@@ -10,129 +10,134 @@ import TemperatureSensor from '../models/temperatureSensor.js';
 import Alert from '../models/alert.js';
 import logger from '../utils/logger.js';
 
-/**
- * Render the home page with sensor data
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
-export const renderHomePage = async (req, res) => {
-  try {
-    // Get active sensor IDs
-    const sensorIds = await TemperatureSensor.distinct('sensor_id');
-    
-    // Fetch the latest sensor readings from MongoDB (100 records as requested)
-    const latestReadings = await TemperatureSensor.find()
-      .sort({ created_at: -1 })
-      .limit(100);
-    
-    // Fetch the latest 10 alerts
-    const latestAlerts = await Alert.find()
-      .sort({ created_at: -1 })
-      .limit(10);
-    
-    // Get system metrics
-    const systemMetrics = {
-      sensorCount: sensorIds.length,
-      alertCount: await Alert.countDocuments(),
-      lastUpdated: new Date()
-    };
-    
-    // Render the index page with the data
-    res.render('index', { 
-      title: '温度センサー監視システム',
-      latestReadings: {
-        data: latestReadings,
-        alerts: latestAlerts
-      },
-      systemMetrics,
-      sensorIds
-    });
-    
-    logger.info('Home page rendered successfully', { 
-      readingsCount: latestReadings.length,
-      alertsCount: latestAlerts.length,
-      activeSensorIds: sensorIds
-    });
-  } catch (error) {
-    logger.error('Error rendering home page:', error);
-    res.status(500).render('error', { 
-      title: 'エラー | 温度センサー監視システム',
-      message: 'Failed to load home page', 
-      error: process.env.NODE_ENV === 'development' ? error : {}
-    });
-  }
-};
+const viewController = {
+  /**
+   * Render the home page with sensor data
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  renderHomePage: async (req, res) => {
+    try {
+      // Get active sensor IDs
+      let sensorIds = await TemperatureSensor.distinct('sensor_id');
+      
+      // Filter out the "test1" sensor ID
+      sensorIds = sensorIds.filter(id => id !== 'test1');
+      
+      // Fetch the latest sensor readings from MongoDB (100 records as requested)
+      const latestReadings = await TemperatureSensor.find()
+        .sort({ created_at: -1 })
+        .limit(100);
+      
+      // Fetch the latest 10 alerts
+      const latestAlerts = await Alert.find()
+        .sort({ created_at: -1 })
+        .limit(10);
+      
+      // Get system metrics
+      const systemMetrics = {
+        sensorCount: sensorIds.length,
+        alertCount: await Alert.countDocuments(),
+        lastUpdated: new Date()
+      };
+      
+      // Render the index page with the data
+      res.render('index', { 
+        title: '温度センサー監視システム',
+        latestReadings: {
+          data: latestReadings,
+          alerts: latestAlerts
+        },
+        systemMetrics,
+        sensorIds
+      });
+      
+      logger.info('Home page rendered successfully', { 
+        readingsCount: latestReadings.length,
+        alertsCount: latestAlerts.length,
+        activeSensorIds: sensorIds
+      });
+    } catch (error) {
+      logger.error('Error rendering home page:', error);
+      res.status(500).render('error', { 
+        title: 'エラー | 温度センサー監視システム',
+        message: 'Failed to load home page', 
+        error: process.env.NODE_ENV === 'development' ? error : {}
+      });
+    }
+  },
 
-/**
- * Render a 404 Not Found page
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
-export const renderNotFound = (req, res) => {
-  logger.debug('404 Not Found', { path: req.originalUrl });
-  
-  res.status(404).render('404', { 
-    title: 'ページが見つかりません | 温度センサー監視システム',
-    message: `The requested page ${req.originalUrl} was not found`,
-    returnUrl: '/'
-  });
-};
-
-/**
- * Render the error page
- * @param {Object} err - Error object
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
-export const renderErrorPage = (err, req, res) => {
-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-  
-  logger.error('Server error:', { 
-    error: err.message, 
-    stack: err.stack,
-    path: req.originalUrl
-  });
-  
-  res.status(statusCode).render('error', {
-    title: 'エラーが発生しました | 温度センサー監視システム',
-    message: err.message,
-    error: process.env.NODE_ENV === 'development' ? err : {},
-    returnUrl: '/'
-  });
-};
-
-/**
- * Render the about/system information page
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
-export const renderAboutPage = async (req, res) => {
-  try {
-    const systemInfo = {
-      uptime: formatUptime(process.uptime()),
-      nodeVersion: process.version,
-      serverTime: new Date().toLocaleString(),
-      memory: formatMemory(process.memoryUsage()),
-      sensors: {
-        total: await TemperatureSensor.countDocuments(),
-        active: await TemperatureSensor.distinct('sensor_id').length
-      },
-      alerts: {
-        total: await Alert.countDocuments()
-      }
-    };
+  /**
+   * Render a 404 Not Found page
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  renderNotFound: (req, res) => {
+    logger.debug('404 Not Found', { path: req.originalUrl });
     
-    res.render('about', {
-      title: 'システム情報 | 温度センサー監視システム',
-      systemInfo
+    res.status(404).render('404', { 
+      title: 'ページが見つかりません | 温度センサー監視システム',
+      message: `The requested page ${req.originalUrl} was not found`,
+      returnUrl: '/'
     });
-  } catch (error) {
-    logger.error('Error rendering about page:', error);
-    res.status(500).render('error', {
-      title: 'エラー | 温度センサー監視システム',
-      message: 'Failed to load system information',
-      error: process.env.NODE_ENV === 'development' ? error : {}
+  },
+
+  /**
+   * Render the error page
+   * @param {Object} err - Error object
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  renderErrorPage: (err, req, res) => {
+    const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+    
+    logger.error('Server error:', { 
+      error: err.message, 
+      stack: err.stack,
+      path: req.originalUrl
     });
+    
+    res.status(statusCode).render('error', {
+      title: 'エラーが発生しました | 温度センサー監視システム',
+      message: err.message,
+      error: process.env.NODE_ENV === 'development' ? err : {},
+      returnUrl: '/'
+    });
+  },
+
+  /**
+   * Render the about/system information page
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  renderAboutPage: async (req, res) => {
+    try {
+      const systemInfo = {
+        uptime: formatUptime(process.uptime()),
+        nodeVersion: process.version,
+        serverTime: new Date().toLocaleString(),
+        memory: formatMemory(process.memoryUsage()),
+        sensors: {
+          total: await TemperatureSensor.countDocuments(),
+          active: await TemperatureSensor.distinct('sensor_id').length
+        },
+        alerts: {
+          total: await Alert.countDocuments()
+        }
+      };
+      
+      res.render('about', {
+        title: 'システム情報 | 温度センサー監視システム',
+        systemInfo
+      });
+    } catch (error) {
+      logger.error('Error rendering about page:', error);
+      res.status(500).render('error', {
+        title: 'エラー | 温度センサー監視システム',
+        message: 'Failed to load system information',
+        error: process.env.NODE_ENV === 'development' ? error : {}
+      });
+    }
   }
 };
 
@@ -178,3 +183,5 @@ function formatMemory(memoryUsage) {
     external: formatBytes(memoryUsage.external)
   };
 }
+
+export default viewController;

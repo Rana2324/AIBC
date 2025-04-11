@@ -1,0 +1,30 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\.498e66ff1ff4cc796bf3523c719e7543a39e9717-audit.json",
+    "files": [
+        {
+            "date": 1744096292516,
+            "name": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\combined-2025-04-08.log",
+            "hash": "5cdefae9466a3f148dc31e080bb2a39856b5cb9620b2ec8bca132d82ae429b61"
+        },
+        {
+            "date": 1744158807488,
+            "name": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\combined-2025-04-09.log",
+            "hash": "e8a65de81f1818119fc423ca280e3d4afd150cc3b9ead268447ae1b64be706cb"
+        },
+        {
+            "date": 1744244263065,
+            "name": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\combined-2025-04-10.log",
+            "hash": "243ff7ab0cdeec36722864208caa377ddf6428fe7dce01cef89a359f46ed47dc"
+        },
+        {
+            "date": 1744329852403,
+            "name": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\combined-2025-04-11.log",
+            "hash": "ab0a9740a50963272a9f07c6ba4532fe7d109f83ef933f1859fcbde3f224f763"
+        }
+    ],
+    "hashType": "sha256"
+}

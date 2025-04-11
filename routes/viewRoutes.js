@@ -3,14 +3,14 @@
  * Handles all view rendering routes
  */
 import express from 'express';
-import { renderHomePage, renderNotFound } from '../controllers/viewController.js';
+import viewController from '../controllers/viewController.js';
 
 const router = express.Router();
 
 // GET / - Home page
-router.get('/', renderHomePage);
+router.get('/', viewController.renderHomePage);
 
 // 404 - Not found
-router.use('*', renderNotFound);
+router.use('*', viewController.renderNotFound);
 
 export default router;

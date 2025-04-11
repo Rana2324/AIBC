@@ -1,15 +1,17 @@
-# npm debug log
+# === Node.js ===
+node_modules/
 npm-debug.log*
 
-# node_modules
-node_modules/
-# Package lock file
-package-lock.json
-
-# Environment files
+# === Environment Files ===
 .env
 
-# Log files
-logs/*
-.log 
-logs/*-*.log.gz
+# === Logs ===
+*.log
+
+# === OS / Editor Files ===
+
+.vscode/
+
+
+
+

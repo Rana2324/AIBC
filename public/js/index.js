@@ -701,14 +701,14 @@ const UIManager = (function() {
     updateConnectionTimestamp: updateConnectionTimestamp,
     showConnecting: showConnecting,
     updateConnectionStatus: updateConnectionStatus,
-    switchTab: switchTab,
     updateSensorData: updateSensorData,
     updateSensorStatus: updateSensorStatus,
     updateAlertData: updateAlertData,
     updateSystemStatus: updateSystemStatus,
     setInactiveMessage: setInactiveMessage,
     showError: showError,
-    getActiveTab: getActiveTab
+    getActiveTab: getActiveTab,
+    switchTab: switchTab
   };
 })();
 
@@ -1023,4 +1023,4 @@ window.refreshAlertData = SensorApp.refreshAlertData;
 window.refreshSettingsData = SensorApp.refreshSettingsData;
 window.refreshPersonalityData = SensorApp.refreshPersonalityData;
 window.refreshSystemStatus = SensorApp.refreshSystemStatus;
-window.switchTab = UIManager.switchTab; // Add this line to expose switchTab to the global scope
+window.switchTab = UIManager.switchTab; // Expose UIManager.switchTab to the global window object
