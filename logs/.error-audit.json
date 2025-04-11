@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\.error-audit.json",
+    "files": [
+        {
+            "date": 1744344617671,
+            "name": "C:\\Users\\ラナモハマドショヘル\\Desktop\\AIBC\\AIBC\\logs\\error-2025-04-11.log",
+            "hash": "61826e1bd9b31cab1d58e680bcaa0925d0131457de6b9a339b0b3230d11ba1f3"
+        }
+    ],
+    "hashType": "sha256"
+}

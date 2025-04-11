@@ -1,51 +1,58 @@
 /**
  * Temperature Sensor Monitoring System
- * Main application configuration module
- * Responsible for setting up the Express application, middleware, and routes
+ * Main application configuration module.
+ * Sets up the Express application, middleware, routes, and WebSocket server.
  */
+
 import express from 'express';
+import http from 'http';
+import path from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import path from 'path';
 import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
-import http from 'http';
 import { Server as SocketServer } from 'socket.io';
-import logger from './utils/logger.js';
 
-// Import routes
+// Utilities
+import logger from './utils/logger.js';
+import setupMorgan from './utils/morgan.js';
+
+// Routes
 import viewRoutes from './routes/viewRoutes.js';
 import setupApiRoutes from './routes/apiRoutes.js';
 
-// Import socket handler
+// Socket Service
 import { initSocketService } from './services/socketService.js';
 
-// Import middleware
+// Middleware
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 
 // Load environment variables
 dotenv.config();
 
 /**
- * Configure and create the Express application
- * @returns {Object} The configured app, server and io objects
+ * Initializes and configures the Express application.
+ * @returns {Object} The configured app, server, and Socket.io instance.
  */
 function createApp() {
-  // Create Express app
+  // Initialize Express app and HTTP server
   const app = express();
   const server = http.createServer(app);
   const io = new SocketServer(server);
 
-  // Get current file directory (ESM compatible)
+  // Get __dirname in ES module scope
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  // Middleware
+  // Set up HTTP request logging
+  setupMorgan({ environment: process.env.NODE_ENV }).setup(app);
+
+  // JSON and URL-encoded middleware with custom JSON error handling
   app.use(express.json({
-    verify: (req, res, buf, encoding) => {
+    verify: (req, res, buf) => {
       try {
         JSON.parse(buf);
-      } catch (e) {
+      } catch {
         res.status(400).json({ message: 'Invalid JSON' });
         throw new Error('Invalid JSON');
       }
@@ -53,7 +60,13 @@ function createApp() {
   }));
   app.use(express.urlencoded({ extended: true }));
 
-  // Set up EJS view engine
+  // Static file serving
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // Handle favicon requests to prevent 404
+  app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+  // Set EJS as view engine with layout support
   app.set('view engine', 'ejs');
   app.set('views', path.join(__dirname, 'views'));
   app.use(expressLayouts);
@@ -61,25 +74,15 @@ function createApp() {
   app.set('layout extractScripts', true);
   app.set('layout extractStyles', true);
 
-  // Static files
-  app.use(express.static(path.join(__dirname, 'public')));
-
-  // Basic favicon response to prevent 404 errors
-  app.get('/favicon.ico', (req, res) => {
-    res.status(204).end(); // No content response instead of 404 error
-  });
-
-  // Set up Socket.io
+  // Setup WebSocket and real-time logging
   initSocketService(io);
-
-  // Initialize the WebSocket integration for logger
   logger.setupSocketIO(io);
 
-  // Routes
+  // Register application routes
   app.use('/api', setupApiRoutes(io));
   app.use('/', viewRoutes);
-  
-  // Error handling
+
+  // Error handling middleware
   app.use(notFoundHandler);
   app.use(errorHandler);
 

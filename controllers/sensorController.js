@@ -9,6 +9,12 @@
 import TemperatureSensor from '../models/temperatureSensor.js';
 import Alert from '../models/alert.js';
 import logger from '../utils/logger.js';
+import { 
+  checkMissingFields, 
+  emitToClients, 
+  createAlert, 
+  fetchLatestReadingsAndAlerts 
+} from '../utils/sensorUtils.js';
 
 const sensorController = {
   /**
@@ -19,7 +25,7 @@ const sensorController = {
       logger.debug('Received sensor data:', req.body);
 
       const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
-      const missingFields = requiredFields.filter(field => !req.body[field]);
+      const missingFields = checkMissingFields(req.body, requiredFields);
 
       if (missingFields.length > 0) {
         logger.warn('Missing required fields in sensor data', { missingFields, receivedData: req.body });
@@ -37,7 +43,7 @@ const sensorController = {
       });
 
       // Emit sensor data to connected clients
-      io.emit('newSensorData', {
+      emitToClients(io, 'newSensorData', {
         sensor_id: sensorData.sensor_id,
         date: sensorData.date,
         time: sensorData.time,
@@ -67,24 +73,10 @@ const sensorController = {
         });
 
         if (!recentAlert) {
-          const alert = new Alert({
-            sensor_id: sensorData.sensor_id,
-            date: sensorData.date,
-            time: sensorData.time,
-            alert_reason: alertReason,
-            status: 'alert',
-            created_at: new Date()
-          });
-
-          await alert.save();
-          logger.info('Created new alert', {
-            sensorId: alert.sensor_id,
-            reason: alert.alert_reason,
-            temperature: sensorData.average_temp
-          });
+          const alert = await createAlert(sensorData, alertReason);
 
           // Emit alert to connected clients
-          io.emit('newAlert', {
+          emitToClients(io, 'newAlert', {
             sensor_id: alert.sensor_id,
             date: alert.date,
             time: alert.time,
@@ -108,7 +100,7 @@ const sensorController = {
       logger.debug('Received alert data:', req.body);
 
       const requiredFields = ['sensor_id', 'date', 'time', 'alert_reason', 'status'];
-      const missingFields = requiredFields.filter(field => !req.body[field]);
+      const missingFields = checkMissingFields(req.body, requiredFields);
 
       if (missingFields.length > 0) {
         logger.warn('Missing alert fields in request body', { missingFields, receivedData: req.body });
@@ -131,7 +123,7 @@ const sensorController = {
         alertReason: alert.alert_reason || 'unknown'
       });
 
-      io.emit('newAlert', {
+      emitToClients(io, 'newAlert', {
         sensor_id: alert.sensor_id,
         date: alert.date,
         time: alert.time,
@@ -192,23 +184,17 @@ const sensorController = {
    */
   sendInitialData: async (socket) => {
     try {
-      const latestReadings = await TemperatureSensor.find()
-        .sort({ created_at: -1 })
-        .limit(100);
-
-      const latestAlerts = await Alert.find()
-        .sort({ created_at: -1 })
-        .limit(10);
+      const { readings, alerts } = await fetchLatestReadingsAndAlerts();
 
       socket.emit('initialData', {
-        sensorData: latestReadings,
-        alerts: latestAlerts
+        sensorData: readings,
+        alerts
       });
 
       logger.debug('Initial data sent to client', {
         socketId: socket.id,
-        readingsCount: latestReadings.length,
-        alertsCount: latestAlerts.length
+        readingsCount: readings.length,
+        alertsCount: alerts.length
       });
     } catch (error) {
       logger.error('Error sending initial data:', error);
@@ -333,27 +319,6 @@ const sensorController = {
     } catch (error) {
       logger.error('Error retrieving alerts:', error);
       res.status(500).json({ message: 'Error retrieving alerts', error: error.message });
-    }
-  },
-
-  /**
-   * Get system status
-   */
-  getSystemStatus: async (req, res) => {
-    try {
-      const systemStatus = {
-        uptime: process.uptime(),
-        timestamp: new Date().toISOString(),
-        memoryUsage: process.memoryUsage(),
-        sensorCount: await TemperatureSensor.countDocuments(),
-        alertCount: await Alert.countDocuments(),
-        activeSensors: (await TemperatureSensor.distinct('sensor_id')).length
-      };
-
-      res.json(systemStatus);
-    } catch (error) {
-      logger.error('Error fetching system status:', error);
-      res.status(500).json({ error: 'Failed to fetch system status' });
     }
   }
 };

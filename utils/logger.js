@@ -133,7 +133,7 @@ logger.stream = {
 logger.setupSocketIO = (io) => {
   // Listen for new client connections
   io.on('connection', (socket) => {
-    console.log('Client connected for real-time logs');
+    // console.log('Client connected for real-time logs');
     socketClients.push(socket);
 
     // Remove socket on disconnect

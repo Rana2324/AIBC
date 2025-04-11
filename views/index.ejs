@@ -1,6 +1,6 @@
 <div class="container">
   <h1>温度センサー監視システム</h1>
-  
+
   <!-- Tab Navigation -->
   <div class="tab-container">
     <div class="tab-nav">
@@ -41,44 +41,44 @@
               const statusClass = latestReading.status.includes('正常') ? 'active' : 'alert';
               const statusText = latestReading.status.includes('正常') ? '稼働中' : '異常検出';
         %>
-          <!-- Sensor <%= sensorId %> -->
-          <div class="sensor-data-section" id="sensor-<%= sensorId %>">
-            <div class="sensor-header">
-              <h2 class="sensor-title">
-                <span class="sensor-icon">🌡️</span>
-                <%= sensorId %> センサー情報
-              </h2>
-              <div class="sensor-status <%= statusClass %>">
-                <%= statusText %>
+        <!-- Sensor <%= sensorId %> -->
+        <div class="sensor-data-section" id="sensor-<%= sensorId %>">
+          <div class="sensor-header">
+            <h2 class="sensor-title">
+              <span class="sensor-icon">🌡️</span>
+              <%= sensorId %> センサー情報
+            </h2>
+            <div class="sensor-status <%= statusClass %>">
+              <%= statusText %>
+            </div>
+          </div>
+
+          <!-- Raw Data History -->
+          <div class="sensor-data-section">
+            <div class="section-controls">
+              <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
+              <div class="info-controls">
+                <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
+                <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
+                  <span class="material-icons-round">refresh</span>
+                </button>
               </div>
             </div>
-            
-            <!-- Raw Data History -->
-            <div class="sensor-data-section">
-              <div class="section-controls">
-                <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
-                <div class="info-controls">
-                  <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: <%= new Date(latestReading.timestamp).toLocaleTimeString() %></span>
-                  <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
-                    <span class="material-icons-round">refresh</span>
-                  </button>
-                </div>
-              </div>
-              <div class="table-wrapper">
-                <table class="data-table">
-                  <thead>
-                    <tr>
-                      <th>年月日</th>
-                      <th>時刻</th>
-                      <% for (let i = 1; i <= 16; i++) { %>
-                        <th><%= i %></th>
-                      <% } %>
-                      <th>平均温度</th>
-                      <th>状態</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tbody-<%= sensorId %>">
-                    <% readings.forEach(reading => { 
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>年月日</th>
+                    <th>時刻</th>
+                    <% for (let i = 1; i <= 16; i++) { %>
+                    <th><%= i %></th>
+                    <% } %>
+                    <th>平均温度</th>
+                    <th>状態</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-<%= sensorId %>">
+                  <% readings.forEach(reading => { 
                       // Set rowClass - danger for abnormal status, temperature-warning for temperature thresholds
                       let rowClass = reading.status.includes('正常') ? '' : 'table-danger';
                       
@@ -87,53 +87,53 @@
                         rowClass += ' temperature-warning';
                       }
                     %>
-                    <tr class="<%= rowClass %>">
-                      <td><%= reading.date %></td>
-                      <td><%= reading.time %></td>
-                      <% if (reading.temperatureData && reading.temperatureData.length > 0) { %>
-                        <% reading.temperatureData.forEach(temp => { %>
-                          <td><%= temp.toFixed(1) %></td>
-                        <% }); %>
-                        <% // Fill in missing cells if less than 16 data points
+                  <tr class="<%= rowClass %>">
+                    <td><%= reading.date %></td>
+                    <td><%= reading.time %></td>
+                    <% if (reading.temperatureData && reading.temperatureData.length > 0) { %>
+                    <% reading.temperatureData.forEach(temp => { %>
+                    <td><%= temp.toFixed(1) %></td>
+                    <% }); %>
+                    <% // Fill in missing cells if less than 16 data points
                         for (let i = reading.temperatureData.length; i < 16; i++) { %>
-                          <td>--</td>
-                        <% } %>
-                      <% } else { 
+                    <td>--</td>
+                    <% } %>
+                    <% } else { 
                         // If no temperature data, show 16 empty cells
                         for (let i = 0; i < 16; i++) { %>
-                          <td>--</td>
-                        <% } 
+                    <td>--</td>
+                    <% } 
                       } %>
-                      <td><%= reading.temperature.toFixed(1) %> °C</td>
-                      <td><%= reading.status.replace('0 ：', '').replace('１：', '') %></td>
-                    </tr>
-                    <% }); %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-            <!-- Alert History -->
-            <div class="section-header history-section-header">
-              <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
-              <div class="info-controls">
-                <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
-                  <span class="material-icons-round">refresh</span>
-                </button>
-              </div>
-            </div>
-            <div class="table-wrapper alert-table">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>取得日</th>
-                    <th>取得時刻</th>
-                    <th>アラート発生理由</th>
+                    <td><%= reading.temperature.toFixed(1) %> °C</td>
+                    <td><%= reading.status.replace('0 ：', '').replace('１：', '') %></td>
                   </tr>
-                </thead>
-                <tbody id="alert-tbody-<%= sensorId %>">
-                  <% 
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Alert History -->
+          <div class="section-header history-section-header">
+            <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrapper alert-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>取得日</th>
+                  <th>取得時刻</th>
+                  <th>アラート発生理由</th>
+                </tr>
+              </thead>
+              <tbody id="alert-tbody-<%= sensorId %>">
+                <% 
                     // Filter alerts for this sensor
                     const sensorAlerts = locals.latestReadings.alerts ? 
                       locals.latestReadings.alerts.filter(alert => alert.sensorId === sensorId) : [];
@@ -141,227 +141,227 @@
                     if (sensorAlerts.length > 0) { 
                       sensorAlerts.forEach(alert => { 
                   %>
-                      <tr class="alert-row">
-                        <td><%= alert.date %></td>
-                        <td><%= alert.time %></td>
-                        <td><%= alert.message %></td>
-                      </tr>
-                  <% }); 
+                <tr class="alert-row">
+                  <td><%= alert.date %></td>
+                  <td><%= alert.time %></td>
+                  <td><%= alert.message %></td>
+                </tr>
+                <% }); 
                     } else { 
                   %>
-                    <tr>
-                      <td colspan="3" class="text-center">アラートはありません</td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
-            
-            <!-- Settings History -->
-            <div class="section-header history-section-header">
-              <h3>設定変更履歴</h3>
-              <div class="info-controls">
-                <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
-                  <span class="material-icons-round">refresh</span>
-                </button>
-              </div>
-            </div>
-            <div class="table-wrapper settings-table" id="settings-<%= sensorId %>-wrapper">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>設定内容</th>
-                  </tr>
-                </thead>
-                <tbody id="settings-<%= sensorId %>">
-                  <% if (sensorId === 'sensor_1') { %>
-                    <tr>
-                      <td>2023-10-05</td>
-                      <td>15:30:00</td>
-                      <td>温度閾値を30°Cに変更</td>
-                    </tr>
-                    <tr>
-                      <td>2023-10-05</td>
-                      <td>14:45:30</td>
-                      <td>サンプリング間隔5秒に設定</td>
-                    </tr>
-                  <% } else { %>
-                    <tr>
-                      <td colspan="3" class="text-center">設定変更履歴はありません</td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
+                <tr>
+                  <td colspan="3" class="text-center">アラートはありません</td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
 
-            <!-- Personality History -->
-            <div class="section-header history-section-header">
-              <h3>個性（バイアス）履歴</h3>
-              <div class="info-controls">
-                <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
-                <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
-                  <span class="material-icons-round">refresh</span>
-                </button>
-              </div>
-            </div>
-            <div class="table-wrapper personality-table" id="personality-<%= sensorId %>-wrapper">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>バイアス設定</th>
-                  </tr>
-                </thead>
-                <tbody id="personality-<%= sensorId %>">
-                  <% if (sensorId === 'sensor_1') { %>
-                    <tr>
-                      <td>2023-10-05</td>
-                      <td>15:00:00</td>
-                      <td>+0.5°C 補正を適用</td>
-                    </tr>
-                  <% } else { %>
-                    <tr>
-                      <td colspan="3" class="text-center">バイアス設定履歴はありません</td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
+          <!-- Settings History -->
+          <div class="section-header history-section-header">
+            <h3>設定変更履歴</h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
             </div>
           </div>
-          <% } else { 
+          <div class="table-wrapper settings-table" id="settings-<%= sensorId %>-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>時刻</th>
+                  <th>設定内容</th>
+                </tr>
+              </thead>
+              <tbody id="settings-<%= sensorId %>">
+                <% if (sensorId === 'sensor_1') { %>
+                <tr>
+                  <td>2023-10-05</td>
+                  <td>15:30:00</td>
+                  <td>温度閾値を30°Cに変更</td>
+                </tr>
+                <tr>
+                  <td>2023-10-05</td>
+                  <td>14:45:30</td>
+                  <td>サンプリング間隔5秒に設定</td>
+                </tr>
+                <% } else { %>
+                <tr>
+                  <td colspan="3" class="text-center">設定変更履歴はありません</td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Personality History -->
+          <div class="section-header history-section-header">
+            <h3>個性（バイアス）履歴</h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: <%= new Date().toLocaleTimeString() %></span>
+              <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrapper personality-table" id="personality-<%= sensorId %>-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>時刻</th>
+                  <th>バイアス設定</th>
+                </tr>
+              </thead>
+              <tbody id="personality-<%= sensorId %>">
+                <% if (sensorId === 'sensor_1') { %>
+                <tr>
+                  <td>2023-10-05</td>
+                  <td>15:00:00</td>
+                  <td>+0.5°C 補正を適用</td>
+                </tr>
+                <% } else { %>
+                <tr>
+                  <td colspan="3" class="text-center">バイアス設定履歴はありません</td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% } else { 
                 // If we don't have data for this sensor, show empty sensor panel
           %>
-          <!-- <%= sensorId %> Empty Panel -->
-          <div class="sensor-data-section" id="sensor-<%= sensorId %>">
-            <div class="sensor-header">
-              <h2 class="sensor-title">
-                <span class="sensor-icon">🌡️</span>
-                <%= sensorId %> センサー情報
-              </h2>
-              <div class="sensor-status inactive">
-                未接続
-              </div>
+        <!-- <%= sensorId %> Empty Panel -->
+        <div class="sensor-data-section" id="sensor-<%= sensorId %>">
+          <div class="sensor-header">
+            <h2 class="sensor-title">
+              <span class="sensor-icon">🌡️</span>
+              <%= sensorId %> センサー情報
+            </h2>
+            <div class="sensor-status inactive">
+              未接続
             </div>
-            
-            <!-- Empty Data History -->
-            <div class="sensor-data-section">
-              <div class="section-controls">
-                <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
-                <div class="info-controls">
-                  <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: --</span>
-                  <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
-                    <span class="material-icons-round">refresh</span>
-                  </button>
-                </div>
-              </div>
-              <div class="table-wrapper">
-                <table class="data-table">
-                  <thead>
-                    <tr>
-                      <th>年月日</th>
-                      <th>時刻</th>
-                      <% for (let i = 1; i <= 16; i++) { %>
-                        <th><%= i %></th>
-                      <% } %>
-                      <th>平均温度</th>
-                      <th>状態</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tbody-<%= sensorId %>">
-                    <tr class="empty-row">
-                      <td colspan="20" class="text-center">センサーが未接続のため、データが取得できません。</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-            <!-- Empty Alert History -->
-            <div class="section-header history-section-header">
-              <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
-              <div class="info-controls">
-                <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: --</span>
-                <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
-                  <span class="material-icons-round">refresh</span>
-                </button>
-              </div>
-            </div>
-            <div class="table-wrapper alert-table">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>取得日</th>
-                    <th>取得時刻</th>
-                    <th>アラート発生理由</th>
-                  </tr>
-                </thead>
-                <tbody id="alert-tbody-<%= sensorId %>">
-                  <tr>
-                    <td colspan="3" class="text-center">アラートはありません</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            
-            <!-- Empty Settings History -->
-            <div class="section-header history-section-header">
-              <h3>設定変更履歴</h3>
-              <div class="info-controls">
-                <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: --</span>
-                <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
-                  <span class="material-icons-round">refresh</span>
-                </button>
-              </div>
-            </div>
-            <div class="table-wrapper settings-table" id="settings-<%= sensorId %>-wrapper">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>日付</th>
-                    <th>時刻</th>
-                    <th>設定内容</th>
-                  </tr>
-                </thead>
-                <tbody id="settings-<%= sensorId %>">
-                  <tr>
-                    <td colspan="3" class="text-center">設定変更履歴はありません</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          </div>
 
-            <!-- Empty Personality History -->
-            <div class="section-header history-section-header">
-              <h3>個性（バイアス）履歴</h3>
+          <!-- Empty Data History -->
+          <div class="sensor-data-section">
+            <div class="section-controls">
+              <h3>取得データ履歴 <span class="data-count">(最新100件)</span></h3>
               <div class="info-controls">
-                <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: --</span>
-                <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
+                <span class="info-timestamp" id="data-last-updated-<%= sensorId %>">最終更新: --</span>
+                <button class="info-refresh" onclick="refreshData('<%= sensorId %>')">
                   <span class="material-icons-round">refresh</span>
                 </button>
               </div>
             </div>
-            <div class="table-wrapper personality-table" id="personality-<%= sensorId %>-wrapper">
+            <div class="table-wrapper">
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>日付</th>
+                    <th>年月日</th>
                     <th>時刻</th>
-                    <th>バイアス設定</th>
+                    <% for (let i = 1; i <= 16; i++) { %>
+                    <th><%= i %></th>
+                    <% } %>
+                    <th>平均温度</th>
+                    <th>状態</th>
                   </tr>
                 </thead>
-                <tbody id="personality-<%= sensorId %>">
-                  <tr>
-                    <td colspan="3" class="text-center">バイアス設定履歴はありません</td>
+                <tbody id="tbody-<%= sensorId %>">
+                  <tr class="empty-row">
+                    <td colspan="20" class="text-center">センサーが未接続のため、データが取得できません。</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <% } 
+
+          <!-- Empty Alert History -->
+          <div class="section-header history-section-header">
+            <h3>アラート履歴 <span class="data-count">(最新10件)</span></h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="alert-last-updated-<%= sensorId %>">最終更新: --</span>
+              <button class="info-refresh" onclick="refreshAlertData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrapper alert-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>取得日</th>
+                  <th>取得時刻</th>
+                  <th>アラート発生理由</th>
+                </tr>
+              </thead>
+              <tbody id="alert-tbody-<%= sensorId %>">
+                <tr>
+                  <td colspan="3" class="text-center">アラートはありません</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty Settings History -->
+          <div class="section-header history-section-header">
+            <h3>設定変更履歴</h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="settings-last-updated-<%= sensorId %>">最終更新: --</span>
+              <button class="info-refresh" onclick="refreshSettingsData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrapper settings-table" id="settings-<%= sensorId %>-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>時刻</th>
+                  <th>設定内容</th>
+                </tr>
+              </thead>
+              <tbody id="settings-<%= sensorId %>">
+                <tr>
+                  <td colspan="3" class="text-center">設定変更履歴はありません</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty Personality History -->
+          <div class="section-header history-section-header">
+            <h3>個性（バイアス）履歴</h3>
+            <div class="info-controls">
+              <span class="info-timestamp" id="personality-last-updated-<%= sensorId %>">最終更新: --</span>
+              <button class="info-refresh" onclick="refreshPersonalityData('<%= sensorId %>')">
+                <span class="material-icons-round">refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrapper personality-table" id="personality-<%= sensorId %>-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>時刻</th>
+                  <th>バイアス設定</th>
+                </tr>
+              </thead>
+              <tbody id="personality-<%= sensorId %>">
+                <tr>
+                  <td colspan="3" class="text-center">バイアス設定履歴はありません</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% } 
             });
           %>
 
@@ -569,8 +569,8 @@
               </div>
             </div>
             <div class="info-card-content">
-              
-              
+
+
               <div class="status-grid">
                 <div class="status-item">
                   <p class="status-item-label">データポイント</p>
@@ -589,7 +589,7 @@
                   <div class="status-item-value">94.8%</div>
                 </div>
               </div>
-              
+
               <div class="table-container">
                 <table class="info-table">
                   <thead>
@@ -630,31 +630,6 @@
   </div>
 </div>
 
-<!-- Connection status with enhanced UI design -->
-<!-- <div id="connectionStatus" class="connection-status-container">
-  <div class="info-card">
-    <div class="info-card-header">
-      <h3 class="info-card-title">
-        <span class="info-card-icon">
-          <span class="material-icons-round">cloud</span>
-        </span>
-        接続状態
-      </h3>
-      <div class="info-controls">
-        <span class="info-timestamp" id="connection-timestamp">最終更新: <%= new Date().toLocaleTimeString() %></span>
-      </div>
-    </div>
-    <div class="info-card-content">
-      <div class="status-item">
-        <h4 class="status-item-label">サーバー接続</h4>
-        <div class="status-item-value" id="connectionStatusValue">
-          <span class="status-indicator status-connected"></span>
-          <span>接続中</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <!-- JavaScript -->
 <script src="/js/index.js"></script>

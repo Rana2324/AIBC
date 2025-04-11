@@ -156,7 +156,7 @@ const SensorApp = (function() {
   const setupSocketListeners = function() {
     // Connection events
     socket.on('connect', function() {
-      logger.info('Connected to server');
+      // logger.info('Connected to server');
       UIManager.updateConnectionStatus(true);
     });
 
@@ -171,7 +171,7 @@ const SensorApp = (function() {
     
     // Initial data load
     socket.on('initialData', function(data) {
-      logger.info('Received initial data');
+      // logger.info('Received initial data');
       if (data.sensorData && Array.isArray(data.sensorData)) {
         data.sensorData.forEach(sensorData => {
           UIManager.updateSensorData(sensorData);
@@ -455,7 +455,7 @@ const UIManager = (function() {
         
         // If previous status was '未接続' and now active, show reconnection notification
         if (previousStatus === '未接続' && isNormal) {
-          logger.info(`Sensor ${sensorId} is back online`);
+          // logger.info(`Sensor ${sensorId} is back online`);
           showError(`センサー ${sensorId} が再接続されました`);
         }
       }
@@ -734,15 +734,23 @@ const DataService = (function() {
    * Refresh data for a specific sensor
    */
   const refreshSensorData = function(sensorId) {
-    // Show loading indicator
-    document.getElementById(`data-last-updated-${sensorId}`).textContent = '読み込み中...';
+    // Show loading indicator - with null check
+    const timestampElement = document.getElementById(`data-last-updated-${sensorId}`);
+    if (timestampElement) {
+      timestampElement.textContent = '読み込み中...';
+    } else {
+      console.warn(`Element with ID data-last-updated-${sensorId} not found`);
+      return; // Exit early if element doesn't exist
+    }
     
     // Check if the sensor is disconnected first
     const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
     if (statusElement && (statusElement.textContent === '未接続' || statusElement.classList.contains('inactive'))) {
       // Sensor is disconnected, show inactive message instead of fetching data
       console.log(`Sensor ${sensorId} is disconnected, not fetching data`);
-      document.getElementById(`data-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
       UIManager.setInactiveMessage(sensorId, 'data');
       return;
     }
@@ -757,11 +765,17 @@ const DataService = (function() {
         return response.json();
       })
       .then(data => {
-        // Update last updated timestamp
-        document.getElementById(`data-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+        // Update last updated timestamp - with null check
+        if (timestampElement) {
+          timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+        }
         
         // Get the sensor tbody element
         const sensorTbody = document.getElementById(`tbody-${sensorId}`);
+        if (!sensorTbody) {
+          console.warn(`Element with ID tbody-${sensorId} not found`);
+          return;
+        }
         
         // Clear existing rows
         sensorTbody.innerHTML = '';
@@ -850,7 +864,9 @@ const DataService = (function() {
       })
       .catch(error => {
         console.error('Error fetching sensor data:', error);
-        document.getElementById(`data-last-updated-${sensorId}`).textContent = 'データの取得に失敗しました';
+        if (timestampElement) {
+          timestampElement.textContent = 'データの取得に失敗しました';
+        }
         UIManager.showError('センサーデータの取得に失敗しました');
       });
   };
@@ -859,15 +875,23 @@ const DataService = (function() {
    * Refresh alert data for a specific sensor
    */
   const refreshAlertData = function(sensorId) {
-    // Show loading indicator
-    document.getElementById(`alert-last-updated-${sensorId}`).textContent = '読み込み中...';
+    // Show loading indicator - with null check
+    const timestampElement = document.getElementById(`alert-last-updated-${sensorId}`);
+    if (timestampElement) {
+      timestampElement.textContent = '読み込み中...';
+    } else {
+      console.warn(`Element with ID alert-last-updated-${sensorId} not found`);
+      return; // Exit early if element doesn't exist
+    }
     
     // Check if the sensor is disconnected first
     const statusElement = document.querySelector(`#sensor-${sensorId} .sensor-status`);
     if (statusElement && (statusElement.textContent === '未接続' || statusElement.classList.contains('inactive'))) {
       // Sensor is disconnected, show inactive message
       console.log(`Sensor ${sensorId} is disconnected, not fetching alert data`);
-      document.getElementById(`alert-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      if (timestampElement) {
+        timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+      }
       UIManager.setInactiveMessage(sensorId, 'alert');
       return;
     }
@@ -886,10 +910,16 @@ const DataService = (function() {
         console.log(`Received alert data for sensor ${sensorId}:`, data);
         
         // Update last updated timestamp
-        document.getElementById(`alert-last-updated-${sensorId}`).textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+        if (timestampElement) {
+          timestampElement.textContent = `最終更新: ${new Date().toLocaleTimeString()}`;
+        }
         
         // Get the alert tbody element
         const alertTbody = document.getElementById(`alert-tbody-${sensorId}`);
+        if (!alertTbody) {
+          console.warn(`Element with ID alert-tbody-${sensorId} not found`);
+          return;
+        }
         
         // Clear existing rows
         alertTbody.innerHTML = '';
@@ -937,7 +967,9 @@ const DataService = (function() {
       })
       .catch(error => {
         console.error(`Error fetching alert data for sensor ${sensorId}:`, error);
-        document.getElementById(`alert-last-updated-${sensorId}`).textContent = 'データの取得に失敗しました';
+        if (timestampElement) {
+          timestampElement.textContent = 'データの取得に失敗しました';
+        }
         UIManager.showError(`センサー ${sensorId} のアラートデータの取得に失敗しました`);
       });
   };
