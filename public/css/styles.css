@@ -108,6 +108,7 @@ body {
   margin-bottom: 20px;
   border-bottom: 1px solid var(--gray-200);
   padding-bottom: 15px;
+  overflow: hidden;
 }
 
 /* Adjust the inner data section to not conflict with parent */
