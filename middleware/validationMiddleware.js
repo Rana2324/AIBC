@@ -99,36 +99,3 @@ export const validateSensorId = (req, res, next) => {
     }
   }
 };
-
-/**
- * Validates pagination parameters
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {Function} next - Express next middleware function
- */
-export const validatePagination = (req, res, next) => {
-  try {
-    // Get pagination params with defaults
-    const limit = parseInt(req.query.limit) || 100;
-    const page = parseInt(req.query.page) || 1;
-    
-    // Validate values
-    if (limit < 1 || limit > 1000) {
-      throw new ApiError(400, 'Limit must be between 1 and 1000');
-    }
-    
-    if (page < 1) {
-      throw new ApiError(400, 'Page must be at least 1');
-    }
-    
-    // Add validated pagination to request object
-    req.pagination = { limit, page };
-    next();
-  } catch (error) {
-    if (error instanceof ApiError) {
-      next(error);
-    } else {
-      next(new ApiError(400, 'Invalid pagination parameters', { originalError: error.message }));
-    }
-  }
-};

@@ -12,8 +12,7 @@ import {
 } from '../controllers/sensorController.js';
 import { 
   validateSensorData, 
-  validateSensorId,
-  validatePagination 
+  validateSensorId
 } from '../middleware/validationMiddleware.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import logger from '../utils/logger.js';
@@ -32,23 +31,14 @@ const setupRoutes = (io) => {
   router.post('/data', validateSensorData, asyncHandler((req, res) => processSensorData(req, res, io)));
 
   // GET /api/sensors/:sensorId/readings - Get the latest sensor readings for a specific sensor
-  router.get('/sensors/:sensorId/readings', validateSensorId, validatePagination, asyncHandler(async (req, res) => {
+  router.get('/sensors/:sensorId/readings', validateSensorId, asyncHandler(async (req, res) => {
     try {
       const sensorData = await TemperatureSensor.find({ sensor_id: req.params.sensorId })
         .sort({ created_at: -1 })
-        .limit(req.pagination.limit)
-        .skip((req.pagination.page - 1) * req.pagination.limit);
+        .limit(100);
         
-      const totalCount = await TemperatureSensor.countDocuments({ sensor_id: req.params.sensorId });
-      
       res.status(200).json({
-        data: sensorData,
-        pagination: {
-          total: totalCount,
-          page: req.pagination.page,
-          limit: req.pagination.limit,
-          pages: Math.ceil(totalCount / req.pagination.limit)
-        }
+        data: sensorData
       });
     } catch (error) {
       logger.error('Error retrieving sensor data:', error);
@@ -56,24 +46,15 @@ const setupRoutes = (io) => {
     }
   }));
 
-  // GET /api/data - Get all sensor data with pagination
-  router.get('/data', validatePagination, asyncHandler(async (req, res) => {
+  // GET /api/data - Get all sensor data
+  router.get('/data', asyncHandler(async (req, res) => {
     try {
       const sensorData = await TemperatureSensor.find()
         .sort({ created_at: -1 })
-        .limit(req.pagination.limit)
-        .skip((req.pagination.page - 1) * req.pagination.limit);
-      
-      const totalCount = await TemperatureSensor.countDocuments();
+        .limit(100);
       
       res.status(200).json({
-        data: sensorData,
-        pagination: {
-          total: totalCount,
-          page: req.pagination.page,
-          limit: req.pagination.limit,
-          pages: Math.ceil(totalCount / req.pagination.limit)
-        }
+        data: sensorData
       });
     } catch (error) {
       logger.error('Error retrieving data:', error);
@@ -81,24 +62,15 @@ const setupRoutes = (io) => {
     }
   }));
 
-  // GET /api/data/:sensorId - Get data for a specific sensor with pagination
-  router.get('/data/:sensorId', validateSensorId, validatePagination, asyncHandler(async (req, res) => {
+  // GET /api/data/:sensorId - Get data for a specific sensor
+  router.get('/data/:sensorId', validateSensorId, asyncHandler(async (req, res) => {
     try {
       const sensorData = await TemperatureSensor.find({ sensor_id: req.params.sensorId })
         .sort({ created_at: -1 })
-        .limit(req.pagination.limit)
-        .skip((req.pagination.page - 1) * req.pagination.limit);
-      
-      const totalCount = await TemperatureSensor.countDocuments({ sensor_id: req.params.sensorId });
+        .limit(100);
       
       res.status(200).json({
-        data: sensorData,
-        pagination: {
-          total: totalCount,
-          page: req.pagination.page,
-          limit: req.pagination.limit,
-          pages: Math.ceil(totalCount / req.pagination.limit)
-        }
+        data: sensorData
       });
     } catch (error) {
       logger.error('Error retrieving sensor data:', error);
@@ -112,31 +84,20 @@ const setupRoutes = (io) => {
   // POST /api/alerts - Create a new alert directly from request body
   router.post('/alerts', asyncHandler((req, res) => processAlertData(req, res, io)));
 
-  // GET /api/alerts - Get all alerts with pagination (read-only, no alert creation)
-  router.get('/alerts', validatePagination, asyncHandler(async (req, res) => {
+  // GET /api/alerts - Get all alerts (read-only, no alert creation)
+  router.get('/alerts', asyncHandler(async (req, res) => {
     try {
-      logger.debug('Fetching all alerts with pagination', {
-        page: req.pagination.page,
-        limit: req.pagination.limit
-      });
+      logger.debug('Fetching all alerts');
 
       // Only fetch existing alerts from MongoDB - no alert creation
       const alerts = await Alert.find()
         .sort({ created_at: -1 })
-        .limit(req.pagination.limit)
-        .skip((req.pagination.page - 1) * req.pagination.limit);
+        .limit(100);
       
-      const totalCount = await Alert.countDocuments();
-      logger.info(`Found ${alerts.length} alerts, total count: ${totalCount}`);
+      logger.info(`Found ${alerts.length} alerts`);
       
       res.status(200).json({
-        data: alerts,
-        pagination: {
-          total: totalCount,
-          page: req.pagination.page,
-          limit: req.pagination.limit,
-          pages: Math.ceil(totalCount / req.pagination.limit)
-        }
+        data: alerts
       });
     } catch (error) {
       logger.error('Error retrieving alerts:', error);
