@@ -6,13 +6,6 @@ import TemperatureSensor from '../models/temperatureSensor.js';
 import logger from './logger.js';
 
 /**
- * Utility function to check for missing required fields.
- */
-export const checkMissingFields = (data, requiredFields) => {
-  return requiredFields.filter(field => !data[field]);
-};
-
-/**
  * Utility function to emit event to connected clients.
  */
 export const emitToClients = (io, event, data) => {

@@ -1,6 +1,9 @@
-/* Additional styles for the index page */
+/**
+ * Temperature Sensor Monitoring System
+ * Index Page Specific Styles
+ */
 
-/* Sensor Data Specific Styles */
+/* ========== SENSOR DATA ITEMS ========== */
 .data-item {
   background-color: white;
   border-radius: 8px;
@@ -20,10 +23,11 @@
 }
 
 @keyframes highlight {
-  0% { background-color: rgba(67, 97, 238, 0.2); }
+  0% { background-color: rgba(var(--primary-rgb), 0.2); }
   100% { background-color: white; }
 }
 
+/* Data header */
 .data-header {
   display: flex;
   justify-content: space-between;
@@ -39,6 +43,7 @@
   font-weight: 600;
 }
 
+/* Status indicators */
 .status-normal {
   background-color: var(--success);
   color: white;
@@ -57,6 +62,7 @@
   font-weight: 500;
 }
 
+/* Data body and rows */
 .data-body {
   padding: 16px;
 }
@@ -91,7 +97,7 @@
   font-size: 1.1rem;
 }
 
-/* Alert Styles */
+/* ========== ALERT STYLES ========== */
 .alert-item {
   background-color: white;
   border-radius: 8px;
@@ -114,7 +120,7 @@
   border-left-color: var(--info);
 }
 
-/* Responsive adjustments for sensor data */
+/* ========== RESPONSIVE ADJUSTMENTS ========== */
 @media (max-width: 768px) {
   .data-row {
     flex-direction: column;
@@ -126,21 +132,21 @@
   }
 }
 
-/* Container adjustments */
+/* ========== CONTAINER STYLES ========== */
 .container h1 {
   margin-left: 147px;
   margin-bottom: 30px;
   font-weight: 700;
-  color: #2d2d2d	;
+  color: #2d2d2d;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   font-size: 2.5rem;
 }
 
-/* Sensor Panels Grid Layout - Fixed for exactly 3 equal columns */
+/* ========== SENSOR PANELS GRID LAYOUT ========== */
 .sensor-panels {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Always show 3 equal columns */
-  gap: 60px; /* Reduced gap between sensor panels */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -148,7 +154,7 @@
   margin-bottom: 30px;
 }
 
-/* Ensure sensors are displayed in the correct order */
+/* Grid area assignments */
 .sensor-panels > div:nth-child(1) {
   grid-area: sensor1;
 }
@@ -161,7 +167,7 @@
   grid-area: sensor3;
 }
 
-/* Make each sensor section a self-contained unit with its own scrolling */
+/* Sensor panel sections */
 .sensor-panels > .sensor-data-section,
 .sensor-panels > .sensor-placeholder {
   height: auto;
@@ -169,14 +175,15 @@
   overflow-y: auto;
   border: none;
   border-radius: 16px;
-  width: 100%; /* Ensure full width within its grid cell */
+  width: 100%;
   padding: 25px;
   margin: 0; 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   background-color: white;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
+/* Hover effects */
 .sensor-panels > .sensor-data-section:hover,
 .sensor-panels > .sensor-placeholder:hover {
   transform: translateY(-5px);

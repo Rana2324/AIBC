@@ -9,12 +9,9 @@
 import TemperatureSensor from '../models/temperatureSensor.js';
 import Alert from '../models/alert.js';
 import logger from '../utils/logger.js';
-import { 
-  checkMissingFields, 
-  emitToClients, 
-  createAlert, 
-  fetchLatestReadingsAndAlerts 
-} from '../utils/sensorUtils.js';
+import { emitToClients, createAlert } from '../utils/sensorUtils.js';
+import { checkMissingFields } from '../utils/validationUtils.js';
+import dateUtils from '../utils/dateUtils.js';
 
 const sensorController = {
   /**

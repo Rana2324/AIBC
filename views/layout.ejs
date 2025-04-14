@@ -18,8 +18,12 @@
   <script src="/socket.io/socket.io.js"></script>
   <!-- Load logger second so it can use Socket.IO -->
   <script src="/js/logger.js"></script>
-  <!-- Load main application script last -->
-  <script src="/js/index.js"></script>
+  <!-- Load axios for API requests -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Load compatibility script for inline handlers -->
+  <script src="/js/compat.js"></script>
+  <!-- Load main application script as a module -->
+  <script type="module" src="/js/index.js"></script>
 </head>
 
 <body>
