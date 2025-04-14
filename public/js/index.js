@@ -269,6 +269,9 @@ const SensorApp = (function() {
 // Module: UI Manager
 // ===================================================
 const UIManager = (function() {
+  // Track last displayed message to filter duplicates
+  let lastAlertMessage = {};
+  let lastErrorMessage = '';
   // Store and retrieve active tab information to/from localStorage
   const saveActiveTab = function(tabId) {
     localStorage.setItem('activeTab', tabId);
@@ -521,11 +524,22 @@ const UIManager = (function() {
 
   /**
    * Update alert data in the UI
+   * Filters out consecutive duplicate alert messages
    */
   const updateAlertData = function(alert) {
     if (!alert || !alert.sensor_id) return;
     
     const sensorId = alert.sensor_id;
+    const alertMessage = alert.message || alert.alert_reason || '異常を検出しました';
+    
+    // Check if this is a duplicate of the last message for this sensor
+    if (lastAlertMessage[sensorId] === alertMessage) {
+      console.log(`Filtering duplicate alert message: ${alertMessage}`);
+      return; // Skip this duplicate message
+    }
+    
+    // Store this message as the last one for this sensor
+    lastAlertMessage[sensorId] = alertMessage;
     
     // Update timestamp
     const timestampElement = document.getElementById(`alert-last-updated-${sensorId}`);
@@ -558,7 +572,7 @@ const UIManager = (function() {
       
       // Create message cell
       const messageCell = document.createElement('td');
-      messageCell.textContent = alert.message || alert.alert_reason || '異常を検出しました';
+      messageCell.textContent = alertMessage;
       newRow.appendChild(messageCell);
       
       // Insert at the beginning of the table
@@ -670,8 +684,18 @@ const UIManager = (function() {
   
   /**
    * Show error notification
+   * Filters out consecutive duplicate error messages
    */
   const showError = function(message) {
+    // Check if this is a duplicate of the last error message
+    if (lastErrorMessage === message) {
+      console.log(`Filtering duplicate error message: ${message}`);
+      return; // Skip this duplicate message
+    }
+    
+    // Store this message as the last error message
+    lastErrorMessage = message;
+    
     // Create error notification
     const notification = document.createElement('div');
     notification.className = 'error-notification';
