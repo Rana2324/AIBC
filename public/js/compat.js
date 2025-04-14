@@ -52,11 +52,7 @@ function toggleSection(sectionId) {
   }
 }
 
-// Global function to toggle theme (used by inline onclick handlers)
-function toggleTheme() {
-  const isDarkTheme = document.body.classList.toggle('dark-theme');
-  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-}
+// Theme function removed
 
 // Global function to refresh data (used by inline onclick handlers)
 function refreshData(sensorId) {
@@ -103,18 +99,4 @@ function refreshPersonalityData(sensorId) {
   }
 }
 
-// Setup theme preference on page load
-document.addEventListener('DOMContentLoaded', function() {
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  const savedTheme = localStorage.getItem('theme');
-  
-  if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
-    document.body.classList.add('dark-theme');
-  }
-  
-  // Add theme switcher event listener if it exists
-  const themeSwitcher = document.getElementById('theme-switcher');
-  if (themeSwitcher) {
-    themeSwitcher.addEventListener('click', toggleTheme);
-  }
-});
+
