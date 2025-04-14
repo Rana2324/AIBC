@@ -19,13 +19,18 @@ const sensorController = {
    */
   processSensorData: async (req, res, io) => {
     try {
-      logger.debug('Received sensor data:', req.body);
+      // Format timestamp in the standardized format
+      const timestamp = new Date().toISOString()
+        .replace(/T/, ' ')
+        .replace(/\..+/, '');
+      
+      logger.debug(`Received sensor data | sensorId=${req.body.sensor_id}`);
 
       const requiredFields = ['sensor_id', 'date', 'time', 'temperature_data', 'average_temp', 'status'];
       const missingFields = checkMissingFields(req.body, requiredFields);
 
       if (missingFields.length > 0) {
-        logger.warn('Missing required fields in sensor data', { missingFields, receivedData: req.body });
+        logger.warn(`Missing required fields in sensor data | missingFields=${JSON.stringify(missingFields)} | sensorId=${req.body.sensor_id || 'unknown'}`);
         return res.status(400).json({ message: 'Missing required fields', missingFields });
       }
 
@@ -33,11 +38,8 @@ const sensorController = {
       const sensorData = new TemperatureSensor(req.body);
       await sensorData.save();
 
-      logger.debug('Sensor data saved successfully', {
-        sensorId: sensorData.sensor_id,
-        averageTemp: sensorData.average_temp,
-        status: sensorData.status
-      });
+      logger.debug(`Sensor data saved successfully | sensorId=${sensorData.sensor_id} | averageTemp=${sensorData.average_temp} | status=${sensorData.status}`);
+
 
       // Emit sensor data to connected clients
       emitToClients(io, 'newSensorData', {

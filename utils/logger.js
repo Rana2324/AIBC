@@ -38,7 +38,7 @@ if (!existsSync(LOG_CONFIG.directory)) {
   mkdirSync(LOG_CONFIG.directory);
 }
 
-// Define log format
+// Define log format for file output (JSON for machine processing)
 const logFormat = format.combine(
   format.timestamp({ format: LOG_CONFIG.timeFormat }),
   format.errors({ stack: true }),
@@ -46,13 +46,20 @@ const logFormat = format.combine(
   format.json()
 );
 
-// Console format with colors
+// Improved console format with better readability and key-value formatting
 const consoleFormat = format.combine(
   format.colorize(),
-  format.printf(
-    ({ timestamp, level, message, service, ...meta }) =>
-      `${timestamp} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`
-  )
+  format.timestamp({ format: LOG_CONFIG.timeFormat }),
+  format.printf(({ timestamp, level, message, service, ...meta }) => {
+    // Format metadata as key=value pairs for better readability and filtering
+    const metaStr = Object.entries(meta)
+      .filter(([_, v]) => v !== undefined && v !== null)
+      .map(([k, v]) => `${k}=${typeof v === 'object' ? JSON.stringify(v) : v}`)
+      .join(' | ');
+      
+    // Create the final log format: [timestamp] [LEVEL] message | key1=value1 | key2=value2
+    return `[${timestamp}] [${level.toUpperCase()}] ${message}${metaStr ? ' | ' + metaStr : ''}`;
+  })
 );
 
 // Initialize socket clients array to broadcast logs

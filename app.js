@@ -44,14 +44,19 @@ function createApp() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  // Set up HTTP request logging
-  setupMorgan({ environment: process.env.NODE_ENV }).setup(app);
-
   // JSON and URL-encoded middleware with custom JSON error handling
   app.use(express.json({
     verify: (req, res, buf) => {
       try {
         JSON.parse(buf);
+        
+        // Store sensor_id in request for Morgan logger if this is a sensor data request
+        if (req.method === 'POST' && req.url === '/api/data') {
+          const body = JSON.parse(buf.toString());
+          if (body && body.sensor_id) {
+            req.sensorId = body.sensor_id;
+          }
+        }
       } catch {
         res.status(400).json({ message: 'Invalid JSON' });
         throw new Error('Invalid JSON');
@@ -59,6 +64,9 @@ function createApp() {
     }
   }));
   app.use(express.urlencoded({ extended: true }));
+  
+  // Set up HTTP request logging AFTER body parsers
+  setupMorgan({ environment: process.env.NODE_ENV }).setup(app);
 
   // Static file serving
   app.use(express.static(path.join(__dirname, 'public')));

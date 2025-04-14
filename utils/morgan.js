@@ -9,6 +9,7 @@
  */
 import morgan from 'morgan';
 import logger from './logger.js';
+import express from 'express';
 
 /**
  * Configure Morgan HTTP request logger
@@ -20,9 +21,50 @@ const setupMorgan = ({ environment = process.env.NODE_ENV || 'development' } = {
   // Basic Morgan format based on environment
   const basicFormat = environment === 'production' ? 'combined' : 'dev';
 
-  // Standard Morgan setup with Winston integration
-  const standardMorgan = morgan(basicFormat, { 
-    stream: logger.stream 
+  // Custom format exactly matching the requested log format
+  const customFormat = (tokens, req, res) => {
+    // Get current timestamp in the exact format requested
+    const now = new Date();
+    const timestamp = now.toISOString()
+      .replace(/T/, ' ')
+      .replace(/\..+/, '');
+    
+    // Get the request method and URL as the main message
+    const method = tokens.method(req, res);
+    const url = tokens.url(req, res);
+    const message = `${method} ${url}`;
+    
+    // Build key-value pairs for all relevant information
+    const pairs = [
+      `status=${tokens.status(req, res)}`,
+      `duration=${tokens['response-time'](req, res)}ms`
+    ];
+    
+    // Add sensor ID if available
+    if (req.sensorId) {
+      pairs.push(`sensorId=${req.sensorId}`);
+    }
+    
+    // Format the log message exactly as requested with colored INFO level
+    // [2025-04-14 14:01:16] [INFO] POST /api/data | status=201 | duration=1.309ms | sensorId=sensor_1
+    // Add ANSI color codes for the INFO level (blue color)
+    const coloredInfo = '\x1b[36m[INFO]\x1b[0m'; // Cyan color for INFO
+    return `[${timestamp}] ${coloredInfo} ${message} | ${pairs.join(' | ')}`;
+  };
+  
+  // Standard Morgan setup with custom stream to handle the formatted logs
+  const standardMorgan = morgan(customFormat, { 
+    stream: {
+      write: (message) => {
+        // Use logger.info directly to ensure proper formatting
+        // This bypasses Morgan's default formatting without adding the ']' character
+        if (message && message.trim()) {
+          // Using console.log directly to avoid the leading ']' character
+          // while still maintaining the desired format
+          console.log(message.trim());
+        }
+      }
+    }
   });
 
   // Detailed JSON logging for development
@@ -78,6 +120,11 @@ const setupMorgan = ({ environment = process.env.NODE_ENV || 'development' } = {
         if (sanitized.password) sanitized.password = '[REDACTED]';
         
         return JSON.stringify(sanitized);
+      });
+      
+      // Add custom token for sensor ID
+      morgan.token('sensor-id', (req) => {
+        return req.sensorId ? `sensorId: ${req.sensorId}` : '';
       });
       
       // Apply the Morgan middleware to the app
