@@ -91,13 +91,9 @@ export const getRelativeTimeString = (date) => {
 export const createSensorDataRow = (data) => {
   const tr = document.createElement('tr');
   
-  // Set row class based on status and temperature
-  if (!data.status.includes('正常')) {
-    tr.classList.add('table-danger');
-  }
-  
+  // Apply table-danger class to the entire row if temperature is out of range
   if (data.average_temp <= 20 || data.average_temp >= 70) {
-    tr.classList.add('temperature-warning');
+    tr.classList.add('table-danger');
   }
   
   // Create date cell
